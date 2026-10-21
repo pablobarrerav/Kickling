@@ -603,6 +603,15 @@ nav.bot button[aria-selected="true"]{background:linear-gradient(#ffe58a,#ffbe4a)
 
 .seg.s5{grid-template-columns:repeat(5,1fr)!important}#seg.s5 svg{width:28px;height:28px}
 .tbl li{grid-template-columns:12px 20px 1fr 24px 26px 26px 32px!important;gap:4px!important}.tbl li i.gg{opacity:.8;font-size:.92em}.tbl li u{display:grid;place-items:center;text-decoration:none;width:12px}.tbl li.th u{visibility:hidden}
+body.fitl main{display:flex;flex-direction:column;padding-block:8px;overflow:hidden}
+body.fitl main>.wrap{flex:1 1 auto;min-height:0;width:100%;display:flex;flex-direction:column}
+body.fitl #p-look{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;gap:8px}
+body.fitl #p-look>.card{margin:0!important;padding:8px 10px;flex:0 0 auto}
+body.fitl #p-look>.card:first-child{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;gap:6px}
+body.fitl #lkctl{flex:1 1 auto;min-height:0;overflow-y:auto}
+body.fitl #lkdone{margin-top:0!important;flex:0 0 auto}
+@media (max-height:740px){body.fitl .lookhead .cu{width:84px}body.fitl .lookhead .fb{width:42px}body.fitl .lkbtns .btn,body.fitl .rndb{min-height:38px}}
+@media (max-height:700px){body.fitl .lookhead .cu{width:60px}body.fitl .lookhead .fb{width:30px}body.fitl .lkbtns .btn,body.fitl .rndb{min-height:34px}body.fitl #lkctl .seg button{min-height:34px!important;padding-block:2px!important}body.fitl #poscard .chip,body.fitl #poscard button{min-height:34px!important;padding-block:2px!important}body.fitl #p-look .label{font-size:12px;margin:2px 0}body.fitl #p-look>.card{padding:6px 8px}body.fitl #poscard .note{display:none}body.fitl main{padding-block:6px}}
 body.fitv main{display:flex;flex-direction:column;padding-block:8px}
 body.fitv main>.wrap{flex:1 1 auto;min-height:0;width:100%;display:flex;flex-direction:column}
 body.fitv #p-team{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
@@ -1188,7 +1197,7 @@ nav.bot [aria-selected=true] svg{filter:drop-shadow(0 0 1px #fff) drop-shadow(0 
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 363">Kickling · v363</div>
+  <div class="verl" aria-label="Kickling versión 364">Kickling · v364</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1667,7 +1676,7 @@ function shop(){const SL={bebidas:['Bebidas','bottle'],monedas:['Monedas (dinero
 function render(){timedView();posView();head();energy();home();look();paintSave();drills();comps();shop();energy();}
 
 /* ---------- pestañas ---------- */
-function tab(n){if(n==='home')kitSync();document.body.classList.toggle('onhome',n==='home');if(n!=='home')$('#hface').innerHTML=avatar(true);if(n!=='team'){document.body.classList.remove('stfull');document.body.classList.remove('fitv');document.body.classList.remove('tmmi');}if(n==='team'){const tb=$('#tmbody');tb.classList.add('enter');setTimeout(()=>tb.classList.remove('enter'),1100);setTimeout(teamOpen,0);}document.querySelectorAll('.panel').forEach(p=>p.hidden=p.id!=='p-'+n);
+function tab(n){document.body.classList.toggle('fitl',n==='look');if(n==='home')kitSync();document.body.classList.toggle('onhome',n==='home');if(n!=='home')$('#hface').innerHTML=avatar(true);if(n!=='team'){document.body.classList.remove('stfull');document.body.classList.remove('fitv');document.body.classList.remove('tmmi');}if(n==='team'){const tb=$('#tmbody');tb.classList.add('enter');setTimeout(()=>tb.classList.remove('enter'),1100);setTimeout(teamOpen,0);}document.querySelectorAll('.panel').forEach(p=>p.hidden=p.id!=='p-'+n);
   document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===(n==='look'?'home':n)));window.scrollTo(0,0);}
 $('#tabs').addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(b)tab(b.dataset.tab);});
 document.body.classList.add('onhome');
