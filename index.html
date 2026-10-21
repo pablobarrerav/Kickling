@@ -1186,7 +1186,7 @@ nav.bot [aria-selected=true] svg{filter:drop-shadow(0 0 1px #fff) drop-shadow(0 
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 360">Kickling · v360</div>
+  <div class="verl" aria-label="Kickling versión 361">Kickling · v361</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1874,7 +1874,7 @@ $('#svapply').addEventListener('click',e=>{const b=e.currentTarget;let o;
 /* ---------- cuenta con correo + guardado en la nube (solo versión alojada) ---------- */
 const AQ=window.KICKLING_ACCOUNT;let AC={linked:false,email:'',pending:''},acSent=-1,acBusy=false;
 function acPaint(){if(!AQ)return;$('#acct').hidden=false;$('#svbox').hidden=true;$('#acout').hidden=AC.linked;$('#acin').hidden=!AC.linked;
-  $('#acst').textContent=AC.linked?'✅ Cuenta creada · '+AC.email+'. Tu progreso se guarda solo en la nube.':AC.pending?'Falta confirmar el correo '+AC.pending+': mira tu bandeja de entrada.':'Crea una cuenta para no perder tu progreso y recuperarlo en cualquier móvil.';}
+  $('#acst').textContent=AC.linked?'✅ Cuenta creada · '+AC.email+'. Tu progreso se guarda automáticamente en la nube.':AC.pending?'Falta confirmar el correo '+AC.pending+': mira tu bandeja de entrada.':'Crea una cuenta para no perder tu progreso y recuperarlo en cualquier móvil.';}
 async function acInfo(){if(!AQ)return;try{AC=await AQ.info();}catch(e){}acPaint();}
 function acPack(){return{s:S,t:S.t,rev:S.rev||0,lvl:S.lvl||1,name:S.name||''};}
 async function acPush(force){if(!AQ||!AC.linked||acBusy)return false;if(!force&&acSent===S.t)return true;
