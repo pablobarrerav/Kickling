@@ -84,3 +84,8 @@ Con esta versión ya puedes hacer pruebas reales. Para la App Store se envolver�
 (proyecto de iOS), añadiendo inicio de sesión real, moderación del chat (denunciar y bloquear), política de privacidad
 y notificaciones push. Hace falta un Mac con Xcode 26 o un servicio de compilación en la nube, y la cuenta de
 desarrollador de Apple.
+
+## Si el juego dice "La liga de equipos necesita conexión a internet"
+Sube también `diagnostico.html` al repositorio, junto a `index.html`, y abre
+`https://TU-USUARIO.github.io/TU-REPO/diagnostico.html`. Comprueba paso a paso
+la configuración, la clave, el acceso anónimo, la tabla y la escritura, y te dice qué falla.
