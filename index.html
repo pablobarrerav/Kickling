@@ -758,6 +758,7 @@ body.tmmi main{padding-block:8px}
 .chmsgs{flex:1 1 auto;min-height:120px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;padding:8px;border-radius:12px;background:rgba(255,255,255,.55);border:2px solid rgba(150,175,225,.5)}
 .cm{max-width:82%;align-self:flex-start;padding:6px 10px 4px;border-radius:14px 14px 14px 4px;background:#fff;border:2px solid rgba(150,175,225,.6);color:#24407f}
 .cm small{display:block;font-weight:800;font-size:11px;color:#6b7794}.cm p{margin:0;font-weight:700;font-size:14px;line-height:1.25;overflow-wrap:anywhere}.cm i{display:block;text-align:right;font-style:normal;font-size:10px;color:#8a95b0}
+.cm.sys{align-self:center;max-width:92%;background:rgba(255,255,255,.55);border:2px dashed rgba(150,175,225,.8);border-radius:999px;padding:3px 12px;text-align:center;color:#51608a}.cm.sys p{font-size:12px;font-weight:800}
 .cm.me{align-self:flex-end;border-radius:14px 14px 4px 14px;background:linear-gradient(#6FB8FF,#2F8CFF);border-color:#fff;color:#fff}.cm.me i{color:#dbeaff}
 .chin{display:flex;gap:8px}.chin input{flex:1;min-width:0;padding:10px 12px;border-radius:12px;border:2px solid rgba(150,175,225,.8);font:inherit;font-weight:700;font-size:15px;color:#24407f;background:#fff}.chin .btn{flex:none;width:auto;padding-inline:16px}
 .hero #stats{width:min(100%,260px)!important;margin:0 auto}.hero #stats .stat{grid-template-columns:62px minmax(0,1fr) 36px!important;gap:8px!important}.hero #stats .stat b{text-align:right}
@@ -1197,7 +1198,7 @@ nav.bot [aria-selected=true] svg{filter:drop-shadow(0 0 1px #fff) drop-shadow(0 
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 368">Kickling · v368</div>
+  <div class="verl" aria-label="Kickling versión 369">Kickling · v369</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1733,13 +1734,17 @@ function mgDisparo(){const N=3;let shot=0,goals=0,stage=2,res=[],px=.5,py=.5,t0=
     let kd2=kd0;if(onK)kd2=CL(px,.08,.92);else{const ex=perf?.1:good?.05:0;kd2=CL(kd0+(kd0>=px?1:-1)*ex,.08,.92);}
     {const MG=Math.min(.3,84/gw),d0=kd2>kcur+.04?1:kd2<kcur-.04?-1:0;if(d0<0)kd2=Math.max(kd2,MG);else if(d0>0)kd2=Math.min(kd2,1-MG);}
     const kdir=kd2>kcur+.04?1:kd2<kcur-.04?-1:0,dxp=(px-kd2)*gw,al=dxp*kdir,vy=py*gh-kcy;
-    const VB=60,inZone=Math.abs(dxp)<HW&&vy>-HH&&vy<VB;
-    const saved=!off&&inZone;
-    const tp=over?-.15:py,dur=weak?.55:perf?.22:.32;
-    let bx=Math.max(2,Math.min(98,px*100)),by=Math.max(-8,Math.min(96,tp*100)),kt=Math.min(.3,dur);
-    if(saved){const dd=kd2>kcur+.04?1:kd2<kcur-.04?-1:0,th=dd*58*Math.PI/180,tr=[dd*6,-8],ox=32,oy=64.6,cs=Math.cos(th),sn=Math.sin(th),kx=kd2*gw-32,ky=gh-95,
-        P=[[6,9],[58,9],[32,38],[32,55]].map(q=>{const a=q[0]-ox+tr[0],b=q[1]-oy+tr[1];return [kx+ox+a*cs-b*sn,ky+oy+a*sn+b*cs];});
-      let bp=P[0],bd=1e9;P.forEach(q=>{const d=Math.hypot(q[0]-px*gw,q[1]-py*gh);if(d<bd){bd=d;bp=q;}});bx=bp[0]/gw*100;by=bp[1]/gh*100;}
+    const tp=over?-.15:py;let dur=weak?.55:perf?.22:.32;
+    let bx=Math.max(2,Math.min(98,px*100)),by=Math.max(-8,Math.min(96,tp*100)),saved=false;
+    {const dd=kd2>kcur+.04?1:kd2<kcur-.04?-1:0,th=dd*58*Math.PI/180,tr=[dd*6,-8],ox=32,oy=64.6,cs=Math.cos(th),sn=Math.sin(th),kx=kd2*gw-32,ky=gh-95,KS=[];
+      const add=(x,y)=>{const a=x-ox+tr[0],b=y-oy+tr[1];KS.push([kx+ox+a*cs-b*sn,ky+oy+a*sn+b*cs]);};
+      for(let t=0;t<=1.001;t+=.25){add(6+12*t,9+17*t);add(58-12*t,9+17*t);}
+      add(6,9);add(58,9);for(let x=19;x<=45;x+=5)for(let y=24;y<=56;y+=4)add(x,y);
+      for(let y=48;y<=68;y+=4){add(25.5,y);add(38.5,y);}
+      add(32,14);for(let a=0;a<6.3;a+=.8)add(32+8*Math.cos(a),14+8*Math.sin(a));
+      {let bp=KS[0],bd=1e9;KS.forEach(q=>{const d=Math.hypot(q[0]-px*gw,q[1]-py*gh);if(d<bd){bd=d;bp=q;}});
+       if(bd<19&&!off){saved=true;bx=bp[0]/gw*100;by=bp[1]/gh*100;}}}
+    const kt=Math.min(.3,dur);
     bl.style.transition='left '+dur+'s ease-in,top '+dur+'s cubic-bezier(.2,.7,.4,1),transform '+dur+'s';bl.style.left=bx+'%';bl.style.top=by+'%';bl.style.transform='translate(-50%,-50%) scale(.6)';
     kp.style.transition='left '+kt+'s ease-out';kp.firstElementChild.style.transition='transform '+kt+'s ease-out';{const cur=parseFloat(kp.style.left)/100||.5;kp.dataset.d=kd2>cur+.04?'r':kd2<cur-.04?'l':'c';}kp.style.left=kd2*100+'%';x.hidden=true;$('#mgt').textContent='';
     mgT.push(setTimeout(()=>{const ok=!off&&!saved;res[shot]=ok;if(ok)goals++;$('#mgm').textContent=over?'¡Por encima!':off?'¡Fuera!':saved?(weak?'¡Sin fuerza!':'¡Parada!'):perf?'¡GOLAZO!':'¡GOOOL!';$('#mgm').className='mgmsg '+(ok?'w':'l');if(ok){SFX.goal&&SFX.goal();}else SFX.miss&&SFX.miss();dots();
@@ -1764,6 +1769,7 @@ $('#drills').addEventListener('click',e=>{const b=e.target.closest('[data-drill]
 /* ---------- partido ---------- */
 const TOUR_N=40,TOUR_COST=60,TOUR_TEAMS=['Peña La Esquina','CD Barrio Alto','Juvenil Las Pistas','Atlético Callejón','Real Pradera','Unión Estación','Deportivo Faro','Racing Muralla','Sporting Dársena','CF Los Olivos','Ciudad Roja','Real Cumbre','Athletic Ribera','Internacional Azul','Dinamo Costa','Rayo Meseta','Olympique Bahía','Gran Estrella FC','Campeones del Norte','Titanes Kickling','Ciudad Vieja FC','Estrella del Sur','Real Montaña','Atlético Marina','Racing Cumbres','Juventud Alba','CD Horizonte','Real Estrella','Dragones del Este','Halcones FC','Leones de Hierro','Gigantes del Valle','Real Eclipse','Atlético Tormenta','Imperio Dorado','Deportivo Cóndor','Unión Meridiana','Sporting Aurora','Titanes del Mundo','Leyendas Kickling'];
 const TOUR=TOUR_TEAMS.map((n,i)=>({n,ovr:Math.round(i<20?20+2.4*i:66+1.6*(i-19)),xp:40+8*i,coins:Math.round((30+6*i)*.6)}));
+const tCost=lv=>lv<=5?60:lv<=10?65:lv<=20?70:70+5*Math.ceil((lv-20)/10);
 function tourCost(){return TOUR_COST;}
 function openTour(){tSel=0;tPage=0;$('#mmenu').hidden=true;$('#mres').hidden=true;$('#mview').hidden=true;$('#tview').hidden=false;tourRender();}
 let tSel=0,tPage=0;
@@ -1776,7 +1782,7 @@ function tourRender(){const done=Math.min(S.tour||0,TOUR_N),me=ovr();$('#tprog')
   $('#tlist').innerHTML=pgn+'<div class="tgrid">'+TOUR.map((t,i)=>({t:t,i:i})).slice(tPage*20,tPage*20+20).map(({t,i})=>{const lv=i+1,c=lv<=done,cur=lv===done+1;return '<button class="tn2 '+(c?'ok':cur?'cur':'lk')+(lv===tSel?' sel':'')+'" data-tn="'+lv+'" aria-label="Nivel '+lv+', '+esc(t.n)+'">'+tourCrest(i,30)+'<b class="num">'+(c?TCK:lv)+'</b></button>';}).join('')+'</div>'+
     '<div class="card tdet"><div class="tdh"><span class="tcr">'+tourCrest(tSel-1,46)+'</span><div class="tlt"><span class="num" style="font-size:12px">Nivel '+tSel+'</span><strong>'+esc(T.n)+'</strong><span>Media '+T.ovr+(T.ovr>me?' · +'+(T.ovr-me)+' sobre ti':' · a tu nivel')+'</span></div></div>'+
     '<div class="trw"><span>'+ico('starb',18)+'+'+T.xp+' XP</span><span>'+ico('coin',18)+'+'+T.coins+'</span>'+(cl?'':'<span class="x2">Primera victoria ×2</span>')+(tSel%5===0&&!cl?'<span class="x2">+60 monedas</span>':'')+'</div>'+
-    (lk?'<button class="btn alt" disabled>Bloqueado: supera el nivel '+(done+1)+'</button>':'<button class="btn '+(cl?'alt':'gold')+'" data-tlv="'+tSel+'" data-cost="'+TOUR_COST+'">'+(cl?'Repetir':'Jugar')+' '+ico('drop',18)+TOUR_COST+'</button>')+'</div>';
+    (lk?'<button class="btn alt" disabled>Bloqueado: supera el nivel '+(done+1)+'</button>':'<button class="btn '+(cl?'alt':'gold')+'" data-tlv="'+tSel+'" data-cost="'+tCost(tSel)+'">'+(cl?'Repetir':'Jugar')+' '+ico('drop',18)+tCost(tSel)+'</button>')+'</div>';
   energy();}
 $('#tlist').addEventListener('click',e=>{const pg=e.target.closest('[data-tpg]');if(pg){tPage=+pg.dataset.tpg;const dn=Math.min(S.tour||0,TOUR_N);tSel=Math.min(tPage*20+20,Math.max(tPage*20+1,dn+1));tourRender();return;}const n=e.target.closest('[data-tn]');if(n){tSel=+n.dataset.tn;tourRender();return;}const b=e.target.closest('[data-tlv]');if(!b)return;const lv=+b.dataset.tlv;if(lv>(S.tour||0)+1||lv<1||lv>TOUR_N)return;$('#tview').hidden=true;startMatch('torneo',lv);});
 $('#tback').addEventListener('click',()=>{$('#tview').hidden=true;$('#mmenu').hidden=false;comps();energy();});
@@ -1785,7 +1791,7 @@ function logAdd(min,txt,tag){M.log.push({min,txt,tag});}
 function paintMatch(){const sc=M.me+' – '+M.rt;if($('#sc').textContent!==sc&&M.min>0)popEl('#sc');$('#sc').textContent=sc;
   $('#clock').innerHTML=(M.over?'':ico('ball',20))+(M.over?'Final':"Minuto "+M.min+"'");
   $('#log').innerHTML=M.log.slice().reverse().map(l=>'<li class="'+(l.tag||'')+'"><b class="num">'+l.min+"'</b><span>"+l.txt+'</span></li>').join('');}
-function startMatch(key,lv){if(M&&!M.over&&!$('#mview').hidden)return;if(M)clearInterval(M.timer);const T=lv?TOUR[lv-1]:null,k=T?{n:'Torneo · Nivel '+lv,cost:TOUR_COST,delta:0,xp:T.xp,coins:T.coins}:COMP[key];if(S.energy<k.cost){toast('Sin energía. Espera a que se recupere.');if(T){$('#tview').hidden=false;}return;}
+function startMatch(key,lv){if(M&&!M.over&&!$('#mview').hidden)return;if(M)clearInterval(M.timer);const T=lv?TOUR[lv-1]:null,k=T?{n:'Torneo · Nivel '+lv,cost:tCost(lv),delta:0,xp:T.xp,coins:T.coins}:COMP[key];if(S.energy<k.cost){toast('Sin energía. Espera a que se recupere.');if(T){$('#tview').hidden=false;}return;}
   S.energy-=k.cost;save();energy();
   const rv=T?T.ovr:clamp(ovr()+k.delta+Math.round(rnd(-3,3)),20,99),n=3+(Math.random()<.5?1:0),seg=Math.floor(78/n),mom=[];
   for(let i=0;i<n;i++)mom.push(8+i*seg+Math.floor(rnd(0,seg-4)));
@@ -2131,7 +2137,7 @@ async function chatPeek(){const t=myTeam();if(!DB||!t||tmChat)return;try{
   const u=m.uid!==UID&&(+m.ts||0)>seen;if(u!==chatUnread){chatUnread=u;dotPaint();}}catch(e){}}
 setInterval(()=>{if(!tmChat&&!document.hidden&&!$('#p-team').hidden)chatPeek();},7000);
 const chTime=ts=>{const p=mp(ts);return p.hour+':'+p.minute;};
-function chatHtml(){return chatMsgs.length?chatMsgs.map(m=>{const me=m.uid===UID;return '<div class="cm'+(me?' me':'')+'">'+(me?'':'<small>'+esc(m.name||'Jugador')+'</small>')+'<p>'+esc(m.text)+'</p><i>'+chTime(+m.ts||0)+'</i></div>';}).join(''):'<p class="note" style="text-align:center;margin:auto">Aún no hay mensajes. ¡Saluda al equipo!</p>';}
+function chatHtml(){return chatMsgs.length?chatMsgs.map(m=>{if(m.sys)return '<div class="cm sys"><p>'+esc(m.text)+'</p></div>';const me=m.uid===UID;return '<div class="cm'+(me?' me':'')+'">'+(me?'':'<small>'+esc(m.name||'Jugador')+'</small>')+'<p>'+esc(m.text)+'</p><i>'+chTime(+m.ts||0)+'</i></div>';}).join(''):'<p class="note" style="text-align:center;margin:auto">Aún no hay mensajes. ¡Saluda al equipo!</p>';}
 function chatPaint(){const el=document.getElementById('chmsgs');if(!el)return;const near=el.scrollHeight-el.scrollTop-el.clientHeight<60;el.innerHTML=chatHtml();if(near||!el.dataset.init){el.scrollTop=el.scrollHeight;el.dataset.init='1';}}
 async function chatLoad(){const t=myTeam();if(!DB||!t)return;try{
   const r=await DB.collection('chat').where('team','==',t.id).orderBy('ts','desc').limit(60).get();
@@ -2263,6 +2269,7 @@ async function numSet(id,raw){const t=myTeam();tmNumEdit=null;if(!t||!canKit(t))
   nums[id]=n;t.nums=nums;applyKit();teamRender();try{const u={};u[id]=n;await DB.doc('teams/'+t.id).update({nums:u});}catch(er){toast('No se pudo cambiar el dorsal.');await tmLoad();applyKit();teamRender();}}
 $('#p-team').addEventListener('keydown',e=>{if(e.target.id==='dnin'&&e.key==='Enter'){e.preventDefault();numSet(e.target.dataset.dnid,e.target.value.trim());}if(e.target.id==='dnin'&&e.key==='Escape'){tmNumEdit=null;teamRender();}});
 $('#p-team').addEventListener('focusout',e=>{if(e.target.id==='dnin'&&tmNumEdit){const i=e.target;setTimeout(()=>{if(tmNumEdit)numSet(i.dataset.dnid,i.value.trim());},0);}});
+async function joinMsg(tid){try{const ts=Date.now();await DB.doc('chat/m'+ts.toString(36)+Math.random().toString(36).slice(2,6)).set({team:tid,uid:UID,sys:1,name:String(S.name||'Jugador').slice(0,16),text:String(S.name||'Jugador').slice(0,16)+' se ha unido al equipo',ts:ts});}catch(e){}}
 $('#p-team').addEventListener('submit',async e=>{if(e.target.id!=='chform')return;e.preventDefault();const t=myTeam(),inp=document.getElementById('chtxt');if(!t||!DB||!CANW||!inp)return;const text=inp.value.replace(/\s+/g,' ').trim().slice(0,200);if(!text)return;
   if(Date.now()-chatBusy<700)return;chatBusy=Date.now();inp.value='';const ts=Date.now(),m={team:t.id,uid:UID,name:String(S.name||'Jugador').slice(0,16),text:text,ts:ts};chatMsgs.push(m);chatSig=chatMsgs.length+':'+ts;chatPaint();inp.focus();
   try{await DB.doc('chat/m'+ts.toString(36)+Math.random().toString(36).slice(2,6)).set(m);}catch(er){toast('No se pudo enviar el mensaje.');chatMsgs=chatMsgs.filter(x=>x!==m);chatSig='';chatPaint();}});
@@ -2378,10 +2385,10 @@ $('#p-team').addEventListener('click',async e=>{const hs=e.target.closest('[data
       if(!c||!t3){toast('No existe ningún club con ese código.');b.disabled=false;return;}
       if(membersOf(c).length>=MAXM){toast('Ese equipo ya está completo.');b.disabled=false;return;}
       if(+t3.minOvr>ovr()){toast('Necesitas media '+t3.minOvr+' o más para entrar.');b.disabled=false;return;}
-      const now=Date.now();await DB.doc('members/'+UID).set({name:S.name,ovr:ovr(),team:c,pos:S.pos.join(','),joined:now,upd:now});toast('Te has unido al equipo');}
+      const now=Date.now();await DB.doc('members/'+UID).set({name:S.name,ovr:ovr(),team:c,pos:S.pos.join(','),joined:now,upd:now});toast('Te has unido al equipo');joinMsg(c);}
     else if(b.dataset.join){const tid=b.dataset.join;await tmLoad();if(membersOf(tid).length>=MAXM){toast('Ese equipo ya está completo.');b.disabled=false;teamRender();return;}
       {const t3=TM.teams.find(x=>x.id===tid);if(t3&&+t3.minOvr>ovr()){toast('Necesitas media '+t3.minOvr+' o más para entrar.');b.disabled=false;teamRender();return;}}
-      const now=Date.now();await DB.doc('members/'+UID).set({name:S.name,ovr:ovr(),team:tid,pos:S.pos.join(','),joined:now,upd:now});toast('Te has unido al equipo');}
+      const now=Date.now();await DB.doc('members/'+UID).set({name:S.name,ovr:ovr(),team:tid,pos:S.pos.join(','),joined:now,upd:now});toast('Te has unido al equipo');joinMsg(tid);}
     else if(b.dataset.don){const n=+b.dataset.don;await tmLoad();const t2=myTeam();
       if(!t2||!TM.me||TM.me.team!==t2.id){toast('Necesitas estar en un equipo.');}
       else if(![10,50,100].includes(n)||S.coins<n){toast('Te faltan monedas.');}
