@@ -4,7 +4,7 @@
 (function () {
   var C = window.KICKLING_CONFIG || {};
   if (!C.supabaseUrl || !C.anonKey) return;               // sin configuración: modo individual
-  var URL = String(C.supabaseUrl).replace(/\/+$/, ''), KEY = C.anonKey, SK = 'kickling-sb-session';
+  var URL = String(C.supabaseUrl).trim().replace(/\/(rest|auth)\/v1.*$/,'').replace(/\/+$/, ''), KEY = String(C.anonKey).trim(), SK = 'kickling-sb-session';
   var sess = null, pend = null;
 
   function load() { try { sess = JSON.parse(localStorage.getItem(SK) || 'null'); } catch (e) { sess = null; } }

@@ -7,12 +7,12 @@ button{font:inherit;padding:10px 16px;border-radius:10px;border:0;background:#2f
 <h1>Diagnóstico de Kickling</h1>
 <p>Esta página comprueba, paso a paso, si el juego puede hablar con tu base de datos de Supabase.</p>
 <button id="go">Volver a comprobar</button><div id="out"></div></main>
-<script src="config.js"></script>
+<script>document.write('<script src="config.js?t='+Date.now()+'"><\/script>')</script>
 <script>
 const out=document.getElementById('out');
 function line(state,title,detail){const d=document.createElement('div');d.className='p '+state;d.innerHTML='<b>'+(state==='ok'?'✅ ':state==='ko'?'❌ ':'⏳ ')+title+'</b><small>'+(detail||'')+'</small>';out.appendChild(d);return d;}
 async function run(){out.innerHTML='';
- const C=window.KICKLING_CONFIG||{};let url=String(C.supabaseUrl||'').trim().replace(/\/+$/,''),key=String(C.anonKey||'').trim();
+ const C=window.KICKLING_CONFIG||{};let url=String(C.supabaseUrl||'').trim().replace(/\/(rest|auth)\/v1.*$/,'').replace(/\/+$/,''),key=String(C.anonKey||'').trim();
  if(!url||!key){line('ko','1. Configuración vacía','El archivo config.js que está publicado no tiene la dirección o la clave. Abre config.js en tu repositorio, rellena supabaseUrl y anonKey (entre comillas) y guarda. Espera 1–2 minutos y recarga.');return;}
  line('ok','1. Configuración leída','Dirección: '+url+'<br>Clave: '+key.slice(0,12)+'… ('+key.length+' caracteres)');
  if(!/^https?:\/\/[^\/\s]+$/.test(url)){line('ko','2. La dirección no es correcta','Debe ser solo la dirección del proyecto, con la forma https://xxxxxxxx.supabase.co , sin nada detrás (sin /rest, sin /dashboard) y sin espacios.');return;}
