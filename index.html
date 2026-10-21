@@ -1170,11 +1170,11 @@ nav.bot [aria-selected=true] svg{filter:drop-shadow(0 0 1px #fff) drop-shadow(0 
   <div class="setrow"><label class="label" for="musicbtn">Música</label><button id="musicbtn" class="tgl" role="switch" aria-checked="true"><i></i><span>Sí</span></button></div>
   <div class="setrow"><label class="label" for="sfxbtn">Sonidos</label><button id="sfxbtn" class="tgl" role="switch" aria-checked="true"><i></i><span>Sí</span></button></div>
   <div class="setrow"><label class="label" for="notifbtn">Avisos</label><button id="notifbtn" class="tgl" role="switch" aria-checked="false"><i></i><span>No</span></button></div>
-  <div class="label">Guardado</div>
+  <div id="svbox"><div class="label">Guardado</div>
   <p class="note" id="savest" style="margin:6px 0 10px"></p>
   <div class="row"><button class="btn alt" id="svcopy">Copiar código</button><button class="btn alt" id="svload">Cargar código</button></div>
   <textarea class="save-ta" id="svtext" rows="3" hidden aria-label="Código de guardado" spellcheck="false"></textarea>
-  <button class="btn" id="svapply" hidden style="margin-top:10px">Cargar este progreso</button>
+  <button class="btn" id="svapply" hidden style="margin-top:10px">Cargar este progreso</button></div>
   <div id="acct" hidden style="margin-top:14px"><div class="label">Cuenta</div>
     <p class="note" id="acst" style="margin:6px 0 8px"></p>
     <div id="acout">
@@ -1186,7 +1186,7 @@ nav.bot [aria-selected=true] svg{filter:drop-shadow(0 0 1px #fff) drop-shadow(0 
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 359">Kickling · v359</div>
+  <div class="verl" aria-label="Kickling versión 360">Kickling · v360</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1873,7 +1873,7 @@ $('#svapply').addEventListener('click',e=>{const b=e.currentTarget;let o;
 
 /* ---------- cuenta con correo + guardado en la nube (solo versión alojada) ---------- */
 const AQ=window.KICKLING_ACCOUNT;let AC={linked:false,email:'',pending:''},acSent=-1,acBusy=false;
-function acPaint(){if(!AQ)return;$('#acct').hidden=false;$('#acout').hidden=AC.linked;$('#acin').hidden=!AC.linked;
+function acPaint(){if(!AQ)return;$('#acct').hidden=false;$('#svbox').hidden=true;$('#acout').hidden=AC.linked;$('#acin').hidden=!AC.linked;
   $('#acst').textContent=AC.linked?'✅ Cuenta creada · '+AC.email+'. Tu progreso se guarda solo en la nube.':AC.pending?'Falta confirmar el correo '+AC.pending+': mira tu bandeja de entrada.':'Crea una cuenta para no perder tu progreso y recuperarlo en cualquier móvil.';}
 async function acInfo(){if(!AQ)return;try{AC=await AQ.info();}catch(e){}acPaint();}
 function acPack(){return{s:S,t:S.t,rev:S.rev||0,lvl:S.lvl||1,name:S.name||''};}
