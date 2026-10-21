@@ -1,0 +1,53 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Diagnóstico de Kickling</title>
+<style>body{font:16px/1.45 system-ui,sans-serif;margin:0;padding:20px;background:#eef4ff;color:#1d2b4d}main{max-width:560px;margin:auto}
+h1{font-size:22px}.p{background:#fff;border-radius:12px;padding:12px 14px;margin:10px 0;box-shadow:0 2px 8px rgba(40,70,140,.12)}
+.ok{border-left:6px solid #2e9e4f}.ko{border-left:6px solid #d63031}.wait{border-left:6px solid #aaa}b{display:block}small{color:#51608a}
+button{font:inherit;padding:10px 16px;border-radius:10px;border:0;background:#2f8cff;color:#fff;font-weight:700}</style></head><body><main>
+<h1>Diagnóstico de Kickling</h1>
+<p>Esta página comprueba, paso a paso, si el juego puede hablar con tu base de datos de Supabase.</p>
+<button id="go">Volver a comprobar</button><div id="out"></div></main>
+<script src="config.js"></script>
+<script>
+const out=document.getElementById('out');
+function line(state,title,detail){const d=document.createElement('div');d.className='p '+state;d.innerHTML='<b>'+(state==='ok'?'✅ ':state==='ko'?'❌ ':'⏳ ')+title+'</b><small>'+(detail||'')+'</small>';out.appendChild(d);return d;}
+async function run(){out.innerHTML='';
+ const C=window.KICKLING_CONFIG||{};let url=String(C.supabaseUrl||'').trim().replace(/\/+$/,''),key=String(C.anonKey||'').trim();
+ if(!url||!key){line('ko','1. Configuración vacía','El archivo config.js que está publicado no tiene la dirección o la clave. Abre config.js en tu repositorio, rellena supabaseUrl y anonKey (entre comillas) y guarda. Espera 1–2 minutos y recarga.');return;}
+ line('ok','1. Configuración leída','Dirección: '+url+'<br>Clave: '+key.slice(0,12)+'… ('+key.length+' caracteres)');
+ if(!/^https?:\/\/[^\/\s]+$/.test(url)){line('ko','2. La dirección no es correcta','Debe ser solo la dirección del proyecto, con la forma https://xxxxxxxx.supabase.co , sin nada detrás (sin /rest, sin /dashboard) y sin espacios.');return;}
+ if(/service_role|secret/i.test(key)||/^sb_secret_/.test(key)){line('ko','2. Has puesto una clave secreta','Usa la clave "anon public" (eyJ…) o la "Publishable key" (sb_publishable_…). Nunca la service_role ni la secret.');return;}
+ let tok;
+ try{const r=await fetch(url+'/auth/v1/signup',{method:'POST',headers:{apikey:key,'Content-Type':'application/json'},body:'{}'});const t=await r.text();
+  if(!r.ok){let m=t;try{m=JSON.parse(t).msg||JSON.parse(t).message||JSON.parse(t).error_description||t}catch(e){}
+   let h='Respuesta de Supabase ('+r.status+'): '+m.replace(/</g,'&lt;')+'<br>';
+   if(/anonymous/i.test(m)||r.status===422)h+='👉 Activa "Allow anonymous sign-ins" en Authentication → Sign In / Providers y guarda.';
+   else if(r.status===401||r.status===403||/api key|apikey|invalid/i.test(m))h+='👉 La clave no es correcta. Copia de nuevo la "anon public" (pestaña Legacy API Keys) o la "Publishable key".';
+   else if(r.status===429)h+='👉 Demasiados intentos desde tu conexión. Espera unos minutos y vuelve a probar.';
+   else h+='👉 Revisa la dirección del proyecto y que el proyecto no esté pausado (en el panel de Supabase).';
+   line('ko','2. No se pudo crear la sesión anónima',h);return;}
+  tok=JSON.parse(t).access_token;line('ok','2. Sesión anónima creada','Supabase acepta tu dirección y tu clave, y las altas anónimas están activadas.');
+ }catch(e){line('ko','2. No hay conexión con Supabase','No se pudo contactar con '+url+'. Revisa que la dirección esté bien escrita y que el proyecto no esté pausado.<br>('+String(e.message).replace(/</g,'&lt;')+')');return;}
+ const H={apikey:key,Authorization:'Bearer '+tok,'Content-Type':'application/json'};
+ try{const r=await fetch(url+'/rest/v1/docs?select=id&limit=1',{headers:H});const t=await r.text();
+  if(!r.ok){let h='Respuesta ('+r.status+'): '+t.slice(0,200).replace(/</g,'&lt;')+'<br>';
+   if(/relation|does not exist|schema cache|PGRST205|42P01/i.test(t))h+='👉 Falta la tabla. Ejecuta supabase.sql completo en SQL Editor → New query → Run.';
+   else if(r.status===401||r.status===403)h+='👉 Faltan permisos. Vuelve a ejecutar supabase.sql completo (incluye las políticas de seguridad).';
+   else h+='👉 Vuelve a ejecutar supabase.sql completo.';
+   line('ko','3. No se puede leer la tabla "docs"',h);return;}
+  line('ok','3. Tabla "docs" accesible','La tabla existe y los permisos de lectura funcionan.');
+ }catch(e){line('ko','3. Error leyendo la tabla',String(e.message));return;}
+ try{const id='diag-'+Date.now();
+  let r=await fetch(url+'/rest/v1/docs?on_conflict=col,id',{method:'POST',headers:Object.assign({Prefer:'resolution=merge-duplicates,return=minimal'},H),body:JSON.stringify([{col:'diagnostico',id:id,data:{a:{x:1}},updated_at:new Date().toISOString()}])});
+  if(!r.ok)throw new Error('escribir: '+r.status+' '+(await r.text()).slice(0,160));
+  r=await fetch(url+'/rest/v1/rpc/doc_update',{method:'POST',headers:H,body:JSON.stringify({p_col:'diagnostico',p_id:id,p_patch:{a:{y:2}}})});
+  if(!r.ok)throw new Error('doc_update: '+r.status+' '+(await r.text()).slice(0,160));
+  r=await fetch(url+'/rest/v1/rpc/doc_lock',{method:'POST',headers:H,body:JSON.stringify({p_id:'diagnostico/'+id,p_holder:'x',p_ttl_ms:1000})});
+  if(!r.ok)throw new Error('doc_lock: '+r.status+' '+(await r.text()).slice(0,160));
+  r=await fetch(url+'/rest/v1/docs?col=eq.diagnostico&id=eq.'+id,{method:'DELETE',headers:H});
+  if(!r.ok)throw new Error('borrar: '+r.status);
+  line('ok','4. Escritura y funciones correctas','Todo funciona. Si el juego sigue sin conectar, recarga la página del juego con la caché limpia (o ábrela en una pestaña privada).');
+ }catch(e){line('ko','4. Falla la escritura o una función',String(e.message).replace(/</g,'&lt;')+'<br>👉 Vuelve a ejecutar supabase.sql completo en SQL Editor.');}
+}
+document.getElementById('go').onclick=run;run();
+</script></body></html>
