@@ -1197,7 +1197,7 @@ nav.bot [aria-selected=true] svg{filter:drop-shadow(0 0 1px #fff) drop-shadow(0 
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 367">Kickling · v367</div>
+  <div class="verl" aria-label="Kickling versión 368">Kickling · v368</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1731,6 +1731,7 @@ function mgDisparo(){const N=3;let shot=0,goals=0,stage=2,res=[],px=.5,py=.5,t0=
     const gw=g.clientWidth||320,gh=g.clientHeight||170,kcur=parseFloat(kp.style.left)/100||.5,kcy=gh-57,CL=(v,a,b)=>Math.max(a,Math.min(b,v)),HW=36,HH=42;
     const onK=Math.abs(kcur-px)*gw<HW&&py*gh-kcy>-HH&&py*gh-kcy<60;
     let kd2=kd0;if(onK)kd2=CL(px,.08,.92);else{const ex=perf?.1:good?.05:0;kd2=CL(kd0+(kd0>=px?1:-1)*ex,.08,.92);}
+    {const MG=Math.min(.3,84/gw),d0=kd2>kcur+.04?1:kd2<kcur-.04?-1:0;if(d0<0)kd2=Math.max(kd2,MG);else if(d0>0)kd2=Math.min(kd2,1-MG);}
     const kdir=kd2>kcur+.04?1:kd2<kcur-.04?-1:0,dxp=(px-kd2)*gw,al=dxp*kdir,vy=py*gh-kcy;
     const VB=60,inZone=Math.abs(dxp)<HW&&vy>-HH&&vy<VB;
     const saved=!off&&inZone;
