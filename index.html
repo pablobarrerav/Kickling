@@ -1188,7 +1188,7 @@ nav.bot [aria-selected=true] svg{filter:drop-shadow(0 0 1px #fff) drop-shadow(0 
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 362">Kickling · v362</div>
+  <div class="verl" aria-label="Kickling versión 363">Kickling · v363</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2056,16 +2056,16 @@ function clubSet(t){const mn=Math.max(0,Math.min(99,Math.round(+t.minOvr||0))),p
 const HEX=/^#[0-9A-Fa-f]{6}$/;
 function defCrest(id,t){const h=hs(String(id)),k=t&&t.kit&&HEX.test(t.kit.c)&&HEX.test(t.kit.d)?t.kit:null;
   const a=k?k.c:KITCOL[h%KITCOL.length];let b=k?k.d:KITCOL[(h>>>4)%KITCOL.length];if(b===a)b=KITCOL[((h>>>4)+3)%KITCOL.length];
-  return {s:h%5,p:(h>>>3)%4,e:(h>>>5)%6,a:a,b:b};}
+  return {s:h%5,p:(h>>>3)%4,e:(h>>>5)%6,a:a,b:b,ec:'#F5F5F5'};}
 function crestOf(id){const t=TM.teams.find(x=>x.id===id),c=t&&t.crest,ok=c&&Number.isInteger(c.s)&&c.s>=0&&c.s<5&&Number.isInteger(c.p)&&c.p>=0&&c.p<4&&Number.isInteger(c.e)&&c.e>=0&&c.e<6&&HEX.test(c.a)&&HEX.test(c.b);
-  return ok?{s:c.s,p:c.p,e:c.e,a:c.a,b:c.b}:defCrest(id,t);}
+  return ok?{s:c.s,p:c.p,e:c.e,a:c.a,b:c.b,ec:HEX.test(c.ec)?c.ec:'#F5F5F5'}:defCrest(id,t);}
 function crestSvg(c,sz){const id='cr'+(++crN),sh=CR_SH[c.s],em=CR_EM[c.e];
   let pat='';if(c.p===1)pat='<rect x="20" y="0" width="22" height="46" fill="'+c.b+'"/>';else if(c.p===2)pat='<rect x="0" y="17" width="42" height="12" fill="'+c.b+'"/>';else if(c.p===3)pat='<path d="M0 46L42 0V46Z" fill="'+c.b+'"/>';
-  const emb=em==='BALL'?'<circle cx="20" cy="23" r="8.2" fill="#fff"/><path d="M20 18.2l4.2 3-1.6 5h-5.2l-1.6-5z" fill="#1d2b4d"/>':'<path d="'+em+'" fill="#fff"/>';
-  return '<svg class="crest" viewBox="0 0 40 46" width="'+sz+'" height="'+Math.round(sz*1.15)+'" aria-hidden="true"><defs><clipPath id="'+id+'"><path d="'+sh+'"/></clipPath><linearGradient id="'+id+'g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".38"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient></defs><g clip-path="url(#'+id+')"><rect width="40" height="46" fill="'+c.a+'"/>'+pat+'<rect width="40" height="46" fill="url(#'+id+'g)"/></g><path d="'+sh+'" fill="none" stroke="#1d2b4d" stroke-width="2.6" stroke-linejoin="round"/><g stroke="#1d2b4d" stroke-width="1.3" stroke-linejoin="round">'+emb.replace(/<path /g,'<path stroke="#1d2b4d" ').replace(/<circle cx="20" cy="23" r="8.2" fill="#fff"\/>/,'<circle cx="20" cy="23" r="8.2" fill="#fff" stroke="#1d2b4d"/>')+'</g></svg>';}
+  const ec=HEX.test(c.ec)?c.ec:'#fff',emb=em==='BALL'?'<circle cx="20" cy="23" r="8.2" fill="'+ec+'"/><path d="M20 18.2l4.2 3-1.6 5h-5.2l-1.6-5z" fill="#1d2b4d"/>':'<path d="'+em+'" fill="'+ec+'"/>';
+  return '<svg class="crest" viewBox="0 0 40 46" width="'+sz+'" height="'+Math.round(sz*1.15)+'" aria-hidden="true"><defs><clipPath id="'+id+'"><path d="'+sh+'"/></clipPath><linearGradient id="'+id+'g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".38"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient></defs><g clip-path="url(#'+id+')"><rect width="40" height="46" fill="'+c.a+'"/>'+pat+'<rect width="40" height="46" fill="url(#'+id+'g)"/></g><path d="'+sh+'" fill="none" stroke="#1d2b4d" stroke-width="2.6" stroke-linejoin="round"/><g stroke="#1d2b4d" stroke-width="1.3" stroke-linejoin="round">'+emb.replace(/<path /g,'<path stroke="#1d2b4d" ').replace(/<circle cx="20" cy="23" r="8.2" fill="[^"]*"\/>/,'<circle cx="20" cy="23" r="8.2" fill="'+ec+'" stroke="#1d2b4d"/>')+'</g></svg>';}
 const crestFor=(id,sz)=>crestSvg(crestOf(id),sz);
 function crestEd(t){const C=crestOf(t.id),opt=(k,i,cc,lab)=>'<button class="crop" data-cr="'+k+'" data-val="'+i+'" aria-pressed="'+(C[k]===i)+'" aria-label="'+lab+'">'+crestSvg(cc,26)+'</button>',sw=(k,lab)=>'<div class="kr"><span>'+lab+'</span><div class="ksw">'+KITCOL.map(c=>'<button class="kc" data-cr="'+k+'" data-val="'+c+'" aria-label="'+lab+' '+c+'" aria-pressed="'+(C[k]===c)+'" style="--c:'+c+'"></button>').join('')+'</div></div>',row=(lab,k,n,f)=>'<div class="kr"><span>'+lab+'</span><div class="crrow">'+Array.from({length:n},(_,i)=>opt(k,i,f(i),lab+' '+(i+1))).join('')+'</div></div>';
-    return '<div class="creditor"><div class="crprev">'+crestSvg(C,56)+'</div><div class="crctl">'+row('Forma','s',5,i=>Object.assign({},C,{s:i}))+row('Dibujo','p',4,i=>Object.assign({},C,{p:i}))+row('Emblema','e',6,i=>Object.assign({},C,{e:i}))+sw('a','Color 1')+sw('b','Color 2')+'</div></div>';}
+    return '<div class="creditor"><div class="crprev">'+crestSvg(C,56)+'</div><div class="crctl">'+row('Forma','s',5,i=>Object.assign({},C,{s:i}))+row('Dibujo','p',4,i=>Object.assign({},C,{p:i}))+row('Emblema','e',6,i=>Object.assign({},C,{e:i}))+sw('a','Color 1')+sw('b','Color 2')+sw('ec','Color emblema')+'</div></div>';}
 function nextOpp(t){try{const d=nextSlot().k;
   const L=activeTeams(cutoff(d)).filter(x=>sameGrp(x.t,t)).sort((a,b)=>a.t.id<b.t.id?-1:1),ids=L.map(x=>x.t.id);
   const pq=pairsFor(ids,d).find(p=>p[0]===t.id||p[1]===t.id);if(!pq)return '';const o=pq[0]===t.id?pq[1]:pq[0];if(!o)return 'Rival invitado';const x=L.find(y=>y.t.id===o);return x?x.t.name:'';}catch(e){return '';}}
@@ -2346,7 +2346,7 @@ $('#p-team').addEventListener('click',async e=>{const hs=e.target.closest('[data
     let n=nums[id]||0;for(let i=0;i<99;i++){n=((n-1+d+99)%99)+1;if(!used.includes(n))break;}
     nums[id]=n;t.nums=nums;applyKit();teamRender();try{const u={};u[id]=n;await DB.doc('teams/'+t.id).update({nums:u});}catch(er){toast('No se pudo cambiar el dorsal.');await tmLoad();applyKit();teamRender();}return;}
   if(b.dataset.crestbtn){tmCrestOpen=(tmTab==='mi'||tmTab==='pl')?!tmCrestOpen:true;tmKitOpen=false;if(tmTab!=='pl')tmTab='mi';teamRender();return;}
-  if(b.dataset.cr){const t=myTeam();if(!canKit(t))return;const C=crestOf(t.id),k=b.dataset.cr,v=(k==='a'||k==='b')?b.dataset.val:+b.dataset.val;if(!(k==='a'||k==='b')&&!Number.isInteger(v))return;C[k]=v;t.crest=C;applyKit();teamRender();
+  if(b.dataset.cr){const t=myTeam();if(!canKit(t))return;const C=crestOf(t.id),k=b.dataset.cr,v=(k==='a'||k==='b'||k==='ec')?b.dataset.val:+b.dataset.val;if(!(k==='a'||k==='b'||k==='ec')&&!Number.isInteger(v))return;C[k]=v;t.crest=C;applyKit();teamRender();
     try{await DB.doc('teams/'+t.id).update({crest:C});}catch(er){toast('No se pudo cambiar el escudo.');await tmLoad();teamRender();}return;}
   if(b.dataset.kit){const t=myTeam();if(!canKit(t))return;const k=Object.assign({},DKIT,t.kit||{});k[b.dataset.kit]=b.dataset.val;t.kit=k;applyKit();teamRender();
     try{await DB.doc('teams/'+t.id).update({kit:k});}catch(er){toast('No se pudo cambiar el color.');await tmLoad();applyKit();teamRender();}return;}
