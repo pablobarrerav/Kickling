@@ -89,3 +89,7 @@ desarrollador de Apple.
 Sube también `diagnostico.html` al repositorio, junto a `index.html`, y abre
 `https://TU-USUARIO.github.io/TU-REPO/diagnostico.html`. Comprueba paso a paso
 la configuración, la clave, el acceso anónimo, la tabla y la escritura, y te dice qué falla.
+
+## Cuentas y guardado en la nube
+Para que el progreso no se pierda: en Supabase, Authentication → Sign In / Providers → Email, desactiva "Confirm email"
+(así no hace falta enviar correos). Después vuelve a ejecutar `supabase.sql` completo (añade la protección de los guardados).

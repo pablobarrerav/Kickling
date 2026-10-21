@@ -92,6 +92,44 @@
     can: async function () { return true; }
   };
 
+  // Cuenta con correo: convierte la sesión anónima en una cuenta (mismo usuario, mismo club) y guarda el progreso en la nube.
+  function aerr(r, t) {
+    var m = ''; try { var j = JSON.parse(t); m = j.msg || j.message || j.error_description || j.error_code || ''; } catch (e) {}
+    m = String(m || t || r.status);
+    if (/already|registered|exists/i.test(m)) return 'Ese correo ya tiene cuenta. Pulsa "Ya tengo cuenta".';
+    if (/invalid login|credentials/i.test(m)) return 'Correo o contraseña incorrectos.';
+    if (/password/i.test(m) && /(short|least|weak|characters)/i.test(m)) return 'La contraseña es demasiado corta (mínimo 6 caracteres).';
+    if (/valid email|invalid.*email|email.*invalid/i.test(m)) return 'Ese correo no es válido.';
+    if (/not confirmed/i.test(m)) return 'Falta confirmar el correo: mira tu bandeja de entrada.';
+    if (r.status === 429 || /rate limit/i.test(m)) return 'Demasiados intentos. Espera unos minutos.';
+    return 'No se pudo (' + r.status + '): ' + m.slice(0, 100);
+  }
+  async function areq(method, path, body, tok) {
+    var h = { apikey: KEY, 'Content-Type': 'application/json' }; if (tok) h.Authorization = 'Bearer ' + tok;
+    var r = await fetch(URL + path, { method: method, headers: h, body: body ? JSON.stringify(body) : undefined });
+    var t = await r.text();
+    if (!r.ok) throw new Error(aerr(r, t));
+    return t ? JSON.parse(t) : {};
+  }
+  var account = {
+    info: async function () {
+      var u = await areq('GET', '/auth/v1/user', null, (await session()).access_token);
+      return { email: u.email || '', pending: u.new_email || '', linked: !!(u.email && !u.is_anonymous) };
+    },
+    link: async function (email, pw) {
+      await areq('PUT', '/auth/v1/user', { email: email, password: pw }, (await session()).access_token);
+      return account.info();
+    },
+    login: async function (email, pw) {
+      var j = await areq('POST', '/auth/v1/token?grant_type=password', { email: email, password: pw });
+      store(pack(j)); return account.info();
+    },
+    logout: function () { sess = null; try { localStorage.removeItem(SK); } catch (e) {} },
+    cloudGet: async function () { var d = await db.doc('saves/' + (await session()).uid).get(); return d.exists ? d.data() : null; },
+    cloudPut: async function (o) { await db.doc('saves/' + (await session()).uid).set(o); }
+  };
+  window.KICKLING_ACCOUNT = account;
+
   window.claude = {
     use: async function (name) {
       try {

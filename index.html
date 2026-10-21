@@ -1175,8 +1175,18 @@ nav.bot [aria-selected=true] svg{filter:drop-shadow(0 0 1px #fff) drop-shadow(0 
   <div class="row"><button class="btn alt" id="svcopy">Copiar código</button><button class="btn alt" id="svload">Cargar código</button></div>
   <textarea class="save-ta" id="svtext" rows="3" hidden aria-label="Código de guardado" spellcheck="false"></textarea>
   <button class="btn" id="svapply" hidden style="margin-top:10px">Cargar este progreso</button>
+  <div id="acct" hidden style="margin-top:14px"><div class="label">Cuenta</div>
+    <p class="note" id="acst" style="margin:6px 0 8px"></p>
+    <div id="acout">
+      <input id="acmail" class="pin" type="email" placeholder="Correo" autocomplete="email" autocapitalize="off" spellcheck="false" style="margin:0 0 8px">
+      <input id="acpw" class="pin" type="password" placeholder="Contraseña (mín. 6)" autocomplete="current-password" style="margin:0 0 8px">
+      <div class="row" style="gap:8px"><button class="btn alt" id="accreate" style="flex:1">Crear cuenta</button><button class="btn alt" id="aclogin" style="flex:1">Ya tengo cuenta</button></div>
+    </div>
+    <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="acsave" style="flex:1">Guardar ahora</button><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
+    <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
+  </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 357">Kickling · v357</div>
+  <div class="verl" aria-label="Kickling versión 358">Kickling · v358</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1860,6 +1870,38 @@ $('#svapply').addEventListener('click',e=>{const b=e.currentTarget;let o;
   clearTimeout(sa);sa=0;b.textContent='Cargar este progreso';
   const rev=S.rev||0;S=clean(o);S.rev=Math.max(S.rev,rev);if(ACC)UID=mkUID();$('#pname').value=S.name==='Tu jugador'?'':S.name;save();
   $('#svtext').hidden=true;b.hidden=true;render();toast('Progreso cargado.');});
+
+/* ---------- cuenta con correo + guardado en la nube (solo versión alojada) ---------- */
+const AQ=window.KICKLING_ACCOUNT;let AC={linked:false,email:'',pending:''},acSent=-1,acBusy=false;
+function acPaint(){if(!AQ)return;$('#acct').hidden=false;$('#acout').hidden=AC.linked;$('#acin').hidden=!AC.linked;
+  $('#acst').textContent=AC.linked?'Sesión iniciada como '+AC.email+'. Tu progreso se guarda solo en la nube.':AC.pending?'Falta confirmar el correo '+AC.pending+': mira tu bandeja de entrada.':'Crea una cuenta para no perder tu progreso y recuperarlo en cualquier móvil.';}
+async function acInfo(){if(!AQ)return;try{AC=await AQ.info();}catch(e){}acPaint();}
+function acPack(){return{s:S,t:S.t,rev:S.rev||0,lvl:S.lvl||1,name:S.name||''};}
+async function acPush(force){if(!AQ||!AC.linked||acBusy)return false;if(!force&&acSent===S.t)return true;
+  try{await AQ.cloudPut(acPack());acSent=S.t;return true;}catch(e){return false;}}
+setInterval(()=>{if(!document.hidden)acPush();},30000);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)acPush();});
+let acFlow=false;
+async function acAfterAuth(isNew){
+  try{await acInfo();if(!AC.linked){toast('Falta confirmar el correo.');return;}
+    const c=isNew?null:await AQ.cloudGet();
+    if(!c||!c.s||!c.s.lvl){await acPush(true);toast('Cuenta lista. Progreso guardado en la nube.');return;}
+    if(Math.abs((c.t||0)-S.t)<1500&&(c.rev||0)===(S.rev||0)){toast('Sesión iniciada.');return;}
+    $('#acaskt').textContent='En la nube hay un progreso de nivel '+(c.lvl||1)+' ('+(c.name||'sin nombre')+'). En este dispositivo, de nivel '+(S.lvl||1)+'. ¿Cuál quieres usar?';
+    $('#acask').hidden=false;acFlow=c;
+  }catch(e){toast('No se pudo leer la nube.');}}
+$('#accloud').addEventListener('click',()=>{const c=acFlow;if(!c)return;const rev=S.rev||0;S=clean(c.s);S.rev=Math.max(S.rev||0,rev,c.rev||0)+1;save();acFlow=false;toast('Cargando…');setTimeout(()=>location.reload(),400);});
+$('#achere').addEventListener('click',async()=>{acFlow=false;$('#acask').hidden=true;await acPush(true);toast('Se mantiene este progreso y se guarda en la nube.');});
+async function acGo(kind){const em=$('#acmail').value.trim(),pw=$('#acpw').value;
+  if(!em||pw.length<6){toast('Escribe un correo y una contraseña de 6 o más caracteres.');return;}
+  const bs=[$('#accreate'),$('#aclogin')];bs.forEach(b=>b.disabled=true);
+  try{if(kind==='new')await AQ.link(em,pw);else await AQ.login(em,pw);$('#acpw').value='';await acAfterAuth(kind==='new');}
+  catch(e){toast(e&&e.message?e.message:'No se pudo.');}
+  bs.forEach(b=>b.disabled=false);acPaint();}
+if(AQ){$('#accreate').addEventListener('click',()=>acGo('new'));$('#aclogin').addEventListener('click',()=>acGo('login'));
+  $('#acsave').addEventListener('click',async()=>{toast(await acPush(true)?'Guardado en la nube.':'No se pudo guardar. Revisa la conexión.');});
+  $('#aclogout').addEventListener('click',async()=>{await acPush(true);AQ.logout();toast('Sesión cerrada.');setTimeout(()=>location.reload(),400);});
+  document.addEventListener('click',e=>{if(e.target.closest('[data-set]'))acInfo();},true);acInfo();}
 
 /* ---------- equipo: liga compartida (db) ---------- */
 const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

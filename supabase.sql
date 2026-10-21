@@ -29,7 +29,8 @@ drop policy if exists docs_insert on public.docs;
 drop policy if exists docs_update on public.docs;
 drop policy if exists docs_delete on public.docs;
 
-create policy docs_select on public.docs for select to authenticated using (true);
+create policy docs_select on public.docs for select to authenticated using (
+  case col when 'saves' then id = auth.uid()::text else true end);
 
 -- Cada jugador solo puede crear/borrar SU ficha de miembro y SUS reservas de nombre.
 -- (Un capitán sí puede modificar la ficha de un miembro, p. ej. para echarlo del equipo.)
@@ -37,19 +38,22 @@ create policy docs_insert on public.docs for insert to authenticated with check 
   case col
     when 'members' then id like auth.uid()::text || '%'
     when 'names'   then coalesce(data->>'uid','') like auth.uid()::text || '%'
+    when 'saves'   then id = auth.uid()::text
     else true
   end);
 create policy docs_update on public.docs for update to authenticated
-  using (true)
+  using (case col when 'saves' then id = auth.uid()::text else true end)
   with check (
   case col
     when 'names' then coalesce(data->>'uid','') like auth.uid()::text || '%'
+    when 'saves' then id = auth.uid()::text
     else true
   end);
 create policy docs_delete on public.docs for delete to authenticated using (
   case col
     when 'members' then id like auth.uid()::text || '%'
     when 'names'   then coalesce(data->>'uid','') like auth.uid()::text || '%'
+    when 'saves'   then id = auth.uid()::text
     else true
   end);
 
