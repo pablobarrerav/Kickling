@@ -1197,7 +1197,7 @@ nav.bot [aria-selected=true] svg{filter:drop-shadow(0 0 1px #fff) drop-shadow(0 
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 364">Kickling · v364</div>
+  <div class="verl" aria-label="Kickling versión 365">Kickling · v365</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1330,9 +1330,9 @@ const ZT=()=>({ritmo:0,regate:0,disparo:0,pase:0});
 function setPos(k){const old=S.pos[0];if(!S.tp)S.tp={};if(old)S.tp[old]=S.trained;else S.tp[k]=S.trained;S.pos=[k];S.trained=S.tp[k]||(S.tp[k]=ZT());}
 const curPos=()=>S.pos.includes(trPos)?trPos:(S.pos[0]||'del');
 const PD=k=>{const a=POSDR[curPos()][k];return {n:a[0],d:a[1],t:a[2],st:statName(k)};};
-const COMP={amistoso:{n:'Amistoso',d:'Sin presión. Poca recompensa.',cost:30,delta:-5,xp:30,coins:20},
-            liga:{n:'Liga',d:'Partido de jornada. Rival algo superior.',cost:40,delta:3,xp:60,coins:45},
-            copa:{n:'Copa',d:'Rival fuerte. Premio grande.',cost:50,delta:12,xp:110,coins:100}};
+const COMP={amistoso:{n:'Amistoso',d:'Sin presión. Poca recompensa.',cost:30,delta:-5,xp:30,coins:12},
+            liga:{n:'Liga',d:'Partido de jornada. Rival algo superior.',cost:40,delta:3,xp:60,coins:27},
+            copa:{n:'Copa',d:'Rival fuerte. Premio grande.',cost:50,delta:12,xp:110,coins:60}};
 const RIVALS=['Atlético Sierra','Real Vega','Deportivo Marea','Unión Cerrillo','Racing Almendro','CD Solana','Villa Norte','Sporting Páramo'];
 const ACTS={chutar:{n:'Chutar',d:'Riesgo alto. Gol directo.'},regatear:{n:'Regatear',d:'Supera al defensa y define.'},pasar:{n:'Pasar',d:'Seguro. Asistencia a un compañero.'}};
 
@@ -1692,7 +1692,7 @@ function startDrill(k){if(!S.pos.length){toast('Elige tu posición para poder en
   $('#say').textContent='';$('#track').hidden=true;$('#hit').hidden=true;$('#again').hidden=true;$('#back').hidden=true;
   ({ritmo:mgRitmo,regate:mgRegate,disparo:mgDisparo,pase:mgPase})[k]();}
 function endDrill(m,msg){if(!D||D.done)return;D.done=true;mgClear();
-  const xp=Math.round((12+S.lvl*.8)*m*xpMult()),co=m>=1.5?2:m>=1?1:0;let extra='';S.coins+=co;
+  const xp=Math.round((12+S.lvl*.8)*m*xpMult()),co=m>=1.5?1:m>=1&&Math.random()<.5?1:0;let extra='';S.coins+=co;
   if(m>=1){if(S.trained[D.k]<capT()-.05){S.trained[D.k]=Math.round(Math.min(capT(),S.trained[D.k]+2/3)*100)/100;extra=' · +'+fmtD(2/3*TRF)+' '+statName(D.k)}else extra=' · Tope de nivel'}
   addXP(xp);save();const rc=$('#mg').getBoundingClientRect();floatTxt('+'+xp+' XP',rc.left+rc.width/2,rc.top+rc.height*.5);if(m>=1.5)confetti(26);
   $('#say').textContent=msg+' · +'+xp+' XP'+(co?' · +'+co+(co===1?' moneda':' monedas'):'')+extra;$('#again').hidden=false;$('#back').hidden=false;
@@ -1758,7 +1758,7 @@ $('#drills').addEventListener('click',e=>{const b=e.target.closest('[data-drill]
 
 /* ---------- partido ---------- */
 const TOUR_N=40,TOUR_COST=60,TOUR_TEAMS=['Peña La Esquina','CD Barrio Alto','Juvenil Las Pistas','Atlético Callejón','Real Pradera','Unión Estación','Deportivo Faro','Racing Muralla','Sporting Dársena','CF Los Olivos','Ciudad Roja','Real Cumbre','Athletic Ribera','Internacional Azul','Dinamo Costa','Rayo Meseta','Olympique Bahía','Gran Estrella FC','Campeones del Norte','Titanes Kickling','Ciudad Vieja FC','Estrella del Sur','Real Montaña','Atlético Marina','Racing Cumbres','Juventud Alba','CD Horizonte','Real Estrella','Dragones del Este','Halcones FC','Leones de Hierro','Gigantes del Valle','Real Eclipse','Atlético Tormenta','Imperio Dorado','Deportivo Cóndor','Unión Meridiana','Sporting Aurora','Titanes del Mundo','Leyendas Kickling'];
-const TOUR=TOUR_TEAMS.map((n,i)=>({n,ovr:Math.round(i<20?20+2.4*i:66+1.6*(i-19)),xp:40+8*i,coins:30+6*i}));
+const TOUR=TOUR_TEAMS.map((n,i)=>({n,ovr:Math.round(i<20?20+2.4*i:66+1.6*(i-19)),xp:40+8*i,coins:Math.round((30+6*i)*.6)}));
 function tourCost(){return TOUR_COST;}
 function openTour(){tSel=0;tPage=0;$('#mmenu').hidden=true;$('#mres').hidden=true;$('#mview').hidden=true;$('#tview').hidden=false;tourRender();}
 let tSel=0,tPage=0;
@@ -1770,7 +1770,7 @@ function tourRender(){const done=Math.min(S.tour||0,TOUR_N),me=ovr();$('#tprog')
   const pgn='<div class="tpg" role="group" aria-label="Páginas de rivales">'+[0,1].map(g=>'<button class="chip'+(g===tPage?' on':'')+'" data-tpg="'+g+'" aria-pressed="'+(g===tPage)+'">Rivales '+(g*20+1)+'–'+(g*20+20)+'</button>').join('')+'</div>';
   $('#tlist').innerHTML=pgn+'<div class="tgrid">'+TOUR.map((t,i)=>({t:t,i:i})).slice(tPage*20,tPage*20+20).map(({t,i})=>{const lv=i+1,c=lv<=done,cur=lv===done+1;return '<button class="tn2 '+(c?'ok':cur?'cur':'lk')+(lv===tSel?' sel':'')+'" data-tn="'+lv+'" aria-label="Nivel '+lv+', '+esc(t.n)+'">'+tourCrest(i,30)+'<b class="num">'+(c?TCK:lv)+'</b></button>';}).join('')+'</div>'+
     '<div class="card tdet"><div class="tdh"><span class="tcr">'+tourCrest(tSel-1,46)+'</span><div class="tlt"><span class="num" style="font-size:12px">Nivel '+tSel+'</span><strong>'+esc(T.n)+'</strong><span>Media '+T.ovr+(T.ovr>me?' · +'+(T.ovr-me)+' sobre ti':' · a tu nivel')+'</span></div></div>'+
-    '<div class="trw"><span>'+ico('starb',18)+'+'+T.xp+' XP</span><span>'+ico('coin',18)+'+'+T.coins+'</span>'+(cl?'':'<span class="x2">Primera victoria ×2</span>')+(tSel%5===0&&!cl?'<span class="x2">+100 monedas</span>':'')+'</div>'+
+    '<div class="trw"><span>'+ico('starb',18)+'+'+T.xp+' XP</span><span>'+ico('coin',18)+'+'+T.coins+'</span>'+(cl?'':'<span class="x2">Primera victoria ×2</span>')+(tSel%5===0&&!cl?'<span class="x2">+60 monedas</span>':'')+'</div>'+
     (lk?'<button class="btn alt" disabled>Bloqueado: supera el nivel '+(done+1)+'</button>':'<button class="btn '+(cl?'alt':'gold')+'" data-tlv="'+tSel+'" data-cost="'+TOUR_COST+'">'+(cl?'Repetir':'Jugar')+' '+ico('drop',18)+TOUR_COST+'</button>')+'</div>';
   energy();}
 $('#tlist').addEventListener('click',e=>{const pg=e.target.closest('[data-tpg]');if(pg){tPage=+pg.dataset.tpg;const dn=Math.min(S.tour||0,TOUR_N);tSel=Math.min(tPage*20+20,Math.max(tPage*20+1,dn+1));tourRender();return;}const n=e.target.closest('[data-tn]');if(n){tSel=+n.dataset.tn;tourRender();return;}const b=e.target.closest('[data-tlv]');if(!b)return;const lv=+b.dataset.tlv;if(lv>(S.tour||0)+1||lv<1||lv>TOUR_N)return;$('#tview').hidden=true;startMatch('torneo',lv);});
@@ -1820,8 +1820,8 @@ function act(t){if(!M||!M.wait)return;const s=stats(),rv=M.rv,m=M.min,g0=M.me;SF
 function finish(){clearInterval(M.timer);M.over=true;SFX.whistle(3);logAdd(90,'Final del partido: '+M.me+' – '+M.rt+'.');paintMatch();
   const win=M.me>M.rt,draw=M.me===M.rt,k=M.k,xm=xpMult();
   let xp=Math.round((k.xp*(win?1.3:draw?1:.7)+15*M.g+10*M.a)*xm);
-  let co=Math.round(k.coins*(win?1.5:draw?1:.6)+10*M.g),tnote='';
-  if(M.tour&&win&&M.tour>(S.tour||0)){S.tour=M.tour;xp*=2;co*=2;if(M.tour%5===0)co+=100;tnote='¡Nivel '+M.tour+' del torneo superado!'+(M.tour>=TOUR_N?' ¡Eres campeón del torneo!':M.tour===20?' ¡Primera página completada! Ya puedes con los rivales 21–40.':'')+' ';}
+  let co=Math.round(k.coins*(win?1.5:draw?1:.6)+6*M.g),tnote='';
+  if(M.tour&&win&&M.tour>(S.tour||0)){S.tour=M.tour;xp*=2;co*=2;if(M.tour%5===0)co+=60;tnote='¡Nivel '+M.tour+' del torneo superado!'+(M.tour>=TOUR_N?' ¡Eres campeón del torneo!':M.tour===20?' ¡Primera página completada! Ya puedes con los rivales 21–40.':'')+' ';}
   S.coins+=co;const up=addXP(xp);const c=S.career;c.pj++;c.g+=M.g;c.a+=M.a;c.iv=(c.iv||0)+Math.max(1,Math.round(3+rnd(0,5)-M.rt*.6));if(win)c.w++;else if(draw)c.d++;else c.l++;save();
   const t=$('#rtitle');if(win){t.setAttribute('aria-label','¡Victoria!');t.innerHTML=Array.from('¡Victoria!').map((c,i)=>'<span aria-hidden="true" style="--i:'+i+'">'+c+'</span>').join('');}else{const w=draw?'Empate':'Derrota';t.setAttribute('aria-label',w);t.innerHTML=Array.from(w).map((c,i)=>'<span aria-hidden="true" style="--i:'+i+'">'+c+'</span>').join('');}t.className='big '+(win?'w':draw?'d':'l');
   $('#rcele').className='cele '+(win?'w':draw?'d':'l');$('#rcele').innerHTML=avatar(false,win?'alegre':draw?'sonriente':'seria');if(win)confetti(64);
@@ -1937,7 +1937,7 @@ function nextSlot(){const now=Date.now(),t0=madridDay(now),td=t0<LEAGUE_START?LE
 const simHas=k=>!!(TM.sims[k]||(slotH(k)===21&&TM.sims[slotDay(k)]));
 function hs(str){let h=1779033703^str.length;for(let i=0;i<str.length;i++){h=Math.imul(h^str.charCodeAt(i),3432918353);h=h<<13|h>>>19;}return h>>>0;}
 function rng(seed){let a=hs(seed);return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
-const MAXM=20,DIVS=26,REW={w:[60,30],d:[30,15],l:[15,8]};
+const MAXM=20,DIVS=26,REW={w:[36,30],d:[18,15],l:[9,8]};
 const botStr=div=>26+Math.round((DIVS-div)*1.12);
 const lgName=d=>'Liga '+String.fromCharCode(64+Math.min(DIVS,Math.max(1,d|0))),grpOf=t=>Math.max(0,Math.floor(+(t&&t.grp)||0)),gk=(d,g)=>d+'.'+g,lgLabel=(d,g)=>lgName(d)+(d>1?' · Grupo '+((g|0)+1):''),gkSplit=k=>{const a=String(k).split('.');return {d:+a[0],g:+a[1]||0};};
 function goals(lam,r){const L=Math.exp(-lam);let k=0,p=1;do{k++;p*=r();}while(p>L&&k<12);return k-1;}
@@ -2480,7 +2480,7 @@ const durMin=k=>Math.min(30,5*(1+Math.floor(S.trained[k]/4)));
 const mmss=ms=>{const t=Math.ceil(ms/1000),h=Math.floor(t/3600),m=Math.floor(t%3600/60),s2=t%60;return (h?h+':'+String(m).padStart(2,'0'):m)+':'+String(s2).padStart(2,'0');};
 const fdur=m=>m>=60?Math.floor(m/60)+' h'+(m%60?' '+m%60+' min':''):m+' min';
 const tLeft=()=>{const A=S.timed;if(!A)return null;return Math.max(0,A.d-(Date.now()-Math.min(A.t,Date.now())));};
-function timedPay(k,min){return {xp:Math.round((12+S.lvl*.8)*(min/10)*1.2*xpMult()),pts:Math.max(0,Math.min(2,capT()-S.trained[k])),coins:Math.round((6+S.lvl*.5)*(min/10))};}
+function timedPay(k,min){return {xp:Math.round((12+S.lvl*.8)*(min/10)*1.2*xpMult()),pts:Math.max(0,Math.min(2,capT()-S.trained[k])),coins:Math.round((6+S.lvl*.5)*(min/10)*.6)};}
 function timedView(){const el=$('#timed');if(!el)return;const A=S.timed,l=tLeft();
   el.innerHTML=Object.keys(TIMED).map(k=>{const T={n:PD(k).t,st:statName(k)},mine=A&&A.k===k;let em,attr,cls='',bar='',min=mine?Math.round(A.d/6e4):durMin(k);const pay=timedPay(k,min);
     if(mine&&l===0){em='<em class="rdy">¡Recoger!</em>';attr='data-tclaim="'+k+'" data-ready="1"';cls=' ready';}
