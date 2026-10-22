@@ -1208,7 +1208,7 @@ body.onhome .hero .hnm .gearb:active{transform:scale(.92)!important}
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 393">Kickling · v393</div>
+  <div class="verl" aria-label="Kickling versión 394">Kickling · v394</div>
   <button class="btn alt" id="dgnum" type="button" style="margin:6px auto;display:block;font-size:12px;min-height:34px">Diagnóstico del dorsal</button><pre id="dgout" hidden style="white-space:pre-wrap;word-break:break-all;font-size:11px;text-align:left;margin:6px 12px;color:#1d2b4d"></pre>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
@@ -1536,9 +1536,9 @@ function kitSvg(slot,d,w,pv){const K=Object.assign({},kit()),id='k'+(++au);if(pv
   return slot==='c'?'<svg viewBox="18 40 84 58" width="'+(w||44)+'" aria-hidden="true">'+shirtG(d,K.c,K.d,id)+'</svg>':'<svg viewBox="30.5 87.5 59 36" width="'+(w||44)+'" aria-hidden="true">'+shortsG(d,K.p,K.d,id)+'<path d="M38 90H82L83 95H37.4Z" fill="#000" fill-opacity=".14"/><path d="M40 98L42 117M80 98L78 117" stroke="#fff" stroke-opacity=".35" stroke-width="2" stroke-linecap="round"/><path d="M60 108V96" stroke="#3A2410" stroke-opacity=".35" stroke-width="1.4" stroke-linecap="round"/></svg>';}
 let au=0;
 const NUMG=['M1 0H7Q8 0 8 1V12Q8 13 7 13H1Q0 13 0 12V1Q0 0 1 0Z','M1.5 3.5L5 0V13','M0.5 3.5Q1 0 4 0Q8 0 7.5 4Q7 6.5 0.5 13H8','M0.5 1.5Q4 -1 7 1.5Q8 3.5 4 6Q8 7 8 10Q7 13 4 13Q1 13 0 11.5','M6 13V0L0 9H8.5','M7.5 0H1.5L1 6Q5 4.5 7.5 7Q9 10.5 6.5 12.5Q3 14 0.5 12','M7 1Q4 -1 1.5 3Q0 6 0.5 9.5Q1 13 4 13Q8 13 8 9.5Q8 6 4 6Q1.5 6 0.5 8.5','M0 0H8L3 13','M4 6Q0 5 0.5 3Q1 0 4 0Q7 0 7.5 3Q8 5 4 6Q0 7 0 10Q0.5 13 4 13Q7.5 13 8 10Q8 7 4 6Z','M1 12Q4 14 6.5 10Q8 7 7.5 3.5Q7 0 4 0Q0 0 0 3.5Q0 7 4 7Q6.5 7 7.5 4.5'];
-function numSvg(n,dark){const d=String(n).split(''),gap=3.6,w=d.length*8+(d.length-1)*gap;let o='<g transform="translate(60 85.5) scale(.82)" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">';
+function numSvg(n,dark){const d=String(n).split(''),gap=3.6,w=d.length*8+(d.length-1)*gap;let o='<g transform="translate(60 83) scale(.82)" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">';
   const P=(c,sw,op)=>d.map((ch,i)=>'<path d="'+NUMG[+ch]+'" transform="translate('+(-w/2+i*(8+gap))+' -13)" stroke="'+c+'" stroke-width="'+sw+'" stroke-opacity="'+op+'"/>').join('');
-  if(!dark)o+=P('#000',4.8,.28);return o+P(dark?'#1B1B1B':'#fff',2.5,.95)+'</g>';}
+  if(!dark)o+=P('#000',5.6,.28);return o+P(dark?'#1B1B1B':'#fff',3.4,.95)+'</g>';}
 function avatar(close,mood){const L=LK();if(mood)L.mouth=mood;const c=gear('c'),p=gear('p'),z=gear('z'),so=gear('s'),sk=L.skin,id='sh'+(++au),f=faceParts(L),HG='<g transform="translate(60 54) scale(2.25) translate(-60 -44)">';
   const K=kit(),KS=Object.assign({},K),NUM=(numDrawn=curNum()),SXB=L.build==='delgado'?.72:L.build==='fuerte'?1.0:L.build==='atletico'?.88:1,
     HW=L.build==='delgado'?44:49,YE=L.build==='delgado'?88:L.build==='fuerte'?96:91,
