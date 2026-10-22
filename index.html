@@ -1266,7 +1266,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 422">Kickling · v422</div>
+  <div class="verl" aria-label="Kickling versión 423">Kickling · v423</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1489,9 +1489,9 @@ const CLIP_K={disparo:'Disparo desde la frontal',regate:'Regate y definición',p
 const CLIP_O={gol:'¡Gol!',parada:'Lo para el portero',fuera:'Se va fuera',poste:'Al palo',perdida:'Pierde el balón',cortado:'Pase cortado'};
 let clipT=0,clipD=2.3,clipUntil=0;
 function clipPlan(kind,out){
-  const up=Math.random()<.5,gy=up?27.5:42.5,P={};
-  let tg;if(out==='gol')tg=[120,gy];else if(out==='parada')tg=[113.5,gy];else if(out==='poste')tg=[120,29];else tg=[124,up?12:58];
-  const kd=out==='gol'?[116,up?43:27]:out==='parada'?[114,gy]:out==='poste'?[116,31]:[116,35];
+  const up=Math.random()<.5,gy=up?31.5:38.5,P={};
+  let tg;if(out==='gol')tg=[121.6,gy];else if(out==='parada')tg=[113.5,gy];else if(out==='poste')tg=[120,29];else tg=[124,up?12:58];
+  const kd=out==='gol'?[116,up?40:30]:out==='parada'?[114,gy]:out==='poste'?[116,31]:[116,35];
   const end=(t0,fx,fy,mid)=>{const a=[[t0,fx,fy,1.7],[(t0+.85)/2+.02,mid[0],mid[1],2.7],[.85,tg[0],tg[1],1.7]];if(out==='poste')a.push([.97,112,17,1.7]);return a;};
   P.K=[[0,116,35],[.5,116,35],[.82,kd[0],kd[1]]];P.W=[];P.D=[];P.X=[];
   if(kind==='disparo'){P.A=[[0,46,40],[.3,56,39],[.45,62,38]];P.B=[[0,48,41,1.7],[.3,58,40,1.7],[.45,63,39,1.7]].concat(end(.45,63,39,[92,(39+tg[1])/2-4]));P.D=[[0,72,28],[.5,66,35],[.85,66,36]];}
