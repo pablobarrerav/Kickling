@@ -1168,7 +1168,7 @@ body.onhome .hero .hnm .gearb:active{transform:scale(.92)!important}
   </div>
   <div id="tview" hidden>
     <div class="tvh"><button class="btn alt" id="tback">Volver</button><h3 class="ttl" aria-label="Torneo"></h3><span class="tvp num" id="tprog"></span></div>
-    <p class="sub">Supera a cada rival en orden. Cada nivel es más duro: sus equipos tienen más media que el anterior. La primera victoria de cada nivel da el doble (×2).</p>
+    <p class="sub">Supera a cada rival en orden. Cada nivel es más duro: sus equipos tienen más media que el anterior.  Cada nivel solo se juega una vez.</p>
     <div class="stack" id="tlist"></div>
   </div>
   <div id="mview" hidden>
@@ -1254,7 +1254,7 @@ body.onhome .hero .hnm .gearb:active{transform:scale(.92)!important}
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 405">Kickling · v405</div>
+  <div class="verl" aria-label="Kickling versión 406">Kickling · v406</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1843,10 +1843,10 @@ function tourRender(){const done=Math.min(S.tour||0,TOUR_N),me=ovr();$('#tprog')
   const pgn='<div class="tpg" role="group" aria-label="Páginas de rivales">'+[0,1].map(g=>'<button class="chip'+(g===tPage?' on':'')+'" data-tpg="'+g+'" aria-pressed="'+(g===tPage)+'">Rivales '+(g*20+1)+'–'+(g*20+20)+'</button>').join('')+'</div>';
   $('#tlist').innerHTML=pgn+'<div class="tgrid">'+TOUR.map((t,i)=>({t:t,i:i})).slice(tPage*20,tPage*20+20).map(({t,i})=>{const lv=i+1,c=lv<=done,cur=lv===done+1;return '<button class="tn2 '+(c?'ok':cur?'cur':'lk')+(lv===tSel?' sel':'')+'" data-tn="'+lv+'" aria-label="Nivel '+lv+', '+esc(t.n)+'">'+tourCrest(i,30)+'<b class="num">'+(c?TCK:lv)+'</b></button>';}).join('')+'</div>'+
     '<div class="card tdet"><div class="tdh"><span class="tcr">'+tourCrest(tSel-1,46)+'</span><div class="tlt"><span class="num" style="font-size:12px">Nivel '+tSel+'</span><strong>'+esc(T.n)+'</strong><span>Media '+T.ovr+(T.ovr>me?' · +'+(T.ovr-me)+' sobre ti':' · a tu nivel')+'</span></div></div>'+
-    '<div class="trw"><span>'+ico('starb',18)+'+'+T.xp+' XP</span><span>'+ico('coin',18)+'+'+T.coins+'</span>'+(cl?'':'<span class="x2">Primera victoria ×2</span>')+(tSel%5===0&&!cl?'<span class="x2">+60 monedas</span>':'')+'</div>'+
-    (lk?'<button class="btn alt" disabled>Bloqueado: supera el nivel '+(done+1)+'</button>':'<button class="btn '+(cl?'alt':'gold')+'" data-tlv="'+tSel+'" data-cost="'+tCost(tSel)+'">'+(cl?'Repetir':'Jugar')+' '+ico('drop',18)+tCost(tSel)+'</button>')+'</div>';
+    (cl?'':'<div class="trw"><span>'+ico('starb',18)+'+'+T.xp+' XP</span><span>'+ico('coin',18)+'+'+T.coins+'</span>')+(tSel%5===0&&!cl?'<span class="x2">+60 monedas</span>':'')+(cl?'':'</div>')+''+
+    (lk?'<button class="btn alt" disabled>Bloqueado: supera el nivel '+(done+1)+'</button>':(cl?'<button class="btn alt" disabled>Nivel superado ✓</button>':'<button class="btn gold" data-tlv="'+tSel+'" data-cost="'+tCost(tSel)+'">Jugar '+ico('drop',18)+tCost(tSel)+'</button>'))+'</div>';
   energy();}
-$('#tlist').addEventListener('click',e=>{const pg=e.target.closest('[data-tpg]');if(pg){tPage=+pg.dataset.tpg;const dn=Math.min(S.tour||0,TOUR_N);tSel=Math.min(tPage*20+20,Math.max(tPage*20+1,dn+1));tourRender();return;}const n=e.target.closest('[data-tn]');if(n){tSel=+n.dataset.tn;tourRender();return;}const b=e.target.closest('[data-tlv]');if(!b)return;const lv=+b.dataset.tlv;if(lv>(S.tour||0)+1||lv<1||lv>TOUR_N)return;$('#tview').hidden=true;startMatch('torneo',lv);});
+$('#tlist').addEventListener('click',e=>{const pg=e.target.closest('[data-tpg]');if(pg){tPage=+pg.dataset.tpg;const dn=Math.min(S.tour||0,TOUR_N);tSel=Math.min(tPage*20+20,Math.max(tPage*20+1,dn+1));tourRender();return;}const n=e.target.closest('[data-tn]');if(n){tSel=+n.dataset.tn;tourRender();return;}const b=e.target.closest('[data-tlv]');if(!b)return;const lv=+b.dataset.tlv;if(lv!==(S.tour||0)+1||lv<1||lv>TOUR_N)return;$('#tview').hidden=true;startMatch('torneo',lv);});
 $('#tback').addEventListener('click',()=>{$('#tview').hidden=true;$('#mmenu').hidden=false;comps();energy();});
 let M=null;
 function logAdd(min,txt,tag){M.log.push({min,txt,tag});}
@@ -1894,7 +1894,7 @@ function finish(){clearInterval(M.timer);M.over=true;SFX.whistle(3);logAdd(90,'F
   const win=M.me>M.rt,draw=M.me===M.rt,k=M.k,xm=xpMult();
   let xp=Math.round((k.xp*(win?1.3:draw?.65:.3)+(win||draw?1:.5)*(15*M.g+10*M.a))*xm);
   let co=!win?0:Math.round(k.coins*1.5+6*M.g),tnote='';
-  if(M.tour&&win&&M.tour>(S.tour||0)){S.tour=M.tour;xp*=2;co*=2;if(M.tour%5===0)co+=60;tnote='¡Nivel '+M.tour+' del torneo superado!'+(M.tour>=TOUR_N?' ¡Eres campeón del torneo!':M.tour===20?' ¡Primera página completada! Ya puedes con los rivales 21–40.':'')+' ';}
+  if(M.tour&&win&&M.tour>(S.tour||0)){S.tour=M.tour;if(M.tour%5===0)co+=60;tnote='¡Nivel '+M.tour+' del torneo superado!'+(M.tour>=TOUR_N?' ¡Eres campeón del torneo!':M.tour===20?' ¡Primera página completada! Ya puedes con los rivales 21–40.':'')+' ';}
   S.coins+=co;const up=addXP(xp);const c=S.career;c.pj++;c.g+=M.g;c.a+=M.a;c.iv=(c.iv||0)+Math.max(1,Math.round(3+rnd(0,5)-M.rt*.6));if(win)c.w++;else if(draw)c.d++;else c.l++;save();
   const t=$('#rtitle');if(win){t.setAttribute('aria-label','¡Victoria!');t.innerHTML=Array.from('¡Victoria!').map((c,i)=>'<span aria-hidden="true" style="--i:'+i+'">'+c+'</span>').join('');}else{const w=draw?'Empate':'Derrota';t.setAttribute('aria-label',w);t.innerHTML=Array.from(w).map((c,i)=>'<span aria-hidden="true" style="--i:'+i+'">'+c+'</span>').join('');}t.className='big '+(win?'w':draw?'d':'l');
   $('#rcele').className='cele '+(win?'w':draw?'d':'l');$('#rcele').innerHTML=avatar(false,win?'alegre':draw?'sonriente':'seria');if(win)confetti(64);
