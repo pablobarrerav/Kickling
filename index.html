@@ -1266,7 +1266,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 416">Kickling · v416</div>
+  <div class="verl" aria-label="Kickling versión 417">Kickling · v417</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1735,42 +1735,34 @@ let _sbg={k:'',v:''};
 function stadiumLv(){try{const t=myTeam();return Math.max(1,Math.min(10,Math.round(+((t&&t.stad)||{}).gradas||0)||1));}catch(e){return 1;}}
 function standMarkup(L,K){
   let sd=L*7919+13;const rnd=()=>{sd=(sd*16807)%2147483647;return sd/2147483647;};
-  const EX=.52,x0=31-(L-1)*2.3,x1=100-x0,w=x1-x0,yb=112,yt=99-L*4,H=yb-yt;
+  const EX=.52,x0=31-(L-1)*2.3,x1=100-x0,w=x1-x0,yb=112,yt=99-L*4,H=yb-yt,OL='#10244a';
   const f=n=>(+n).toFixed(1);
-  const el=(cx,cy,r,fill,op)=>'<ellipse cx="'+f(cx)+'" cy="'+f(cy)+'" rx="'+f(r*EX)+'" ry="'+f(r)+'" fill="'+fill+'"'+(op?' opacity="'+op+'"':'')+'/>';
-  const SKIN=['#F2C9A0','#E0AE80','#B97F55','#F7D9B8','#8A5A3A'];
-  const SH=L<3?['#9aa6c4','#c8d0e4','#7a86a6','#fff']:[K.c,K.d,K.c,'#FFFFFF','#2b3a78'];
-  const tiers=L<=3?1:L<=7?2:3,hasRoof=L>=4;
-  let o='<rect x="'+f(x0-1)+'" y="'+f(yb-1)+'" width="'+f(w+2)+'" height="2" fill="#0b1840" opacity=".3"/>';
-  /* estructura trasera */
-  o+='<path d="M'+f(x0)+' '+yb+'V'+f(yt+1.5)+'Q'+f(x0)+' '+f(yt)+' '+f(x0+1.4)+' '+f(yt)+'H'+f(x1-1.4)+'Q'+f(x1)+' '+f(yt)+' '+f(x1)+' '+f(yt+1.5)+'V'+yb+'Z" fill="'+(L<3?'#6b7792':'url(#std)')+'"/>';
-  const th=(H-2.4)/tiers;
-  for(let t=0;t<tiers;t++){const ty=yt+(hasRoof?2.4:.6)+t*th,rows=Math.max(2,Math.round(th/3.4)),rh=(th-1.2)/rows;
-    /* bloques de asientos */
-    const nb=Math.max(2,Math.round(w/12)),bw=w/nb;
-    for(let b=0;b<nb;b++){const bx=x0+b*bw;
-      o+='<rect x="'+f(bx+.5)+'" y="'+f(ty)+'" width="'+f(bw-1)+'" height="'+f(th-1.2)+'" fill="'+(L<3?(b%2?'#c9a877':'#9a7a52'):(b%2?K.d:K.c))+'" opacity="'+(L<3?.9:.38)+'"/>';}
-    for(let r=0;r<rows;r++){const cy=ty+r*rh+rh*.55,sp=3.1,n=Math.floor((w-2)/sp),off=(r%2)*sp/2;
-      for(let k=0;k<n;k++){const cx=x0+1.6+off+k*sp;if(cx>x1-1.2)break;
-        if(rnd()>Math.min(.95,.22+.08*L))continue;
+  const ob=(x,y,ww,hh,fill,rx,sw)=>'<rect x="'+f(x)+'" y="'+f(y)+'" width="'+f(ww)+'" height="'+f(hh)+'" rx="'+(rx||0)+'" fill="'+fill+'" stroke="'+OL+'" stroke-width="'+(sw||1.4)+'" vector-effect="non-scaling-stroke"/>';
+  const SKIN=['#F2C9A0','#E0AE80','#B97F55','#F7D9B8'];
+  const SH=L<3?['#c8d0e4','#9aa6c4','#fff','#ffd166']:[K.c,K.d,K.c,'#FFFFFF','#FFD166','#FF6B6B'];
+  const hasRoof=L>=4,tiers=L<=3?1:L<=6?2:3;
+  let o='';
+  const top=yt+(hasRoof?3:0);
+  /* cuerpo de la grada */
+  o+=ob(x0,top,w,yb-top,L<3?'#8a96b4':'#3a4a86',1.2,1.6);
+  const th=(yb-top-2.6)/tiers;
+  for(let t=0;t<tiers;t++){const ty=top+1.2+t*th,rows=Math.max(2,Math.round(th/3.3)),rh=(th-1.6)/rows;
+    o+='<rect x="'+f(x0+.6)+'" y="'+f(ty)+'" width="'+f(w-1.2)+'" height="'+f(th-1.4)+'" fill="'+(L<3?'#b8a27a':K.d)+'" opacity="'+(L<3?.85:.55)+'"/>';
+    for(let r=0;r<rows;r++){const ry=ty+r*rh,sp=3.3,n=Math.floor((w-2)/sp);
+      for(let k=0;k<n;k++){const cx=x0+1.4+k*sp;if(rnd()>Math.min(.97,.3+.07*L))continue;
         const sh=SH[(rnd()*SH.length)|0];
-        o+=el(cx,cy+1.25,.95,sh,.95)+el(cx,cy-.2,.82,SKIN[(rnd()*SKIN.length)|0]);}}
-    /* pasillo entre pisos */
-    o+='<rect x="'+f(x0)+'" y="'+f(ty+th-1.2)+'" width="'+f(w)+'" height="1.2" fill="#dfe6f6" opacity=".55"/>';}
-  /* sombra superior y escaleras */
-  o+='<rect x="'+f(x0)+'" y="'+f(yt)+'" width="'+f(w)+'" height="'+f(H)+'" fill="url(#sh)"/>';
-  if(L>=3){const m=L>=7?4:L>=5?3:2;for(let k=1;k<=m;k++){const ax=x0+w*k/(m+1);o+='<rect x="'+f(ax-.5)+'" y="'+f(yt+2)+'" width="1" height="'+f(H-2)+'" fill="#e9eef9" opacity=".3"/>';}}
-  /* valla frontal con colores del equipo */
-  o+='<rect x="'+f(x0)+'" y="'+f(yb-2.2)+'" width="'+f(w)+'" height="2.2" fill="'+(L>=10?'#F5B800':'#33407A')+'"/>';
-  {const sg=Math.max(4,Math.round(w/7));for(let k=0;k<sg;k+=2)o+='<rect x="'+f(x0+k*w/sg)+'" y="'+f(yb-2.2)+'" width="'+f(w/sg)+'" height="2.2" fill="'+(L>=10?'#FFE08A':K.c)+'" opacity=".92"/>';}
+        o+='<rect x="'+f(cx-1.4)+'" y="'+f(ry+rh*.5)+'" width="2.8" height="'+f(rh*.55)+'" rx=".5" fill="'+sh+'"/><ellipse cx="'+f(cx)+'" cy="'+f(ry+rh*.38)+'" rx="'+f(1.05*EX)+'" ry="1.05" fill="'+SKIN[(rnd()*SKIN.length)|0]+'"/>';}}
+    o+='<rect x="'+f(x0+.6)+'" y="'+f(ty+th-1.4)+'" width="'+f(w-1.2)+'" height="1.4" fill="#e8eefb" opacity=".75"/>';}
+  /* vallas con los colores del equipo */
+  o+='<rect x="'+f(x0)+'" y="'+f(yb-2.6)+'" width="'+f(w)+'" height="2.6" fill="'+(L>=10?'#F5B800':K.c)+'" stroke="'+OL+'" stroke-width="1.4" vector-effect="non-scaling-stroke"/>';
+  {const sg=Math.max(4,Math.round(w/6));for(let k=1;k<sg;k+=2)o+='<rect x="'+f(x0+k*w/sg)+'" y="'+f(yb-2.1)+'" width="'+f(w/sg)+'" height="1.6" fill="'+(L>=10?'#FFE08A':'#fff')+'" opacity=".9"/>';}
   /* techo */
-  if(hasRoof){const ry=yt-.2,rc=L>=10?'#F5B800':L>=7?'#E9EEF9':'#BFC9E0',cu=L>=7?2.2:0;
-    o+='<path d="M'+f(x0-2.5)+' '+f(ry+2.4)+'Q50 '+f(ry+2.4-cu*2)+' '+f(x1+2.5)+' '+f(ry+2.4)+'V'+f(ry+.6)+'Q50 '+f(ry+.6-cu*2)+' '+f(x0-2.5)+' '+f(ry+.6)+'Z" fill="'+rc+'" stroke="#39467A" stroke-width=".35"/>';
-    o+='<path d="M'+f(x0-2.5)+' '+f(ry+2.4)+'Q50 '+f(ry+2.4-cu*2)+' '+f(x1+2.5)+' '+f(ry+2.4)+'V'+f(ry+3.2)+'Q50 '+f(ry+3.2-cu*2)+' '+f(x0-2.5)+' '+f(ry+3.2)+'Z" fill="#0b1840" opacity=".3"/>';
-    [x0+.6,x1-.6].concat(L>=7?[50]:[]).forEach(px=>{o+='<rect x="'+f(px-.45)+'" y="'+f(ry+2.6)+'" width=".9" height="'+f(yb-ry-2.6)+'" fill="#39467A" opacity=".55"/>';});
-    if(L>=5){const n=Math.floor(w/5);for(let k=0;k<n;k++){const px=x0+2+k*((w-4)/Math.max(1,n-1)),py=ry+3.4+(L>=7?-cu*.6:0);o+='<path d="M'+f(px-1)+' '+f(py)+'h2L'+f(px)+' '+f(py+2.6)+'Z" fill="'+(k%2?K.d:K.c)+'"/>';}}}
-  if(L>=9){const sy=yt-(hasRoof?9:5);o+='<rect x="42" y="'+f(sy)+'" width="16" height="6" rx="1" fill="#10244a" stroke="#8fb4ff" stroke-width=".5"/><rect x="43.4" y="'+f(sy+1.2)+'" width="13.2" height="3.6" rx=".5" fill="#2f8cff" opacity=".85"/><path d="M46 '+f(sy+3)+'h8" stroke="#fff" stroke-width=".8" stroke-linecap="round"/>';}
-  if(L>=10){[[24,38,'#FFD166'],[76,34,'#FF6B6B'],[50,28,'#6BCBFF']].forEach(q=>{let s='';for(let a=0;a<8;a++){const an=a*Math.PI/4;s+='M'+q[0]+' '+q[1]+'l'+f(Math.cos(an)*3.2*EX*1.9)+' '+f(Math.sin(an)*3.2);}o+='<path d="'+s+'" stroke="'+q[2]+'" stroke-width=".9" stroke-linecap="round"/>';});}
+  if(hasRoof){const rc=L>=10?'#F5B800':L>=7?'#F1F4FB':'#C9D2E8',cu=L>=7?3:0,ry=yt;
+    [x0+1,x1-1].concat(L>=7?[50]:[]).forEach(px=>{o+='<rect x="'+f(px-.5)+'" y="'+f(ry+2)+'" width="1" height="'+f(yb-ry-2)+'" fill="#5b6a9a"/>';});
+    o+='<path d="M'+f(x0-3)+' '+f(ry+3.4)+'Q50 '+f(ry+3.4-cu*2)+' '+f(x1+3)+' '+f(ry+3.4)+'L'+f(x1+3)+' '+f(ry)+'Q50 '+f(ry-cu*2)+' '+f(x0-3)+' '+f(ry)+'Z" fill="'+rc+'" stroke="'+OL+'" stroke-width="1.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>';
+    if(L>=5){const n=Math.floor(w/4.4);for(let k=0;k<n;k++){const px=x0+2+k*((w-4)/Math.max(1,n-1)),py=ry+3.6-cu*.55*Math.sin(Math.PI*(px-x0)/w)*0;o+='<path d="M'+f(px-1)+' '+f(py)+'h2L'+f(px)+' '+f(py+3)+'Z" fill="'+(k%2?K.d:K.c)+'"/>';}}}
+  if(L>=9){const sy=yt-(hasRoof?9:5);o+=ob(41,sy,18,6.4,'#10244a',1,1.4)+'<rect x="42.4" y="'+f(sy+1.2)+'" width="15.2" height="4" rx=".6" fill="#2f8cff"/><path d="M46 '+f(sy+3.2)+'h8" stroke="#fff" stroke-width="1.2" stroke-linecap="round" vector-effect="non-scaling-stroke"/>';}
+  if(L>=10){[[20,40,'#FFD166'],[80,36,'#FF6B6B'],[50,30,'#6BCBFF']].forEach(q=>{let s='';for(let a=0;a<8;a++){const an=a*Math.PI/4;s+='M'+q[0]+' '+q[1]+'l'+f(Math.cos(an)*3.4*EX*1.9)+' '+f(Math.sin(an)*3.4);}o+='<path d="'+s+'" stroke="'+q[2]+'" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"/>';});}
   return o;}
 function stadiumBg(){const K=kit(),SL=stadiumLv(),key=K.c+'|'+K.d+'|'+SL;if(_sbg.k===key)return _sbg.v;
   let seed=7;const rn=()=>{seed=(seed*1103515245+12345)&0x7fffffff;return seed/0x7fffffff;};
@@ -1778,12 +1770,12 @@ function stadiumBg(){const K=kit(),SL=stadiumLv(),key=K.c+'|'+K.d+'|'+SL;if(_sbg
   let o='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 180" preserveAspectRatio="none"><defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3FA3FF"/><stop offset=".55" stop-color="#9ED8FF"/><stop offset="1" stop-color="#E4F6FF"/></linearGradient><radialGradient id="g" cx=".82" cy=".1" r=".5"><stop offset="0" stop-color="#FFF6C8" stop-opacity=".95"/><stop offset=".35" stop-color="#FFF1A8" stop-opacity=".35"/><stop offset="1" stop-color="#FFF1A8" stop-opacity="0"/></radialGradient><linearGradient id="st" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2B3B73"/><stop offset="1" stop-color="#1B2650"/></linearGradient><linearGradient id="gr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6ACB36"/><stop offset="1" stop-color="#3F9A22"/></linearGradient><linearGradient id="v" x1="0" y1="0" x2="0" y2="1"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".22"/></linearGradient><linearGradient id="lc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF" stop-opacity=".55"/><stop offset="1" stop-color="#FFF" stop-opacity="0"/></linearGradient></defs><rect width="100" height="180" fill="url(#s)"/><rect width="100" height="180" fill="url(#g)"/>';
   [[22,22,7],[30,20,9],[40,23,6],[62,38,6],[70,36,8]].forEach(a=>{o+='<ellipse cx="'+a[0]+'" cy="'+a[1]+'" rx="'+a[2]*1.5+'" ry="'+a[2]*.6+'" fill="#fff" opacity=".7"/>';});
   o=o.replace('</defs>','<linearGradient id="std" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2d3c78"/><stop offset="1" stop-color="#18224c"/></linearGradient><radialGradient id="lg" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFF7C2" stop-opacity=".95"/><stop offset=".45" stop-color="#FFF1A8" stop-opacity=".4"/><stop offset="1" stop-color="#FFF1A8" stop-opacity="0"/></radialGradient><linearGradient id="pl" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8896C4"/><stop offset=".5" stop-color="#5B6A9A"/><stop offset="1" stop-color="#3E4B7C"/></linearGradient><linearGradient id="bm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF9D6" stop-opacity=".75"/><stop offset=".6" stop-color="#FFF3B0" stop-opacity=".22"/><stop offset="1" stop-color="#FFF3B0" stop-opacity="0"/></linearGradient><linearGradient id="sh" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b1840" stop-opacity=".45"/><stop offset="1" stop-color="#0b1840" stop-opacity="0"/></linearGradient></defs>');
-  [8,92].forEach(x=>{const d=x>50?-1:1;
-    o+='<path d="M'+(x-3.5)+' 54 L'+(x-3.5+d*24)+' 112 L'+(x+3.5+d*24)+' 112 L'+(x+3.5)+' 54Z" fill="url(#bm)" opacity=".7"/>';
-    o+='<ellipse cx="'+x+'" cy="52" rx="4.2" ry="6.5" fill="url(#lg)"/>';
-    o+='<path d="M'+(x-.9)+' 108 L'+(x-.7)+' 58 L'+(x+.7)+' 58 L'+(x+.9)+' 108Z" fill="url(#pl)"/><rect x="'+(x-1.9)+'" y="107" width="3.8" height="1.8" rx=".6" fill="#39467A"/>';
-    o+='<rect x="'+(x-4.2)+'" y="49.5" width="8.4" height="8.6" rx="1.1" fill="#2E3A6B" stroke="#8EA0D6" stroke-width=".4"/>';
-    for(let r=0;r<3;r++)for(let c=0;c<2;c++){const lx=x-2+c*4,ly=52.4+r*2.7;o+='<ellipse cx="'+lx+'" cy="'+ly+'" rx=".8" ry="1.05" fill="#FFFBD8" stroke="#E9C65A" stroke-width=".2"/>';}});
+  [9,91].forEach(x=>{const d=x>50?-1:1;
+    o+='<path d="M'+(x-3)+' 56 L'+(x-3+d*20)+' 112 L'+(x+3+d*20)+' 112 L'+(x+3)+' 56Z" fill="url(#bm)" opacity=".55"/>';
+    o+='<rect x="'+(x-.8)+'" y="58" width="1.6" height="50" fill="#6b7aa8" stroke="#10244a" stroke-width="1.3" vector-effect="non-scaling-stroke"/><rect x="'+(x-2.6)+'" y="106.6" width="5.2" height="2.2" rx=".7" fill="#4a5788" stroke="#10244a" stroke-width="1.3" vector-effect="non-scaling-stroke"/>';
+    o+='<rect x="'+(x-5)+'" y="51.5" width="10" height="6.4" rx="2" fill="#3b4a86" stroke="#10244a" stroke-width="1.5" vector-effect="non-scaling-stroke"/>';
+    for(let c=0;c<3;c++){const lx=x-3.1+c*3.1;o+='<ellipse cx="'+lx+'" cy="54.7" rx="1.05" ry="1.6" fill="#FFF7B8" stroke="#E9B83A" stroke-width="1" vector-effect="non-scaling-stroke"/>';}
+    o+='<ellipse cx="'+x+'" cy="54.7" rx="7" ry="9" fill="url(#lg)" opacity=".8"/>';});
   o+=standMarkup(SL,K);
   o+='<rect y="112" width="100" height="5.5" fill="#fff"/>';
   for(let i=0;i<W;i+=20)o+='<rect x="'+i+'" y="112" width="10" height="5.5" fill="'+K.c+'"/><rect x="'+(i+10)+'" y="112" width="10" height="5.5" fill="'+K.d+'"/>';
