@@ -758,6 +758,7 @@ body.tmmi main{padding-block:8px}
 .chmsgs{flex:1 1 auto;min-height:120px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;padding:8px;border-radius:12px;background:rgba(255,255,255,.55);border:2px solid rgba(150,175,225,.5)}
 .cm{max-width:82%;align-self:flex-start;padding:6px 10px 4px;border-radius:14px 14px 14px 4px;background:#fff;border:2px solid rgba(150,175,225,.6);color:#24407f}
 .cm small{display:block;font-weight:800;font-size:11px;color:#6b7794}.cm p{margin:0;font-weight:700;font-size:14px;line-height:1.25;overflow-wrap:anywhere}.cm i{display:block;text-align:right;font-style:normal;font-size:10px;color:#8a95b0}
+.cm{position:relative}.cmx{position:absolute;top:2px;right:4px;width:20px;height:20px;border:0;border-radius:50%;background:rgba(16,36,74,.12);color:inherit;font-size:11px;line-height:1;cursor:pointer;opacity:.6;padding:0}.cm.me .cmx{background:rgba(255,255,255,.3)}.cmx:hover{opacity:1}
 .cm.sys{align-self:center;max-width:92%;background:rgba(255,255,255,.55);border:2px dashed rgba(150,175,225,.8);border-radius:999px;padding:3px 12px;text-align:center;color:#51608a}.cm.sys p{font-size:12px;font-weight:800}
 .cm.me{align-self:flex-end;border-radius:14px 14px 4px 14px;background:linear-gradient(#6FB8FF,#2F8CFF);border-color:#fff;color:#fff}.cm.me i{color:#dbeaff}
 .chin{display:flex;gap:8px}.chin input{flex:1;min-width:0;padding:10px 12px;border-radius:12px;border:2px solid rgba(150,175,225,.8);font:inherit;font-weight:700;font-size:15px;color:#24407f;background:#fff}.chin .btn{flex:none;width:auto;padding-inline:16px}
@@ -1198,12 +1199,12 @@ nav.bot [aria-selected=true] svg{filter:drop-shadow(0 0 1px #fff) drop-shadow(0 
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 372">Kickling · v372</div>
+  <div class="verl" aria-label="Kickling versión 373">Kickling · v373</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
   <div id="plbody"></div>
-  <div class="row" style="gap:10px;justify-content:center;margin-top:14px"><button class="btn alt" id="plclose">Cerrar</button><button class="btn danger" id="plkick" hidden>Echar del equipo</button></div>
+  <div class="row" style="gap:10px;justify-content:center;margin-top:14px"><button class="btn alt" id="plclose">Cerrar</button><button class="btn alt" id="plmute" hidden>Silenciar en el chat</button><button class="btn danger" id="plkick" hidden>Echar del equipo</button></div>
 </div></div>
 <div class="ovl" id="tvm" hidden role="dialog" aria-modal="true" aria-label="Plantilla del equipo"><div class="lvcard setc" id="tvmc"></div></div>
 <div class="ovl" id="kickm" hidden role="alertdialog" aria-modal="true" aria-label="Echar jugador del equipo"><div class="lvcard setc">
@@ -1870,6 +1871,7 @@ $('#nmchg').addEventListener('click',async()=>{const free=S.name==='Tu jugador';
   if(!nmEdit){if(!free&&S.coins<NAME_COST){toast('Necesitas 1.000 monedas.');return;}nmEdit=true;nmPaint();const p=$('#pname');p.focus();p.select();return;}
   if(nameBusy)return;const v=$('#pname').value.trim().slice(0,16);
   if(!v||v===S.name){nmEdit=false;nmPaint();return;}
+  if(BAD.mask(v).hit){toast('Ese nombre no está permitido. Elige otro.');return;}
   if(!free&&S.coins<NAME_COST){toast('Necesitas 1.000 monedas.');nmEdit=false;nmPaint();return;}
   nameBusy=true;let ok=true;try{ok=await claimName(v);}catch(e){}nameBusy=false;
   if(!ok){toast('Ese nombre ya está en uso. Elige otro.');return;}
@@ -1931,7 +1933,7 @@ const BAD=(function(){
   const norm=w=>cz(String(w).toLowerCase().replace(/ñ/g,'ny').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[0@]/g,m=>m==='0'?'o':'a').replace(/1/g,'i').replace(/3/g,'e').replace(/4/g,'a').replace(/5|\$/g,'s').replace(/7/g,'t').replace(/[^a-z]/g,''));
   const stems=['puta','puto','putita','mierda','joder','jodete','jodido','conyo','gilipollas','gilipolla','cabron','cabrona','capullo','imbecil','idiota','estupido','estupida','subnormal','retrasado','retrasada','mongolo','mongola','zorra','maricon','marica','bollera','polla','verga','culo','cojones','cojon','hdp','hijoputa','ctm','ptm','mamon','mamona','pendejo','pendeja','pelotudo','boludo','chingar','chingada','chingado','negrata','sudaca','cerdo','cerda','asqueroso','asquerosa','basura','inutil','fuck','fucking','fucker','shit','bitch','asshole','dick','cunt','nigger','nigga','faggot','retard','whore','slut','bastard'].map(cz);
   const re=new RegExp('^('+stems.join('|')+')(s|es|a|as|o|os|ito|ita|ones|on)?$');
-  const bad=w=>{const n=norm(w);return n.length>=3&&re.test(n);};
+  const bad=w=>{const n=norm(w),m=norm(String(w).replace(/[0-9]+/g,''));return (n.length>=3&&re.test(n))||(m.length>=3&&re.test(m));};
   function mask(t){t=String(t);let out=t,hit=false;const toks=[];t.replace(/[\p{L}\p{N}@$]+/gu,(m,i)=>{toks.push([m,i]);return m;});
     const cut=[];toks.forEach(k=>{if(bad(k[0]))cut.push([k[1],k[1]+k[0].length]);});
     for(let i=0;i<toks.length;i++){if(toks[i][0].length!==1)continue;let j=i,w='';while(j<toks.length&&toks[j][0].length===1&&(j===i||/^[\s.\-_*,]{1,2}$/.test(t.slice(toks[j-1][1]+1,toks[j][1])))){w+=toks[j][0];j++;}
@@ -2152,11 +2154,12 @@ async function chatPeek(){const t=myTeam();if(!DB||!t||tmChat)return;try{
   const u=m.uid!==UID&&(+m.ts||0)>seen;if(u!==chatUnread){chatUnread=u;dotPaint();}}catch(e){}}
 setInterval(()=>{if(!tmChat&&!document.hidden&&!$('#p-team').hidden)chatPeek();},7000);
 const chTime=ts=>{const p=mp(ts);return p.hour+':'+p.minute;};
-function chatHtml(){return chatMsgs.length?chatMsgs.map(m=>{if(m.sys)return '<div class="cm sys"><p>'+esc(maskBad(m.text))+'</p></div>';const me=m.uid===UID;return '<div class="cm'+(me?' me':'')+'">'+(me?'':'<small>'+esc(maskBad(m.name||'Jugador'))+'</small>')+'<p>'+esc(maskBad(m.text))+'</p><i>'+chTime(+m.ts||0)+'</i></div>';}).join(''):'<p class="note" style="text-align:center;margin:auto">Aún no hay mensajes. ¡Saluda al equipo!</p>';}
+const chMuted=u=>{const t=myTeam();return !!(t&&t.muted&&t.muted[u]===true&&u!==(t.owner));};
+function chatHtml(){return chatMsgs.length?chatMsgs.map(m=>{if(m.sys)return '<div class="cm sys"><p>'+esc(maskBad(m.text))+'</p></div>';const me=m.uid===UID;if(chMuted(m.uid))return '';const t0=myTeam(),dl=m._id&&t0&&(me||canKit(t0))?'<button class="cmx" data-chdel="'+esc(m._id)+'" aria-label="Borrar mensaje" title="Borrar mensaje">✕</button>':'';return '<div class="cm'+(me?' me':'')+'">'+dl+(me?'':'<small>'+esc(maskBad(m.name||'Jugador'))+'</small>')+'<p>'+esc(maskBad(m.text))+'</p><i>'+chTime(+m.ts||0)+'</i></div>';}).join(''):'<p class="note" style="text-align:center;margin:auto">Aún no hay mensajes. ¡Saluda al equipo!</p>';}
 function chatPaint(){const el=document.getElementById('chmsgs');if(!el)return;const near=el.scrollHeight-el.scrollTop-el.clientHeight<60;el.innerHTML=chatHtml();if(near||!el.dataset.init){el.scrollTop=el.scrollHeight;el.dataset.init='1';}}
 async function chatLoad(){const t=myTeam();if(!DB||!t)return;try{
   const r=await DB.collection('chat').where('team','==',t.id).orderBy('ts','desc').limit(60).get();
-  const list=r.docs.map(d=>d.data()).filter(m=>m&&typeof m.text==='string').sort((a,b)=>(+a.ts||0)-(+b.ts||0));
+  const list=r.docs.map(d=>Object.assign({},d.data(),{_id:d.id})).filter(m=>m&&typeof m.text==='string').sort((a,b)=>(+a.ts||0)-(+b.ts||0));
   const sig=list.length+':'+(list.length?list[list.length-1].ts:0);if(sig===chatSig)return;chatSig=sig;chatMsgs=list;chatPaint();}catch(e){}
   finally{if(tmChat&&chatMsgs.length){csSet(Math.max(csGet(),+chatMsgs[chatMsgs.length-1].ts||0));chatUnread=false;}}}
 function chatStart(){chatUnread=false;clearInterval(chatT);chatSig='';chatMsgs=[];chatLoad();chatT=setInterval(()=>{if(!tmChat||document.hidden||$('#p-team').hidden){if(!tmChat)clearInterval(chatT);return;}chatLoad();},5000);}
@@ -2259,6 +2262,8 @@ function teamRender(){const el=$('#tmbody');if(!el)return;const _d=document.getE
 let kickId=null,plId=null;
 $('#plclose').addEventListener('click',()=>{plId=null;$('#plm').hidden=true;});
 $('#plm').addEventListener('click',e=>{if(e.target.id==='plm'){plId=null;$('#plm').hidden=true;}});
+$('#plmute').addEventListener('click',async()=>{const t=myTeam();if(!t||!plId||!canKit(t)||plId===UID||plId===t.owner)return;const id=plId,v=!(t.muted&&t.muted[id]===true);t.muted=Object.assign({},t.muted||{});t.muted[id]=v;$('#plmute').textContent=v?'Quitar silencio':'Silenciar en el chat';toast(v?'Jugador silenciado en el chat.':'Silencio quitado.');chatSig='';chatPaint();
+  try{const u={};u[id]=v;await DB.doc('teams/'+t.id).update({muted:u});}catch(er){toast('No se pudo guardar.');await tmLoad();}});
 $('#plkick').addEventListener('click',()=>{const t=myTeam();if(!t||!plId||!canKit(t)||plId===UID)return;const mm=membersOf(t.id).find(m=>m.id===plId);if(!mm)return;kickId=plId;plId=null;$('#plm').hidden=true;$('#kickp').textContent='¿Seguro que quieres echar a '+(mm.name||'este jugador')+' del equipo?';$('#kickm').hidden=false;});
 
 const posCmp=(a,b)=>{const f=m=>{const i=POSK.indexOf(String(m.pos||'').split(',')[0]);return i<0?9:i;};return f(a)-f(b)||(+b.ovr||0)-(+a.ovr||0)||(a.joined||0)-(b.joined||0);};
@@ -2285,9 +2290,9 @@ async function numSet(id,raw){const t=myTeam();tmNumEdit=null;if(!t||!canKit(t))
 $('#p-team').addEventListener('keydown',e=>{if(e.target.id==='dnin'&&e.key==='Enter'){e.preventDefault();numSet(e.target.dataset.dnid,e.target.value.trim());}if(e.target.id==='dnin'&&e.key==='Escape'){tmNumEdit=null;teamRender();}});
 $('#p-team').addEventListener('focusout',e=>{if(e.target.id==='dnin'&&tmNumEdit){const i=e.target;setTimeout(()=>{if(tmNumEdit)numSet(i.dataset.dnid,i.value.trim());},0);}});
 async function joinMsg(tid){try{const ts=Date.now();await DB.doc('chat/m'+ts.toString(36)+Math.random().toString(36).slice(2,6)).set({team:tid,uid:UID,sys:1,name:String(S.name||'Jugador').slice(0,16),text:String(S.name||'Jugador').slice(0,16)+' se ha unido al equipo',ts:ts});}catch(e){}}
-$('#p-team').addEventListener('submit',async e=>{if(e.target.id!=='chform')return;e.preventDefault();const t=myTeam(),inp=document.getElementById('chtxt');if(!t||!DB||!CANW||!inp)return;let text=inp.value.replace(/\s+/g,' ').trim().slice(0,200);if(!text)return;{const br=BAD.mask(text);if(br.hit){text=br.text;toast('Mensaje con lenguaje ofensivo: se ha tapado. Mantén un chat respetuoso.');}}
-  if(Date.now()-chatBusy<700)return;chatBusy=Date.now();inp.value='';const ts=Date.now(),m={team:t.id,uid:UID,name:String(S.name||'Jugador').slice(0,16),text:text,ts:ts};chatMsgs.push(m);chatSig=chatMsgs.length+':'+ts;chatPaint();inp.focus();
-  try{await DB.doc('chat/m'+ts.toString(36)+Math.random().toString(36).slice(2,6)).set(m);}catch(er){toast('No se pudo enviar el mensaje.');chatMsgs=chatMsgs.filter(x=>x!==m);chatSig='';chatPaint();}});
+$('#p-team').addEventListener('submit',async e=>{if(e.target.id!=='chform')return;e.preventDefault();const t=myTeam(),inp=document.getElementById('chtxt');if(!t||!DB||!CANW||!inp)return;if(chMuted(UID)){toast('El capitán te ha silenciado en el chat.');return;}let text=inp.value.replace(/\s+/g,' ').trim().slice(0,200);if(!text)return;{const br=BAD.mask(text);if(br.hit){text=br.text;toast('Mensaje con lenguaje ofensivo: se ha tapado. Mantén un chat respetuoso.');}}
+  if(Date.now()-chatBusy<700)return;chatBusy=Date.now();inp.value='';const ts=Date.now(),cid='m'+ts.toString(36)+Math.random().toString(36).slice(2,6),m={team:t.id,uid:UID,name:String(S.name||'Jugador').slice(0,16),text:text,ts:ts};chatMsgs.push(Object.assign({_id:cid},m));chatSig=chatMsgs.length+':'+ts;chatPaint();inp.focus();
+  try{await DB.doc('chat/'+cid).set(m);}catch(er){toast('No se pudo enviar el mensaje.');chatMsgs=chatMsgs.filter(x=>x._id!==cid);chatSig='';chatPaint();}});
 $('#p-team').addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.dataset&&e.target.dataset.st){e.preventDefault();stSel=e.target.dataset.st;teamRender();const n=document.querySelector('[data-st="'+stSel+'"]');if(n)n.focus();}});
 const FNAMES=['Álvaro','Hugo','Iker','Mateo','Dani','Marc','Nico','Sergio','Pablo','Rubén','Adrián','Javi','Leo','Biel','Óscar','Raúl'];
 let MV=null,resDay=null,resKey='',resKeys=[],resCur='';
@@ -2357,7 +2362,8 @@ $('#p-team').addEventListener('click',async e=>{const hs=e.target.closest('[data
     const p=String(mm.pos||'').split(',')[0],n=(t.nums||{})[mm.id],inx=xiOf(t.id).some(x=>x.id===mm.id);
     $('#plname').textContent=mm.name||'Jugador';
     $('#plbody').innerHTML=[['Posición',POSN[p]||'Sin posición'],['Media',(+mm.ovr||0)],['Dorsal',n?'#'+n:'Sin dorsal'],['Rol',mm.id===t.owner?'Capitán':inx?'Titular':'Suplente']].map(r=>'<div class="plr"><span>'+r[0]+'</span><b>'+esc(String(r[1]))+'</b></div>').join('');
-    $('#plkick').hidden=!(canKit(t)&&mm.id!==UID);$('#plm').hidden=false;return;}
+    $('#plkick').hidden=!(canKit(t)&&mm.id!==UID);{const pm=$('#plmute');pm.hidden=!(canKit(t)&&mm.id!==UID&&mm.id!==t.owner);pm.textContent=(t.muted&&t.muted[mm.id]===true)?'Quitar silencio':'Silenciar en el chat';}$('#plm').hidden=false;return;}
+  if(b.dataset.chdel){const id=b.dataset.chdel;chatMsgs=chatMsgs.filter(x=>x._id!==id);chatSig='';chatPaint();try{await DB.doc('chat/'+id).delete();}catch(er){toast('No se pudo borrar el mensaje.');chatLoad();}return;}
   if(b.dataset.swapx){tmSwap=null;teamRender();return;}
   if(b.dataset.swapto){const t=myTeam();if(!t||!canKit(t)||!tmSwap)return;const xi=xiOf(t.id),out=xi.find(m=>m.id===tmSwap),nw=membersOf(t.id).find(m=>m.id===b.dataset.swapto);if(!out||!nw)return;
     const why=xiWhy(xi.filter(m=>m.id!==out.id),nw);if(why){toast(why);return;}
@@ -2391,7 +2397,7 @@ $('#p-team').addEventListener('click',async e=>{const hs=e.target.closest('[data
     S.claim=cl[cl.length-1].day;S.coins+=co;addXP(xp);save();render();teamRender();toast('+'+co+' monedas y +'+xp+' XP del equipo');confetti(40);return;}
   b.disabled=true;
   try{
-    if(b.id==='tmcreate'){const n=($('#tmname').value||'').trim().replace(/\s+/g,' ').slice(0,16);if(n.length<2){toast('Ponle un nombre de al menos 2 letras.');b.disabled=false;return;}
+    if(b.id==='tmcreate'){const n=($('#tmname').value||'').trim().replace(/\s+/g,' ').slice(0,16);if(n.length<2){toast('Ponle un nombre de al menos 2 letras.');b.disabled=false;return;}if(BAD.mask(n).hit){toast('Ese nombre no está permitido. Elige otro.');b.disabled=false;return;}
       const tid='t'+Math.random().toString(36).slice(2,10),now=Date.now(),ep=entryPlace();
       await DB.doc('teams/'+tid).set({name:n,div:ep.div,grp:ep.grp,created:now,owner:UID});
       await DB.doc('members/'+UID).set({name:S.name,ovr:ovr(),team:tid,pos:S.pos.join(','),joined:now,upd:now});
