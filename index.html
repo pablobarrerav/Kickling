@@ -1241,7 +1241,7 @@ body.onhome .hero .hnm .gearb:active{transform:scale(.92)!important}
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 398">Kickling · v398</div>
+  <div class="verl" aria-label="Kickling versión 399">Kickling · v399</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2572,7 +2572,7 @@ const SFX=(()=>{
   document.getElementById('sfxbtn').addEventListener('click',()=>API.set(!on));paint();
   return API;})();
 const MUS=(()=>{
-  const KEY='cantera-music',BPM=124,STEP=60/BPM/2;
+  let STEP=60/124/2,mode='menu';const KEY='cantera-music';
   let on=true,ctx=null,master=null,timer=0,next=0,step=0,started=false;
   try{if(localStorage.getItem(KEY)==='0')on=false;}catch(e){}
   const M=[[76,79,76,72,74,76,79,0],[76,72,69,72,76,81,79,76],[77,81,77,72,74,77,81,0],[79,74,71,74,79,83,81,79],
@@ -2589,7 +2589,16 @@ const MUS=(()=>{
     g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(0.0001,t+d);s.connect(f);f.connect(g);g.connect(master);s.start(t);s.stop(t+d+.02);}
   function kick(t){const o=ctx.createOscillator(),g=ctx.createGain();o.type='sine';o.frequency.setValueAtTime(140,t);o.frequency.exponentialRampToValueAtTime(45,t+.12);
     g.gain.setValueAtTime(.9,t);g.gain.exponentialRampToValueAtTime(0.0001,t+.18);o.connect(g);g.connect(master);o.start(t);o.stop(t+.2);}
-  function play(t,st){const bar=Math.floor(st/8)%8,k=st%8;
+  const M2=[[81,0,76,81,0,84,81,0],[77,0,72,77,0,81,77,0],[79,0,72,76,0,79,76,0],[79,0,74,79,0,83,79,0],[81,0,76,81,0,84,88,84],[77,0,72,77,0,81,84,81],[79,0,74,79,83,0,79,74],[80,0,76,80,0,83,80,76]];
+  const BASS2=[45,41,48,43,45,41,43,40],ARP2=[[57,60,64],[53,57,60],[60,64,67],[55,59,62],[57,60,64],[53,57,60],[55,59,62],[52,56,59]];
+  function playM(t,st){const bar=Math.floor(st/8)%8,k=st%8,mel=M2[bar][k];
+    if(mel)tone(t,mel,STEP*.85,'sawtooth',.035);
+    tone(t,BASS2[bar]+(k%2?12:0),STEP*.75,'sawtooth',k%2?.06:.12);
+    if(k%2===1)tone(t,ARP2[bar][((k-1)/2)%3]+12,STEP*.6,'square',.016);
+    if(k%2===0)kick(t);if(k===2||k===6){noise(t,.12,.26,1500);}noise(t,.025,.06,8000);}
+  function setMode(m){if(m===mode)return;mode=m;STEP=60/(m==='match'?140:124)/2;step=0;if(ctx)next=ctx.currentTime+.08;document.body.dataset.music=m;}
+  setInterval(()=>{const v=document.getElementById('mview');setMode(v&&!v.hidden?'match':'menu');},300);
+  function play(t,st){if(mode==='match')return playM(t,st);const bar=Math.floor(st/8)%8,k=st%8;
     const mel=M[bar][k];if(mel)tone(t,mel,STEP*.9,'square',.05);
     if(k%4===0)tone(t,BASS[bar],STEP*1.8,'triangle',.22);else if(k%2===0)tone(t,BASS[bar]+12,STEP*.8,'triangle',.12);
     if(k%2===1)tone(t,ARP[bar][((k-1)/2)%3],STEP*.8,'square',.018);
