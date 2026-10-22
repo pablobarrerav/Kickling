@@ -1198,7 +1198,7 @@ nav.bot [aria-selected=true] svg{filter:drop-shadow(0 0 1px #fff) drop-shadow(0 
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 371">Kickling · v371</div>
+  <div class="verl" aria-label="Kickling versión 372">Kickling · v372</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1925,6 +1925,21 @@ if(AQ){$('#accreate').addEventListener('click',()=>acGo('new'));$('#aclogin').ad
   $('#aclogout').addEventListener('click',async()=>{await acPush(true);AQ.logout();toast('Sesión cerrada.');setTimeout(()=>location.reload(),400);});
   document.addEventListener('click',e=>{if(e.target.closest('[data-set]'))acInfo();},true);acInfo();}
 
+/* ---------- filtro de lenguaje ofensivo (chat) ---------- */
+const BAD=(function(){
+  const cz=w=>w.replace(/(.)\1+/g,'$1');
+  const norm=w=>cz(String(w).toLowerCase().replace(/ñ/g,'ny').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[0@]/g,m=>m==='0'?'o':'a').replace(/1/g,'i').replace(/3/g,'e').replace(/4/g,'a').replace(/5|\$/g,'s').replace(/7/g,'t').replace(/[^a-z]/g,''));
+  const stems=['puta','puto','putita','mierda','joder','jodete','jodido','conyo','gilipollas','gilipolla','cabron','cabrona','capullo','imbecil','idiota','estupido','estupida','subnormal','retrasado','retrasada','mongolo','mongola','zorra','maricon','marica','bollera','polla','verga','culo','cojones','cojon','hdp','hijoputa','ctm','ptm','mamon','mamona','pendejo','pendeja','pelotudo','boludo','chingar','chingada','chingado','negrata','sudaca','cerdo','cerda','asqueroso','asquerosa','basura','inutil','fuck','fucking','fucker','shit','bitch','asshole','dick','cunt','nigger','nigga','faggot','retard','whore','slut','bastard'].map(cz);
+  const re=new RegExp('^('+stems.join('|')+')(s|es|a|as|o|os|ito|ita|ones|on)?$');
+  const bad=w=>{const n=norm(w);return n.length>=3&&re.test(n);};
+  function mask(t){t=String(t);let out=t,hit=false;const toks=[];t.replace(/[\p{L}\p{N}@$]+/gu,(m,i)=>{toks.push([m,i]);return m;});
+    const cut=[];toks.forEach(k=>{if(bad(k[0]))cut.push([k[1],k[1]+k[0].length]);});
+    for(let i=0;i<toks.length;i++){if(toks[i][0].length!==1)continue;let j=i,w='';while(j<toks.length&&toks[j][0].length===1&&(j===i||/^[\s.\-_*,]{1,2}$/.test(t.slice(toks[j-1][1]+1,toks[j][1])))){w+=toks[j][0];j++;}
+      if(j-i>=3&&bad(w)){cut.push([toks[i][1],toks[j-1][1]+1]);}i=Math.max(i,j-1);}
+    cut.forEach(c=>{hit=true;out=out.slice(0,c[0])+'*'.repeat(c[1]-c[0])+out.slice(c[1]);});
+    return {text:out,hit:hit};}
+  return {mask:mask};})();
+const maskBad=t=>BAD.mask(t).text;
 /* ---------- equipo: liga compartida (db) ---------- */
 document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('[data-pp]')){e.preventDefault();e.target.dispatchEvent(new MouseEvent('click',{bubbles:true}));}});
 const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -2137,7 +2152,7 @@ async function chatPeek(){const t=myTeam();if(!DB||!t||tmChat)return;try{
   const u=m.uid!==UID&&(+m.ts||0)>seen;if(u!==chatUnread){chatUnread=u;dotPaint();}}catch(e){}}
 setInterval(()=>{if(!tmChat&&!document.hidden&&!$('#p-team').hidden)chatPeek();},7000);
 const chTime=ts=>{const p=mp(ts);return p.hour+':'+p.minute;};
-function chatHtml(){return chatMsgs.length?chatMsgs.map(m=>{if(m.sys)return '<div class="cm sys"><p>'+esc(m.text)+'</p></div>';const me=m.uid===UID;return '<div class="cm'+(me?' me':'')+'">'+(me?'':'<small>'+esc(m.name||'Jugador')+'</small>')+'<p>'+esc(m.text)+'</p><i>'+chTime(+m.ts||0)+'</i></div>';}).join(''):'<p class="note" style="text-align:center;margin:auto">Aún no hay mensajes. ¡Saluda al equipo!</p>';}
+function chatHtml(){return chatMsgs.length?chatMsgs.map(m=>{if(m.sys)return '<div class="cm sys"><p>'+esc(maskBad(m.text))+'</p></div>';const me=m.uid===UID;return '<div class="cm'+(me?' me':'')+'">'+(me?'':'<small>'+esc(maskBad(m.name||'Jugador'))+'</small>')+'<p>'+esc(maskBad(m.text))+'</p><i>'+chTime(+m.ts||0)+'</i></div>';}).join(''):'<p class="note" style="text-align:center;margin:auto">Aún no hay mensajes. ¡Saluda al equipo!</p>';}
 function chatPaint(){const el=document.getElementById('chmsgs');if(!el)return;const near=el.scrollHeight-el.scrollTop-el.clientHeight<60;el.innerHTML=chatHtml();if(near||!el.dataset.init){el.scrollTop=el.scrollHeight;el.dataset.init='1';}}
 async function chatLoad(){const t=myTeam();if(!DB||!t)return;try{
   const r=await DB.collection('chat').where('team','==',t.id).orderBy('ts','desc').limit(60).get();
@@ -2270,7 +2285,7 @@ async function numSet(id,raw){const t=myTeam();tmNumEdit=null;if(!t||!canKit(t))
 $('#p-team').addEventListener('keydown',e=>{if(e.target.id==='dnin'&&e.key==='Enter'){e.preventDefault();numSet(e.target.dataset.dnid,e.target.value.trim());}if(e.target.id==='dnin'&&e.key==='Escape'){tmNumEdit=null;teamRender();}});
 $('#p-team').addEventListener('focusout',e=>{if(e.target.id==='dnin'&&tmNumEdit){const i=e.target;setTimeout(()=>{if(tmNumEdit)numSet(i.dataset.dnid,i.value.trim());},0);}});
 async function joinMsg(tid){try{const ts=Date.now();await DB.doc('chat/m'+ts.toString(36)+Math.random().toString(36).slice(2,6)).set({team:tid,uid:UID,sys:1,name:String(S.name||'Jugador').slice(0,16),text:String(S.name||'Jugador').slice(0,16)+' se ha unido al equipo',ts:ts});}catch(e){}}
-$('#p-team').addEventListener('submit',async e=>{if(e.target.id!=='chform')return;e.preventDefault();const t=myTeam(),inp=document.getElementById('chtxt');if(!t||!DB||!CANW||!inp)return;const text=inp.value.replace(/\s+/g,' ').trim().slice(0,200);if(!text)return;
+$('#p-team').addEventListener('submit',async e=>{if(e.target.id!=='chform')return;e.preventDefault();const t=myTeam(),inp=document.getElementById('chtxt');if(!t||!DB||!CANW||!inp)return;let text=inp.value.replace(/\s+/g,' ').trim().slice(0,200);if(!text)return;{const br=BAD.mask(text);if(br.hit){text=br.text;toast('Mensaje con lenguaje ofensivo: se ha tapado. Mantén un chat respetuoso.');}}
   if(Date.now()-chatBusy<700)return;chatBusy=Date.now();inp.value='';const ts=Date.now(),m={team:t.id,uid:UID,name:String(S.name||'Jugador').slice(0,16),text:text,ts:ts};chatMsgs.push(m);chatSig=chatMsgs.length+':'+ts;chatPaint();inp.focus();
   try{await DB.doc('chat/m'+ts.toString(36)+Math.random().toString(36).slice(2,6)).set(m);}catch(er){toast('No se pudo enviar el mensaje.');chatMsgs=chatMsgs.filter(x=>x!==m);chatSig='';chatPaint();}});
 $('#p-team').addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.dataset&&e.target.dataset.st){e.preventDefault();stSel=e.target.dataset.st;teamRender();const n=document.querySelector('[data-st="'+stSel+'"]');if(n)n.focus();}});
