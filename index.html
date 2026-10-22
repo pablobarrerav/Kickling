@@ -1097,9 +1097,9 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
 @keyframes akick{0%,100%{transform:translateX(-4px) rotate(0)}35%{transform:translateX(-4px) rotate(0)}65%{transform:translateX(6px) rotate(220deg)}85%{transform:translateX(6px) rotate(360deg)}}
 @keyframes aweave{0%,100%{transform:translateX(-5px) rotate(-8deg)}50%{transform:translateX(5px) rotate(8deg)}}
 @keyframes apass{0%{transform:translateX(-6px);opacity:.4}50%{transform:translateX(4px);opacity:1}100%{transform:translateX(8px);opacity:0}}
-.clip{position:fixed;left:50%;bottom:15%;transform:translateX(-50%);width:min(88vw,340px);z-index:61;pointer-events:none;border-radius:16px;overflow:hidden;border:3px solid #fff;box-shadow:0 8px 22px rgba(10,30,70,.45);background:#4E9F25;opacity:0;visibility:hidden}
+.clip{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(92vw,380px);z-index:61;pointer-events:none;border-radius:16px;overflow:hidden;border:3px solid #fff;box-shadow:0 8px 22px rgba(10,30,70,.45);background:#4E9F25;opacity:0;visibility:hidden}
 .clip.on{opacity:1;visibility:visible;animation:clipin .28s cubic-bezier(.2,1.3,.4,1)}.clip.on.out{opacity:0;transition:opacity .3s}
-@keyframes clipin{from{transform:translateX(-50%) scale(.85);opacity:0}to{transform:translateX(-50%) scale(1);opacity:1}}
+@keyframes clipin{from{transform:translate(-50%,-50%) scale(.85);opacity:0}to{transform:translate(-50%,-50%) scale(1);opacity:1}}.clipbg{position:fixed;inset:0;z-index:60;pointer-events:none;background:rgba(8,18,40,.62);opacity:0;visibility:hidden;transition:opacity .25s}.clipbg.on{opacity:1;visibility:visible}
 .clipv{aspect-ratio:124/70;line-height:0}.clipv svg{display:block;width:100%;height:100%}
 .clipc{display:flex;justify-content:space-between;align-items:center;gap:8px;background:rgba(13,42,99,.94);color:#fff;font-family:var(--display);font-size:14px;padding:5px 10px}.clipc b{font-weight:400;color:#cfe0ff}.clipc b.gol{color:#FFE27A}.clipc b.parada,.clipc b.fuera,.clipc b.poste,.clipc b.perdida,.clipc b.cortado{color:#ffb4a8}
 </style>
@@ -1266,7 +1266,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 418">Kickling · v418</div>
+  <div class="verl" aria-label="Kickling versión 419">Kickling · v419</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1520,12 +1520,12 @@ function clipSvg(kind,out,col){
   o+=ppl(P.K,'#F5B800');o+=ppl(P.A,col.a);
   o+=dot(P.B,1.7,'#fff','stroke="#1d2b4d" stroke-width=".6"');
   return o+'</svg>';}
-function playClip(kind,out,op){if(calm())return;op=op||{};clearTimeout(clipT);clipUntil=Date.now()+clipD*1000+450;let el=document.getElementById('clip');if(!el){el=document.createElement('div');el.id='clip';el.className='clip';document.body.appendChild(el);}
+function playClip(kind,out,op){if(calm())return;op=op||{};clearTimeout(clipT);clipUntil=Date.now()+clipD*1000+450;let el=document.getElementById('clip'),bg=document.getElementById('clipbg');if(!bg){bg=document.createElement('div');bg.id='clipbg';bg.className='clipbg';document.body.appendChild(bg);}if(!el){el=document.createElement('div');el.id='clip';el.className='clip';document.body.appendChild(el);}bg.className='clipbg on';
   const K=kit(),col=op.mine?{a:K.c,d:'#E0443A'}:op.rival?{a:'#E0443A',d:K.c}:op.side==='a'?{a:'#E0443A',d:'#2F8CFF'}:{a:'#2F8CFF',d:'#E0443A'};
   let sv=clipSvg(kind,out,col);if(op.flip)sv=sv.replace(/(<svg[^>]*>)/,'$1<g transform="translate(124 0) scale(-1 1)">').replace('</svg>','</g></svg>');
   el.className='clip';void el.offsetWidth;el.className='clip on';
   el.innerHTML='<div class="clipv">'+sv+'</div><div class="clipc"><span>'+(CLIP_K[kind]||'')+'</span><b class="'+out+'">'+(CLIP_O[out]||'')+'</b></div>';
-  clipT=setTimeout(()=>{el.className='clip on out';clipT=setTimeout(()=>{el.className='clip';el.innerHTML='';},350);},clipD*1000+650);}
+  clipT=setTimeout(()=>{el.className='clip on out';bg.className='clipbg';clipT=setTimeout(()=>{el.className='clip';el.innerHTML='';},350);},clipD*1000+450);}
 const CLIP_KINDS=['disparo','disparo','disparo','cabezazo','cabezazo','regate','contra','contra','falta','penalti'];
 function clipKindFor(e){let h=0;const s=String(e.n||'')+e.t+(e.s||'');for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;return CLIP_KINDS[h%CLIP_KINDS.length];}
 function goalBanner(t,cls){if(calm())return;document.querySelectorAll('.gb').forEach(x=>x.remove());const e=document.createElement('div');e.className='gb'+(cls?' '+cls:'');e.textContent=t;
