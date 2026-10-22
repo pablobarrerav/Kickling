@@ -1,4 +1,4 @@
-<!doctype html><html lang="es"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#a9c8f6"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Kickling"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="manifest.json"><link rel="icon" type="image/png" href="icon-192.png"><link rel="apple-touch-icon" href="icon-180.png"><script src="config.js"></script><script src="backend.js"></script><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html lang="es"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#a9c8f6"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Kickling"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="manifest.json"><link rel="icon" type="image/png" href="icon-192.png"><link rel="apple-touch-icon" href="icon-180.png"><script src="config.js"></script><script src="backend.js"></script><script src="push.js"></script><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Kickling</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1255,7 +1255,7 @@ body.onhome #p-home .hero #avatar{width:100%!important;max-width:100%;height:100
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 407">Kickling · v407</div>
+  <div class="verl" aria-label="Kickling versión 408">Kickling · v408</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2666,8 +2666,15 @@ const NF={on:(()=>{try{return localStorage.getItem('kickling-notif')==='1'}catch
 function nfPaint(){const b=$('#notifbtn');if(!b)return;b.setAttribute('aria-checked',NF.on);b.lastElementChild.textContent=NF.on?'Sí':'No';}
 function nfire(tag,body){if(!NF.on)return;try{if(window.Notification&&Notification.permission==='granted'&&document.hidden)new Notification('Kickling',{body:body,tag:'kickling-'+tag,icon:undefined});}catch(e){}if(!document.hidden)toast(body);}
 $('#notifbtn').addEventListener('click',async()=>{if(NF.on){NF.on=false;}else{NF.on=true;try{localStorage.setItem('kickling-notif','1');}catch(e){}nfPaint();let g=false;try{if(window.Notification){g=Notification.permission==='granted'||(Notification.permission!=='denied'&&(await Notification.requestPermission())==='granted');}}catch(e){}
-    toast(g?'Avisos activados.':'Avisos activados dentro del juego (el navegador no permite avisos del sistema aquí).');}
-  try{localStorage.setItem('kickling-notif',NF.on?'1':'0');}catch(e){}nfPaint();});
+    toast(g?'Avisos activados.':'Avisos activados dentro del juego (el navegador no permite avisos del sistema aquí).');
+    const P=window.KickPush;if(P){if(P.needsInstall())toast('En iPhone, añade el juego a la pantalla de inicio para recibir avisos del equipo con la app cerrada.');else pushSync(true,true);}}
+  try{localStorage.setItem('kickling-notif',NF.on?'1':'0');}catch(e){}nfPaint();if(!NF.on)pushSync();});
+/* Push del chat del equipo (solo en la versión alojada, con window.KickPush) */
+async function pushSync(force,ask){const P=window.KickPush;if(!P||!DB||!UID||!P.ok())return;const t=myTeam();let had='';try{had=localStorage.getItem('kickling-pushteam')||'';}catch(e){}
+  try{if(!NF.on||!t){if(had){await DB.doc('push/'+UID).delete();try{localStorage.removeItem('kickling-pushteam');}catch(e){}if(!NF.on)P.unsub();}return;}
+    if(had===t.id&&!force)return;const sub=await P.sub(!!ask);if(!sub)return;
+    await DB.doc('push/'+UID).set({uid:UID,team:t.id,sub:sub,ts:Date.now()});try{localStorage.setItem('kickling-pushteam',t.id);}catch(e){}}catch(e){}}
+setInterval(()=>pushSync(),30000);setTimeout(()=>pushSync(),6000);
 nfPaint();
 let nfFull=S.energy>=EMAX(),nfTim=(S.timed&&tLeft()===0)?S.timed.t:null,nfLM;
 setInterval(()=>{try{
