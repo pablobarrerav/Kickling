@@ -1075,6 +1075,14 @@ body.onhome .hero .hnm .gearb:active{transform:scale(.92)!important}
 .pfc{max-height:86dvh;overflow:auto;-webkit-overflow-scrolling:touch}.pfc .label{display:block;margin-bottom:6px}
 .pfs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0}.pfs div{background:rgba(255,255,255,.7);border-radius:10px;padding:6px 2px;text-align:center}.pfs small{display:block;font-size:10.5px;color:#51608a;letter-spacing:.04em}.pfs b{font-family:var(--display);font-size:17px;color:#1d2b4d}
 .pfi{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;text-align:left;font-size:14px;margin:6px 0}.pfi span{color:#51608a}.pfi b{color:#1d2b4d}
+.dqb{margin:0 0 12px;padding:0 0 10px;border-bottom:2px dashed rgba(80,100,150,.3)}
+.dsk{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;padding:7px 9px;margin:0 0 6px;border-radius:12px;background:linear-gradient(180deg,#fff3d6,#ffe1a8);border:2px solid #f5b800}
+.dsk b{font-size:15px;color:#a64b00}.dsk small{flex-basis:100%;color:#7a5a20;font-size:11px}
+.dd{display:inline-flex;gap:4px}.dd i{width:14px;height:14px;border-radius:50%;background:rgba(0,0,0,.12);border:2px solid #d9a441}.dd i.on{background:#ff8a1f;border-color:#c25a00}.dd i.bg{border-radius:4px}
+.dg{display:flex;gap:8px;align-items:center;width:100%;text-align:left;padding:7px 9px;margin:0 0 6px;border-radius:12px;background:rgba(255,255,255,.8);border:2px solid transparent;font:inherit;color:inherit}
+.dg>i{font-style:normal;font-size:20px;flex:none}.dg>span{flex:1;min-width:0}.dg>span b{display:block;font-size:14px}.dg>span small{font-size:11px;opacity:.75}.dg>em{font-style:normal;font-size:11px;font-weight:700;white-space:nowrap;color:#26427a;display:flex;align-items:center;gap:3px}
+.dg.can{border-color:#f5b800;background:#fff8dc;cursor:pointer;animation:achp 1.4s ease-in-out infinite}.dg.got{opacity:.6}
+.dnt{margin:4px 0 0!important;font-size:12px;text-align:center}
 .achh{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 8px}.achh .label{margin:0!important}
 .ag{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .at{display:flex;gap:7px;align-items:center;text-align:left;padding:6px 7px;border-radius:11px;background:rgba(255,255,255,.75);border:2px solid transparent;font:inherit;color:inherit;min-width:0}
@@ -1266,7 +1274,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 424">Kickling · v424</div>
+  <div class="verl" aria-label="Kickling versión 425">Kickling · v425</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1408,7 +1416,7 @@ const ACTS={chutar:{n:'Chutar',d:'Riesgo alto. Gol directo.'},regatear:{n:'Regat
 const POSK=['por','def','med','del'],POSN={por:'Portero',def:'Defensa',med:'Mediocampista',del:'Delantero'};
 const DEF=()=>({pid:Math.random().toString(36).slice(2,10).padEnd(8,'0'),name:'Tu jugador',rev:0,boff:-16,lvl:1,xp:0,coins:30,boost:{},energy:100,t:Date.now(),
   trained:{ritmo:0,regate:0,disparo:0,pase:0},owned:['c0','p0','s0','z0'],eq:{c:'c0',p:'p0',s:'s0',z:'z0'},
-  career:{pj:0,g:0,a:0,w:0,d:0,l:0,iv:0},tc:{v:2,pj:0,ga:0,cs:0,g:0,a:0,w:0,d:0,l:0,iv:0,upto:0},claim:'',timed:null,kit:null,cr:null,num:null,mailSeen:0,ach:[],pos:[],
+  career:{pj:0,g:0,a:0,w:0,d:0,l:0,iv:0},tc:{v:2,pj:0,ga:0,cs:0,g:0,a:0,w:0,d:0,l:0,iv:0,upto:0},claim:'',timed:null,kit:null,cr:null,num:null,mailSeen:0,ach:[],dq:null,sk:{n:0,d:''},pos:[],
   look:{skin:'#E8B88F',hairS:'corto',hairC:'#4A2F1B',face:'redonda',eyes:'normal',eyeC:'#5B3A1E',mouth:'sonriente',beard:'ninguno',build:'atletico',num:10}});
 function clean(o){const d=DEF();o=(o&&typeof o==='object')?o:{};if(o.lvl)d.pid=/^[a-z0-9]{6,12}$/.test(o.pid)?o.pid:'';
   for(const k of Object.keys(d)){if(k in o)d[k]=o[k];}
@@ -1423,6 +1431,10 @@ function clean(o){const d=DEF();o=(o&&typeof o==='object')?o:{};if(o.lvl)d.pid=/
   d.num=(Number.isInteger(o.num)&&o.num>=1&&o.num<=99)?o.num:null;
   d.mailSeen=Math.round(num(o.mailSeen,0,8.64e15,0));
   d.ach=Array.isArray(o.ach)?[...new Set(o.ach.filter(x=>typeof x==='string'&&/^[a-z0-9]{2,12}$/.test(x)))].slice(0,40):[];
+  {const D8=/^\d{4}-\d\d-\d\d$/,ids=['pj','g','w','a','tr'],q=o.dq,nn=v=>Math.round(num(v,0,1e6,0));d.dq=null;
+    if(q&&typeof q==='object'&&D8.test(String(q.d))&&Array.isArray(q.goals)){const b=q.b||{};
+      d.dq={d:q.d,b:{pj:nn(b.pj),g:nn(b.g),a:nn(b.a),w:nn(b.w)},tr:nn(q.tr),goals:q.goals.filter(x=>Array.isArray(x)&&ids.includes(x[0])&&Number.isInteger(x[1])&&x[1]>=1&&x[1]<=9).slice(0,3).map(x=>[x[0],x[1]]),got:Array.isArray(q.got)?q.got.filter(x=>ids.includes(x)).slice(0,3):[]};}
+    const k=o.sk;d.sk=(k&&typeof k==='object'&&D8.test(String(k.d)))?{n:nn(k.n),d:k.d}:{n:0,d:''};}
   d.claim=/^\d{4}-\d\d-\d\d(-\d\d)?$/.test(String(o.claim))?String(o.claim):'';
   d.rev=Math.round(num(d.rev,0,1e9,0));d.lvl=Math.round(num(d.lvl,1,MAXLVL,1));d.xp=num(d.xp,0,1e7,0);
   d.coins=Math.round(num(d.coins,0,1e9,0));d.energy=num(d.energy,0,1000,100);d.t=num(d.t,0,8.64e15,Date.now());
@@ -1852,7 +1864,7 @@ function startDrill(k){if(!S.pos.length){toast('Elige tu posición para poder en
   ({ritmo:mgRitmo,regate:mgRegate,disparo:mgDisparo,pase:mgPase})[k]();}
 function endDrill(m,msg){if(!D||D.done)return;D.done=true;mgClear();
   const xp=Math.round((12+S.lvl*.8)*m*xpMult()),co=m>=1.5?1:m>=1&&Math.random()<.5?1:0;let extra='';S.coins+=co;
-  if(m>=1){if(S.trained[D.k]<capT()-.05){S.trained[D.k]=Math.round(Math.min(capT(),S.trained[D.k]+2/3)*100)/100;extra=' · +'+fmtD(2/3*TRF)+' '+statName(D.k)}else extra=' · Tope de nivel'}
+  if(m>=1){dqEnsure();S.dq.tr++;if(S.trained[D.k]<capT()-.05){S.trained[D.k]=Math.round(Math.min(capT(),S.trained[D.k]+2/3)*100)/100;extra=' · +'+fmtD(2/3*TRF)+' '+statName(D.k)}else extra=' · Tope de nivel'}
   addXP(xp);save();const rc=$('#mg').getBoundingClientRect();floatTxt('+'+xp+' XP',rc.left+rc.width/2,rc.top+rc.height*.5);if(m>=1.5)confetti(26);
   $('#say').textContent=msg+' · +'+xp+' XP'+(co?' · +'+co+(co===1?' moneda':' monedas'):'')+extra;$('#again').hidden=false;$('#back').hidden=false;
   $('#again').disabled=S.energy<DRILL_COST;popEl('#say');head();home();drills();energy();}
@@ -1986,7 +1998,7 @@ function act(t){if(!M||!M.wait)return;const s=stats(),rv=M.rv,m=M.min,g0=M.me;SF
     else{playClip('asistencia','cortado',{mine:true});logAdd(m,'Pase interceptado.');}}
   {const sc=M.me>g0;setTimeout(()=>sc?SFX.goal():SFX.miss(),260+hold());}
   M.idx++;M.wait=false;$('#acts').hidden=true;paintMatch();}
-function finish(){clearInterval(M.timer);M.over=true;SFX.whistle(3);logAdd(90,'Final del partido: '+M.me+' – '+M.rt+'.');paintMatch();
+function finish(){dqEnsure();clearInterval(M.timer);M.over=true;SFX.whistle(3);logAdd(90,'Final del partido: '+M.me+' – '+M.rt+'.');paintMatch();
   const win=M.me>M.rt,draw=M.me===M.rt,k=M.k,xm=xpMult();
   let xp=Math.round((k.xp*(win?1.3:draw?.65:.3)+(win||draw?1:.5)*(15*M.g+10*M.a))*xm);
   let co=!win?0:Math.round(k.coins*1.5+6*M.g),tnote='';
@@ -2206,6 +2218,25 @@ async function syncMe(){if(!DB||!CANW||!TM.me)return;const o=ovr();
   const ps=S.pos.join(',');if(TM.me.name!==S.name||+TM.me.ovr!==o||(TM.me.pos||'')!==ps){try{await DB.doc('members/'+UID).update({name:S.name,ovr:o,pos:ps,upd:Date.now()});TM.me.name=S.name;TM.me.ovr=o;TM.me.pos=ps;}catch(e){}}}
 let numDrawn=0,numTry=-1;setInterval(()=>{try{const v=curNum();if(v!==numDrawn&&v!==numTry){numTry=v;if(v&&v!==S.num){S.num=v;save(true);}home();}}catch(e){}},1500);
 
+/* ===== Objetivos diarios y racha ===== */
+const dqDate=off=>{const d=new Date();d.setDate(d.getDate()+(off||0));return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
+const DQP={pj:['Juega {n} partidos','Juega 1 partido',[2,3]],g:['Marca {n} goles','Marca 1 gol',[2]],w:['Gana {n} partidos','Gana 1 partido',[1]],a:['Da {n} asistencias','Da 1 asistencia',[1]],tr:['Haz {n} entrenamientos','Haz 1 entrenamiento',[2,3]]};
+const dqText=g=>{const P=DQP[g[0]];return g[1]===1?P[1]:P[0].replace('{n}',g[1]);};
+function dqEnsure(){const t=dqDate();if(S.dq&&S.dq.d===t&&S.dq.goals.length)return S.dq;
+  let h=0;for(const ch of t)h=(h*31+ch.charCodeAt(0))>>>0;const rn=()=>{h=(h*1664525+1013904223)>>>0;return h/4294967296;};
+  const others=['g','w','a','tr'];const pick=[];while(pick.length<2){const i=Math.floor(rn()*others.length);pick.push(others.splice(i,1)[0]);}
+  const ids=['pj'].concat(pick),c=S.career;
+  S.dq={d:t,b:{pj:c.pj,g:c.g,a:c.a,w:c.w},tr:0,goals:ids.map(id=>{const o=DQP[id][2];return [id,o[Math.floor(rn()*o.length)]];}),got:[]};return S.dq;}
+const dqProg=g=>{const q=dqEnsure(),k=g[0];return Math.min(g[1],k==='tr'?q.tr:Math.max(0,S.career[k]-q.b[k]));};
+const dqReady=()=>{try{const q=dqEnsure();return q.goals.filter(g=>dqProg(g)>=g[1]&&!q.got.includes(g[0])).length;}catch(e){return 0;}};
+const dqStreak=()=>{const k=S.sk||{n:0,d:''};return(k.d===dqDate()||k.d===dqDate(-1))?k.n:0;};
+const dqReward=g=>({c:20+Math.min(30,S.lvl),x:15+S.lvl});
+function dqClaim(ids){const q=dqEnsure();let c=0,x=0,n=0;
+  ids.forEach(id=>{const g=q.goals.find(z=>z[0]===id);if(!g||q.got.includes(id)||dqProg(g)<g[1])return;
+    if(!q.got.length){const k=S.sk||{n:0,d:''};S.sk={n:k.d===dqDate(-1)?k.n+1:k.d===dqDate()?k.n:1,d:dqDate()};const sn=S.sk.n;c+=5*Math.min(sn,10)+(sn%7===0?100:0);}
+    q.got.push(id);n++;const r=dqReward(g);c+=r.c;x+=r.x;});
+  if(!n)return;if(q.got.length>=q.goals.length&&n){c+=40;x+=30;}
+  S.coins+=c;addXP(x);save();render();toast('+'+c+' monedas y +'+x+' XP'+(q.got.length>=q.goals.length?' · ¡Objetivos completados!':''));pProfile();}
 /* ===== Menú del jugador, perfil, logros y buzón ===== */
 const ACH=[
  ['debut','Debutante','Juega un partido',20,10,()=>S.career.pj>=1,()=>S.career.pj,1],
@@ -2225,12 +2256,19 @@ const achOk=a=>{try{return !!a[5]();}catch(e){return false;}};
 const achClaimable=()=>ACH.filter(a=>achOk(a)&&!(S.ach||[]).includes(a[0]));
 function mailList(){const t=myTeam();return t&&Array.isArray(t.mail)?t.mail.filter(m=>m&&typeof m.text==='string'&&Number.isFinite(m.ts)).sort((a,b)=>b.ts-a.ts).slice(0,20):[];}
 function mailUnread(){return mailList().filter(m=>m.ts>(S.mailSeen||0)&&m.uid!==UID).length;}
-function mailBadge(){try{const n=mailUnread(),c=achClaimable().length,h=$('#hface');if(h)h.classList.toggle('unread',n>0||c>0);const b=$('#mbadge');if(b){b.hidden=!n;b.textContent=n;}const q=$('#pbadge');if(q){q.hidden=!c;q.textContent=c;}}catch(e){}}
+function mailBadge(){try{const n=mailUnread(),c=achClaimable().length+dqReady(),h=$('#hface');if(h)h.classList.toggle('unread',n>0||c>0);const b=$('#mbadge');if(b){b.hidden=!n;b.textContent=n;}const q=$('#pbadge');if(q){q.hidden=!c;q.textContent=c;}}catch(e){}}
 setInterval(mailBadge,2000);
 const pOpen=id=>{['pmenu','pprof','pmail','pcomp'].forEach(x=>{if(x!==id)$('#'+x).hidden=true;});$('#'+id).hidden=false;};
 function pMenu(){const t=myTeam();$('#pmh').innerHTML='<span class="pav">'+avatar(true)+'</span><div><b>'+esc(S.name)+'</b><small>Nivel '+S.lvl+(t?' · '+esc(t.name):'')+'</small></div>';mailBadge();pOpen('pmenu');}
+function dqHtml(){const q=dqEnsure(),sn=dqStreak(),rd=dqReady(),all=q.got.length>=q.goals.length;
+  let dots='';for(let i=1;i<=7;i++){const m=sn%7===0&&sn>0?7:sn%7;dots+='<i class="'+(i<=m?'on':'')+(i===7?' bg':'')+'"></i>';}
+  return '<div class="dqb"><div class="achh"><div class="label">Objetivos de hoy · '+q.got.length+'/'+q.goals.length+'</div>'+(rd>1?'<button class="btn gold sm" data-dqall="1" type="button">Recoger todo</button>':'')+'</div>'
+  +'<div class="dsk"><b>🔥 Racha: '+sn+(sn===1?' día':' días')+'</b><span class="dd">'+dots+'</span><small>'+(q.got.length?'Racha de hoy asegurada':'Cumple uno hoy para mantenerla')+' · el día 7 hay premio extra</small></div>'
+  +q.goals.map(g=>{const p=dqProg(g),ok=p>=g[1],got=q.got.includes(g[0]),r=dqReward(g),pc=Math.round(100*p/g[1]);
+    return '<'+(ok&&!got?'button type="button" data-dq="'+g[0]+'"':'div')+' class="dg'+(got?' got':ok?' can':'')+'"><i>'+(got?'✓':ok?'🎁':'🎯')+'</i><span><b>'+dqText(g)+'</b><u class="pgb"><u style="width:'+pc+'%"></u></u><small>'+(got?'Recogido':p+'/'+g[1])+'</small></span><em>'+ico('coin',12)+r.c+' · '+r.x+' XP</em></'+(ok&&!got?'button':'div')+'>';}).join('')
+  +'<p class="note dnt">'+(all?'¡Todo hecho! Vuelve mañana por nuevos objetivos.':'Completa los 3 para un bonus de 40 monedas y 30 XP.')+'</p></div>';}
 function pProfile(){const done=ACH.filter(achOk).length,cl=achClaimable();
-  $('#pfbody').innerHTML='<div class="achh"><div class="label">Logros · '+done+'/'+ACH.length+'</div>'+(cl.length>1?'<button class="btn gold sm" data-achall="1" type="button">Recoger todo</button>':'')+'</div><div class="ag">'+ACH.map(a=>{const ok=achOk(a),got=(S.ach||[]).includes(a[0]),can=ok&&!got;
+  $('#pfbody').innerHTML=dqHtml()+'<div class="achh"><div class="label">Logros · '+done+'/'+ACH.length+'</div>'+(cl.length>1?'<button class="btn gold sm" data-achall="1" type="button">Recoger todo</button>':'')+'</div><div class="ag">'+ACH.map(a=>{const ok=achOk(a),got=(S.ach||[]).includes(a[0]),can=ok&&!got;
     const cur=Math.min(+a[6]()||0,a[7]),pc=Math.round(100*cur/a[7]);
     return '<'+(can?'button type="button" data-ach="'+a[0]+'"':'div')+' class="at'+(got?' got':can?' can':' lk')+'" title="'+a[2]+'"><i>'+(got?'✓':can?'🎁':'🔒')+'</i><span><b>'+a[1]+'</b><small>'+(got||can?a[2]:cur+'/'+a[7]+' · faltan '+(a[7]-cur))+'</small>'+(got||can?'':'<u class="pgb"><u style="width:'+pc+'%"></u></u>')+'<em>'+(got?'Recogido':ico('coin',12)+a[3]+' · '+a[4]+' XP')+'</em></span></'+(can?'button':'div')+'>';}).join('')+'</div>';
   pOpen('pprof');mailBadge();}
@@ -2252,7 +2290,7 @@ document.addEventListener('click',e=>{const T=e.target;
   if(T.closest&&T.closest('#hface')){pMenu();return;}
   const c=T.closest&&T.closest('[data-close]');if(c){const id=c.dataset.close;if(id)$('#'+id).hidden=true;}
   if(T.classList&&T.classList.contains('ovl')&&['pmenu','pprof','pmail','pcomp'].includes(T.id)){T.hidden=true;return;}
-  if(T.closest('[data-pro]'))pProfile();else if(T.closest('[data-mail]'))pMail();else if(T.closest('[data-sendmail]'))pComp();else if(T.closest('#cpsend'))pSend();else if(T.closest('[data-achall]'))achClaim(achClaimable().map(a=>a[0]));else{const b=T.closest('[data-ach]');if(b)achClaim([b.dataset.ach]);}});
+  if(T.closest('[data-pro]'))pProfile();else if(T.closest('[data-mail]'))pMail();else if(T.closest('[data-sendmail]'))pComp();else if(T.closest('#cpsend'))pSend();else if(T.closest('[data-dqall]')){const q=dqEnsure();dqClaim(q.goals.map(g=>g[0]));}else if(T.closest('[data-dq]'))dqClaim([T.closest('[data-dq]').dataset.dq]);else if(T.closest('[data-achall]'))achClaim(achClaimable().map(a=>a[0]));else{const b=T.closest('[data-ach]');if(b)achClaim([b.dataset.ach]);}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')['pmenu','pprof','pmail','pcomp'].forEach(x=>{$('#'+x).hidden=true;});if((e.key==='Enter'||e.key===' ')&&document.activeElement&&document.activeElement.id==='hface'){e.preventDefault();pMenu();}});
 $('#cptxt').addEventListener('input',()=>{$('#cpcnt').textContent=$('#cptxt').value.length+'/200';});
 function curNum(){try{const t=myTeam(),v=t&&t.nums?t.nums[UID]:null;if(Number.isInteger(v)&&v>=1&&v<=99)return v;}catch(e){}return S.num||0;}
@@ -2755,7 +2793,7 @@ function timedTick(){if(!S.timed)return;const l=tLeft(),rd=!!document.querySelec
 $('#timed').addEventListener('click',e=>{const b=e.target.closest('.opt');if(!b)return;
   if(b.dataset.tstart){if(!S.pos.length){toast('Elige tu posición para poder entrenar.');return;}if(S.timed){toast('Ya tienes un entrenamiento en marcha.');return;}const k=b.dataset.tstart,min=durMin(k);
     S.timed={k:k,t:Date.now(),d:min*60000};save();timedView();toast(PD(k).t+': vuelve en '+fdur(min));return;}
-  if(b.dataset.tclaim){const k=b.dataset.tclaim;if(!S.timed||S.timed.k!==k||tLeft()!==0)return;const pay=timedPay(k,Math.round(S.timed.d/6e4));S.timed=null;
+  if(b.dataset.tclaim){const k=b.dataset.tclaim;if(!S.timed||S.timed.k!==k||tLeft()!==0)return;const pay=timedPay(k,Math.round(S.timed.d/6e4));S.timed=null;dqEnsure();S.dq.tr++;
     S.trained[k]+=pay.pts;S.coins+=pay.coins;addXP(pay.xp);save();const rc=b.getBoundingClientRect();floatTxt('+'+pay.xp+' XP',rc.left+rc.width/2,rc.top+10);confetti(24);
     toast('+'+pay.xp+' XP · +'+pay.coins+' monedas'+(pay.pts?' · +'+fmtD(pay.pts*TRF)+' '+statName(k):''));head();home();drills();timedView();energy();}});
 setInterval(()=>{if(!$('#p-train').hidden)timedTick();else paintDot();},1000);
