@@ -1266,7 +1266,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 417">Kickling · v417</div>
+  <div class="verl" aria-label="Kickling versión 418">Kickling · v418</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1748,10 +1748,11 @@ function standMarkup(L,K){
   const th=(yb-top-2.6)/tiers;
   for(let t=0;t<tiers;t++){const ty=top+1.2+t*th,rows=Math.max(2,Math.round(th/3.3)),rh=(th-1.6)/rows;
     o+='<rect x="'+f(x0+.6)+'" y="'+f(ty)+'" width="'+f(w-1.2)+'" height="'+f(th-1.4)+'" fill="'+(L<3?'#b8a27a':K.d)+'" opacity="'+(L<3?.85:.55)+'"/>';
-    for(let r=0;r<rows;r++){const ry=ty+r*rh,sp=3.3,n=Math.floor((w-2)/sp);
-      for(let k=0;k<n;k++){const cx=x0+1.4+k*sp;if(rnd()>Math.min(.97,.3+.07*L))continue;
-        const sh=SH[(rnd()*SH.length)|0];
-        o+='<rect x="'+f(cx-1.4)+'" y="'+f(ry+rh*.5)+'" width="2.8" height="'+f(rh*.55)+'" rx=".5" fill="'+sh+'"/><ellipse cx="'+f(cx)+'" cy="'+f(ry+rh*.38)+'" rx="'+f(1.05*EX)+'" ry="1.05" fill="'+SKIN[(rnd()*SKIN.length)|0]+'"/>';}}
+    for(let r=0;r<rows;r++){const ry=ty+r*rh;
+      o+='<rect x="'+f(x0+.6)+'" y="'+f(ry)+'" width="'+f(w-1.2)+'" height="'+f(rh-.45)+'" fill="'+(L<3?(r%2?'#c9a877':'#a98a5e'):(r%2?K.c:K.d))+'" opacity="'+(L<3?1:.92)+'"/>';
+      o+='<rect x="'+f(x0+.6)+'" y="'+f(ry+rh-.7)+'" width="'+f(w-1.2)+'" height=".35" fill="#0b1840" opacity=".35"/>';
+      const n=Math.floor(w/3.6);for(let k=0;k<n;k++){if(rnd()>.12+.025*L)continue;o+='<ellipse cx="'+f(x0+2+k*3.6)+'" cy="'+f(ry+rh*.45)+'" rx="'+f(.7*EX)+'" ry=".7" fill="'+(rnd()<.5?'#fff':'#FFD166')+'" opacity=".95"/>';}}
+    {const nb=Math.max(2,Math.round(w/14));for(let b=1;b<nb;b++)o+='<rect x="'+f(x0+b*w/nb-.35)+'" y="'+f(ty)+'" width=".7" height="'+f(th-1.4)+'" fill="#10244a" opacity=".45"/>';}
     o+='<rect x="'+f(x0+.6)+'" y="'+f(ty+th-1.4)+'" width="'+f(w-1.2)+'" height="1.4" fill="#e8eefb" opacity=".75"/>';}
   /* vallas con los colores del equipo */
   o+='<rect x="'+f(x0)+'" y="'+f(yb-2.6)+'" width="'+f(w)+'" height="2.6" fill="'+(L>=10?'#F5B800':K.c)+'" stroke="'+OL+'" stroke-width="1.4" vector-effect="non-scaling-stroke"/>';
@@ -1770,18 +1771,20 @@ function stadiumBg(){const K=kit(),SL=stadiumLv(),key=K.c+'|'+K.d+'|'+SL;if(_sbg
   let o='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 180" preserveAspectRatio="none"><defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3FA3FF"/><stop offset=".55" stop-color="#9ED8FF"/><stop offset="1" stop-color="#E4F6FF"/></linearGradient><radialGradient id="g" cx=".82" cy=".1" r=".5"><stop offset="0" stop-color="#FFF6C8" stop-opacity=".95"/><stop offset=".35" stop-color="#FFF1A8" stop-opacity=".35"/><stop offset="1" stop-color="#FFF1A8" stop-opacity="0"/></radialGradient><linearGradient id="st" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2B3B73"/><stop offset="1" stop-color="#1B2650"/></linearGradient><linearGradient id="gr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6ACB36"/><stop offset="1" stop-color="#3F9A22"/></linearGradient><linearGradient id="v" x1="0" y1="0" x2="0" y2="1"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".22"/></linearGradient><linearGradient id="lc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF" stop-opacity=".55"/><stop offset="1" stop-color="#FFF" stop-opacity="0"/></linearGradient></defs><rect width="100" height="180" fill="url(#s)"/><rect width="100" height="180" fill="url(#g)"/>';
   [[22,22,7],[30,20,9],[40,23,6],[62,38,6],[70,36,8]].forEach(a=>{o+='<ellipse cx="'+a[0]+'" cy="'+a[1]+'" rx="'+a[2]*1.5+'" ry="'+a[2]*.6+'" fill="#fff" opacity=".7"/>';});
   o=o.replace('</defs>','<linearGradient id="std" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2d3c78"/><stop offset="1" stop-color="#18224c"/></linearGradient><radialGradient id="lg" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFF7C2" stop-opacity=".95"/><stop offset=".45" stop-color="#FFF1A8" stop-opacity=".4"/><stop offset="1" stop-color="#FFF1A8" stop-opacity="0"/></radialGradient><linearGradient id="pl" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8896C4"/><stop offset=".5" stop-color="#5B6A9A"/><stop offset="1" stop-color="#3E4B7C"/></linearGradient><linearGradient id="bm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF9D6" stop-opacity=".75"/><stop offset=".6" stop-color="#FFF3B0" stop-opacity=".22"/><stop offset="1" stop-color="#FFF3B0" stop-opacity="0"/></linearGradient><linearGradient id="sh" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b1840" stop-opacity=".45"/><stop offset="1" stop-color="#0b1840" stop-opacity="0"/></linearGradient></defs>');
+  let LT='';
   [9,91].forEach(x=>{const d=x>50?-1:1;
-    o+='<path d="M'+(x-3)+' 56 L'+(x-3+d*20)+' 112 L'+(x+3+d*20)+' 112 L'+(x+3)+' 56Z" fill="url(#bm)" opacity=".55"/>';
-    o+='<rect x="'+(x-.8)+'" y="58" width="1.6" height="50" fill="#6b7aa8" stroke="#10244a" stroke-width="1.3" vector-effect="non-scaling-stroke"/><rect x="'+(x-2.6)+'" y="106.6" width="5.2" height="2.2" rx=".7" fill="#4a5788" stroke="#10244a" stroke-width="1.3" vector-effect="non-scaling-stroke"/>';
-    o+='<rect x="'+(x-5)+'" y="51.5" width="10" height="6.4" rx="2" fill="#3b4a86" stroke="#10244a" stroke-width="1.5" vector-effect="non-scaling-stroke"/>';
-    for(let c=0;c<3;c++){const lx=x-3.1+c*3.1;o+='<ellipse cx="'+lx+'" cy="54.7" rx="1.05" ry="1.6" fill="#FFF7B8" stroke="#E9B83A" stroke-width="1" vector-effect="non-scaling-stroke"/>';}
-    o+='<ellipse cx="'+x+'" cy="54.7" rx="7" ry="9" fill="url(#lg)" opacity=".8"/>';});
+    LT+='<ellipse cx="'+x+'" cy="70.7" rx="7" ry="9" fill="url(#lg)" opacity=".8"/>';
+    LT+='<path d="M'+(x-3)+' 72 L'+(x-3+d*22)+' 120 L'+(x+3+d*22)+' 120 L'+(x+3)+' 72Z" fill="url(#bm)" opacity=".5"/>';
+    LT+='<rect x="'+(x-.8)+'" y="74" width="1.6" height="56" fill="#6b7aa8" stroke="#10244a" stroke-width="1.3" vector-effect="non-scaling-stroke"/><rect x="'+(x-2.8)+'" y="128.6" width="5.6" height="2.4" rx=".7" fill="#4a5788" stroke="#10244a" stroke-width="1.3" vector-effect="non-scaling-stroke"/>';
+    LT+='<rect x="'+(x-5)+'" y="67.5" width="10" height="6.4" rx="2" fill="#3b4a86" stroke="#10244a" stroke-width="1.5" vector-effect="non-scaling-stroke"/>';
+    for(let c=0;c<3;c++){const lx=x-3.1+c*3.1;LT+='<ellipse cx="'+lx+'" cy="70.7" rx="1.05" ry="1.6" fill="#FFF7B8" stroke="#E9B83A" stroke-width="1" vector-effect="non-scaling-stroke"/>';}
+    });
   o+=standMarkup(SL,K);
   o+='<rect y="112" width="100" height="5.5" fill="#fff"/>';
   for(let i=0;i<W;i+=20)o+='<rect x="'+i+'" y="112" width="10" height="5.5" fill="'+K.c+'"/><rect x="'+(i+10)+'" y="112" width="10" height="5.5" fill="'+K.d+'"/>';
   o+='<rect y="117.3" width="100" height=".8" fill="#0d2a63" opacity=".4"/><rect y="118" width="100" height="62" fill="url(#gr)"/>';
   {let y=118,h=5,k=0;while(y<H){if(k%2===0)o+='<rect y="'+y.toFixed(1)+'" width="100" height="'+h.toFixed(1)+'" fill="#78D843" opacity=".35"/>';y+=h;h*=1.18;k++;}}
-  o+='<path d="M-10 168 Q50 150 110 168" fill="none" stroke="#fff" stroke-width="1.2" opacity=".55"/><rect width="100" height="180" fill="url(#v)"/></svg>';
+  o+='<path d="M-10 168 Q50 150 110 168" fill="none" stroke="#fff" stroke-width="1.2" opacity=".55"/>'+LT+'<rect width="100" height="180" fill="url(#v)"/></svg>';
   _sbg={k:key,v:'url("data:image/svg+xml,'+encodeURIComponent(o)+'") center/100% 100% no-repeat,#8FD6FF'};return _sbg.v;}
 
 function home(){const s=stats();{const g=document.querySelector('.hero .gearb.gh'),n=document.querySelector('.hero .hnm');if(g&&n&&g.parentNode!==n)n.appendChild(g);{const hp=document.querySelector('#hpos');if(hp&&n&&hp.parentNode!==n)n.insertBefore(hp,n.querySelector('.gearb.pe'));}}{const h=$('#hpos');h.hidden=!S.pos.length;h.textContent=S.pos.length?POSN[S.pos[0]]:'';}$('#hname').textContent=S.name;{const h=$('#hnum');h.hidden=!S.num;h.textContent=S.num?String(S.num):'';}$('#avatar').innerHTML=avatar().replace(/<circle cx="104" cy="150"[^>]*\/><path d="M104 143\.5[^>]*\/>/,'');$('#avatar').style.setProperty('background',stadiumBg(),'important');$('#ovr').textContent=ovr();
