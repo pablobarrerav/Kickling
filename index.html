@@ -511,7 +511,6 @@ nav.bot button[data-dot="1"]::after{content:"";position:absolute;top:1px;right:5
 .hnm i{font-style:normal;font-family:var(--display);font-size:24px;line-height:1;color:#FF8A1F;-webkit-text-stroke:4px #5a3b1c;paint-order:stroke fill;flex:none}
 .hudmid .r1{justify-content:flex-start;margin-bottom:1px}
 .hud{grid-template-columns:50px 1fr!important}
-body.onhome .top .hud{display:none}
 .top{padding-top:max(3px,env(safe-area-inset-top,0px))!important;padding-bottom:4px!important;border-bottom-width:3px}
 .top .wrap{gap:2px!important}
 .top .hud{grid-template-columns:40px 1fr 38px!important;gap:7px!important;margin-block:-3px!important}
@@ -1047,6 +1046,10 @@ nav.bot [aria-selected=true] svg{filter:drop-shadow(0 0 1px #fff) drop-shadow(0 
 .hero #avatar{justify-self:center!important;margin-left:auto!important;margin-right:auto!important}
 .hero .ovr{position:absolute!important;top:3px!important;right:72px!important;margin:0!important;padding:0!important;z-index:2;display:flex!important;flex-direction:column!important;align-items:center!important;line-height:1}
 .hero .ovr b,.hero #ovr{font-size:42px!important;line-height:1!important}
+body.onhome .hero>.lvbadge,body.onhome .hero .hbar,body.onhome .hero #hname{display:none!important}
+body.onhome main{padding-top:10px!important}
+body.onhome .hero .hnm{padding-right:0!important;min-height:36px;justify-content:flex-start}
+body.onhome .hero .ovr{top:6px!important;right:14px!important}
 .hero .ovr small{font-size:9px!important;letter-spacing:.2em!important;margin-top:1px!important}
 .hero .ovr::after{display:none!important}
 .cset{display:grid;gap:12px;padding:2px 2px 8px}.csr{display:grid;gap:6px}.csr>span{font-family:var(--display);font-size:12px;color:var(--wood);letter-spacing:.04em;text-transform:uppercase}
@@ -1199,7 +1202,7 @@ nav.bot [aria-selected=true] svg{filter:drop-shadow(0 0 1px #fff) drop-shadow(0 
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 374">Kickling · v374</div>
+  <div class="verl" aria-label="Kickling versión 375">Kickling · v375</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1598,7 +1601,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')$('#settings').hidde
 
 /* ---------- vistas ---------- */
 let lastC=S.coins,lastL=S.lvl;
-function head(){$('#pshow2').textContent=S.name;if(!document.body.classList.contains('onhome'))$('#hface').innerHTML=avatar(true);$('#lvl').textContent=S.lvl;$('#lvl2').textContent=S.lvl;$('#stage').textContent=stage(S.lvl);
+function head(){$('#pshow2').textContent=S.name;$('#hface').innerHTML=avatar(true);$('#lvl').textContent=S.lvl;$('#lvl2').textContent=S.lvl;$('#stage').textContent=stage(S.lvl);
   const n=need(S.lvl);$('#xpbar').style.width=(S.lvl>=MAXLVL?100:S.xp/n*100)+'%';
   $('#xpbar2').style.width=(S.lvl>=MAXLVL?100:S.xp/n*100)+'%';$('#xptxt').textContent=$('#xptxt2').textContent=S.lvl>=MAXLVL?'Máx.':fmt(S.xp)+' / '+fmt(n)+' XP';$('#coins').textContent=fmt(S.coins);
   if(S.coins!==lastC){popEl('#coins');lastC=S.coins;}if(S.lvl!==lastL){popEl('#lvl');lastL=S.lvl;}}
@@ -1678,7 +1681,7 @@ function shop(){const SL={bebidas:['Bebidas','bottle'],monedas:['Monedas (dinero
 function render(){timedView();posView();head();energy();home();look();paintSave();drills();comps();shop();energy();}
 
 /* ---------- pestañas ---------- */
-function tab(n){document.body.classList.toggle('fitl',n==='look');if(n==='home')kitSync();document.body.classList.toggle('onhome',n==='home');if(n!=='home')$('#hface').innerHTML=avatar(true);if(n!=='team'){document.body.classList.remove('stfull');document.body.classList.remove('fitv');document.body.classList.remove('tmmi');}if(n==='team'){const tb=$('#tmbody');tb.classList.add('enter');setTimeout(()=>tb.classList.remove('enter'),1100);setTimeout(teamOpen,0);}document.querySelectorAll('.panel').forEach(p=>p.hidden=p.id!=='p-'+n);
+function tab(n){document.body.classList.toggle('fitl',n==='look');if(n==='home')kitSync();document.body.classList.toggle('onhome',n==='home');$('#hface').innerHTML=avatar(true);if(n!=='team'){document.body.classList.remove('stfull');document.body.classList.remove('fitv');document.body.classList.remove('tmmi');}if(n==='team'){const tb=$('#tmbody');tb.classList.add('enter');setTimeout(()=>tb.classList.remove('enter'),1100);setTimeout(teamOpen,0);}document.querySelectorAll('.panel').forEach(p=>p.hidden=p.id!=='p-'+n);
   document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===(n==='look'?'home':n)));window.scrollTo(0,0);}
 $('#tabs').addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(b)tab(b.dataset.tab);});
 document.body.classList.add('onhome');
