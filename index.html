@@ -1274,7 +1274,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 425">Kickling · v425</div>
+  <div class="verl" aria-label="Kickling versión 426">Kickling · v426</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2000,7 +2000,7 @@ function act(t){if(!M||!M.wait)return;const s=stats(),rv=M.rv,m=M.min,g0=M.me;SF
   M.idx++;M.wait=false;$('#acts').hidden=true;paintMatch();}
 function finish(){dqEnsure();clearInterval(M.timer);M.over=true;SFX.whistle(3);logAdd(90,'Final del partido: '+M.me+' – '+M.rt+'.');paintMatch();
   const win=M.me>M.rt,draw=M.me===M.rt,k=M.k,xm=xpMult();
-  let xp=Math.round((k.xp*(win?1.3:draw?.65:.3)+(win||draw?1:.5)*(15*M.g+10*M.a))*xm);
+  const dr=draw&&M.tour;let xp=Math.round((k.xp*(win?1.3:dr?.25:draw?.65:.3)+(win||(draw&&!dr)?1:.5)*(15*M.g+10*M.a))*xm);
   let co=!win?0:Math.round(k.coins*1.5+6*M.g),tnote='';
   if(M.tour&&win&&M.tour>(S.tour||0)){S.tour=M.tour;if(M.tour%5===0)co+=60;tnote='¡Nivel '+M.tour+' del torneo superado!'+(M.tour>=TOUR_N?' ¡Eres campeón del torneo!':M.tour===20?' ¡Primera página completada! Ya puedes con los rivales 21–40.':'')+' ';}
   S.coins+=co;const up=addXP(xp);const c=S.career;c.pj++;c.g+=M.g;c.a+=M.a;c.iv=(c.iv||0)+Math.max(1,Math.round(3+rnd(0,5)-M.rt*.6));if(win)c.w++;else if(draw)c.d++;else c.l++;save();
