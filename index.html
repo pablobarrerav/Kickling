@@ -1208,7 +1208,7 @@ body.onhome .hero .hnm .gearb:active{transform:scale(.92)!important}
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 386">Kickling · v386</div>
+  <div class="verl" aria-label="Kickling versión 387">Kickling · v387</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1535,7 +1535,7 @@ function kitSvg(slot,d,w,pv){const K=Object.assign({},kit()),id='k'+(++au);if(pv
   return slot==='c'?'<svg viewBox="18 40 84 58" width="'+(w||44)+'" aria-hidden="true">'+shirtG(d,K.c,K.d,id)+'</svg>':'<svg viewBox="30.5 87.5 59 36" width="'+(w||44)+'" aria-hidden="true">'+shortsG(d,K.p,K.d,id)+'<path d="M38 90H82L83 95H37.4Z" fill="#000" fill-opacity=".14"/><path d="M40 98L42 117M80 98L78 117" stroke="#fff" stroke-opacity=".35" stroke-width="2" stroke-linecap="round"/><path d="M60 108V96" stroke="#3A2410" stroke-opacity=".35" stroke-width="1.4" stroke-linecap="round"/></svg>';}
 let au=0;
 function avatar(close,mood){const L=LK();if(mood)L.mouth=mood;const c=gear('c'),p=gear('p'),z=gear('z'),so=gear('s'),sk=L.skin,id='sh'+(++au),f=faceParts(L),HG='<g transform="translate(60 54) scale(2.25) translate(-60 -44)">';
-  const K=kit(),KS=Object.assign({},K),NUM=curNum(),SXB=L.build==='delgado'?.72:L.build==='fuerte'?1.0:L.build==='atletico'?.88:1,
+  const K=kit(),KS=Object.assign({},K),NUM=(numDrawn=curNum()),SXB=L.build==='delgado'?.72:L.build==='fuerte'?1.0:L.build==='atletico'?.88:1,
     HW=L.build==='delgado'?44:49,YE=L.build==='delgado'?88:L.build==='fuerte'?96:91,
     SWP='M51 44Q60 50 69 44L73 46C103 53 '+(61+HW)+' 62 '+(60+HW)+' 74L'+(62+HW)+' '+YE+'L'+(38+HW)+' '+(YE+2)+'L85 74L86 98H34L35 74L'+(82-HW)+' '+(YE+2)+'L'+(58-HW)+' '+YE+'L'+(60-HW)+' 74C'+(59-HW)+' 62 17 53 47 46Z',
     CUF='M'+(58-HW)+' '+YE+'L'+(82-HW)+' '+(YE+2)+'M'+(62+HW)+' '+YE+'L'+(38+HW)+' '+(YE+2);
@@ -2056,6 +2056,7 @@ async function runSims(){if(!DB||!CANW||!TM.ok)return false;
   return wrote;}
 async function syncMe(){if(!DB||!CANW||!TM.me)return;const o=ovr();
   const ps=S.pos.join(',');if(TM.me.name!==S.name||+TM.me.ovr!==o||(TM.me.pos||'')!==ps){try{await DB.doc('members/'+UID).update({name:S.name,ovr:o,pos:ps,upd:Date.now()});TM.me.name=S.name;TM.me.ovr=o;TM.me.pos=ps;}catch(e){}}}
+let numDrawn=0;setInterval(()=>{try{if(curNum()!==numDrawn){const v=curNum();if(v&&v!==S.num){S.num=v;save(true);}render();}}catch(e){}},1500);
 function curNum(){try{const t=myTeam(),v=t&&t.nums?t.nums[UID]:null;if(Number.isInteger(v)&&v>=1&&v<=99)return v;}catch(e){}return S.num||0;}
 function applyNum(){if(!TM.ok&&!kitSync.f)return;const t=myTeam(),n=t&&t.nums&&Number.isInteger(t.nums[UID])&&t.nums[UID]>=1&&t.nums[UID]<=99?t.nums[UID]:null;
   if(n===null&&t&&S.num&&t.nums&&!Object.keys(t.nums).some(k=>k!==UID&&t.nums[k]===S.num)&&!applyNum.h){applyNum.h=1;const keep=S.num;t.nums=Object.assign({},t.nums);t.nums[UID]=keep;
