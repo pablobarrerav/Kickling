@@ -13,10 +13,11 @@ Supabase > Edge Functions > Deploy a new function > Via Editor. Nómbrala exacta
 Edge Functions > Secrets (o Project Settings > Edge Functions) y añade:
 - `VAPID_PUBLIC` = la clave pública (la que ya va dentro de `push.js`)
 - `VAPID_PRIVATE` = la clave privada que te di en el chat. **Es secreta: no la subas a GitHub.**
+- `PUSH_SECRET` = la contraseña interna del archivo de claves
 - `VAPID_CONTACT` = tu correo (opcional)
 
 ## 4. Conecta el chat con la función
-SQL Editor > abre `push-server/trigger.sql`, cambia `TU_PROYECTO` y `TU_ANON_KEY` por los de tu proyecto (los mismos de `config.js`) y pulsa Run.
+SQL Editor > abre `push-server/trigger.sql`, cambia `TU_PROYECTO` por el de tu proyecto y `TU_SECRETO` por el valor de `PUSH_SECRET` y pulsa Run.
 
 ## En el móvil
 Ajustes > Avisos: activa y acepta el permiso. Hay que entrar al juego con el equipo ya creado (se vincula solo en unos 30 s).

@@ -10,6 +10,8 @@ const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SE
 
 Deno.serve(async (req) => {
   try {
+    // Solo la base de datos de Kickling conoce este secreto; así nadie de fuera puede disparar avisos falsos.
+    if (req.headers.get("x-kickling") !== Deno.env.get("PUSH_SECRET")) return new Response("no autorizado", { status: 401 });
     const p = await req.json();
     const r = p.record;
     if (!r || r.col !== "chat" || !r.data || r.data.sys || !r.data.team) return new Response("ignorado");
