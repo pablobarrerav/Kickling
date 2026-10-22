@@ -1208,7 +1208,7 @@ body.onhome .hero .hnm .gearb:active{transform:scale(.92)!important}
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 384">Kickling · v384</div>
+  <div class="verl" aria-label="Kickling versión 385">Kickling · v385</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2057,6 +2057,8 @@ async function runSims(){if(!DB||!CANW||!TM.ok)return false;
 async function syncMe(){if(!DB||!CANW||!TM.me)return;const o=ovr();
   const ps=S.pos.join(',');if(TM.me.name!==S.name||+TM.me.ovr!==o||(TM.me.pos||'')!==ps){try{await DB.doc('members/'+UID).update({name:S.name,ovr:o,pos:ps,upd:Date.now()});TM.me.name=S.name;TM.me.ovr=o;TM.me.pos=ps;}catch(e){}}}
 function applyNum(){if(!TM.ok&&!kitSync.f)return;const t=myTeam(),n=t&&t.nums&&Number.isInteger(t.nums[UID])&&t.nums[UID]>=1&&t.nums[UID]<=99?t.nums[UID]:null;
+  if(n===null&&t&&S.num&&t.nums&&!Object.keys(t.nums).some(k=>k!==UID&&t.nums[k]===S.num)&&!applyNum.h){applyNum.h=1;const keep=S.num;t.nums=Object.assign({},t.nums);t.nums[UID]=keep;
+    DB.doc('teams/'+t.id).update({nums:{[UID]:keep}}).catch(()=>{}).then(()=>{setTimeout(()=>{applyNum.h=0;},60000);});return;}
   if(n!==S.num){S.num=n;save(true);render();}}
 function applyKit(){if(!TM.ok&&!kitSync.f)return;applyNum();const t=myTeam(),H=/^#[0-9A-Fa-f]{6}$/,k=t&&t.kit&&H.test(t.kit.c)&&H.test(t.kit.d)&&H.test(t.kit.p)?(/^#[0-9A-Fa-f]{6}$/.test(t.kit.s)?{c:t.kit.c,d:t.kit.d,p:t.kit.p,s:t.kit.s}:{c:t.kit.c,d:t.kit.d,p:t.kit.p}):(t?{c:DKIT.c,d:DKIT.d,p:DKIT.p}:null);
   const cr=t?crestOf(t.id):null;
