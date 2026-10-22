@@ -35,7 +35,7 @@
   async function api(method, path, body, extra) {
     var s = await session();
     var h = Object.assign({ apikey: KEY, Authorization: 'Bearer ' + s.access_token, 'Content-Type': 'application/json' }, extra || {});
-    var r = await fetch(URL + '/rest/v1' + path, { method: method, headers: h, body: body === undefined ? undefined : JSON.stringify(body) });
+    var r = await fetch(URL + '/rest/v1' + path, { method: method, headers: h, cache: 'no-store', body: body === undefined ? undefined : JSON.stringify(body) });
     if (!r.ok) { var t = ''; try { t = await r.text(); } catch (e) {} throw new Error('db ' + r.status + ' ' + t.slice(0, 160)); }
     var tx = await r.text();
     return tx ? JSON.parse(tx) : null;
@@ -106,7 +106,7 @@
   }
   async function areq(method, path, body, tok) {
     var h = { apikey: KEY, 'Content-Type': 'application/json' }; if (tok) h.Authorization = 'Bearer ' + tok;
-    var r = await fetch(URL + path, { method: method, headers: h, body: body ? JSON.stringify(body) : undefined });
+    var r = await fetch(URL + path, { method: method, headers: h, cache: 'no-store', body: body ? JSON.stringify(body) : undefined });
     var t = await r.text();
     if (!r.ok) throw new Error(aerr(r, t));
     return t ? JSON.parse(t) : {};
