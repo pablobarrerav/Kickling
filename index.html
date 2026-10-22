@@ -1266,7 +1266,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 419">Kickling · v419</div>
+  <div class="verl" aria-label="Kickling versión 420">Kickling · v420</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1774,8 +1774,8 @@ function stadiumBg(){const K=kit(),SL=stadiumLv(),key=K.c+'|'+K.d+'|'+SL;if(_sbg
   let LT='';
   [9,91].forEach(x=>{const d=x>50?-1:1;
     LT+='<ellipse cx="'+x+'" cy="70.7" rx="7" ry="9" fill="url(#lg)" opacity=".8"/>';
-    LT+='<path d="M'+(x-3)+' 72 L'+(x-3+d*22)+' 120 L'+(x+3+d*22)+' 120 L'+(x+3)+' 72Z" fill="url(#bm)" opacity=".5"/>';
-    LT+='<rect x="'+(x-.8)+'" y="74" width="1.6" height="56" fill="#6b7aa8" stroke="#10244a" stroke-width="1.3" vector-effect="non-scaling-stroke"/><rect x="'+(x-2.8)+'" y="128.6" width="5.6" height="2.4" rx=".7" fill="#4a5788" stroke="#10244a" stroke-width="1.3" vector-effect="non-scaling-stroke"/>';
+    LT+='<path d="M'+(x-3)+' 72 L'+(x-3+d*22)+' 118 L'+(x+3+d*22)+' 118 L'+(x+3)+' 72Z" fill="url(#bm)" opacity=".5"/>';
+    LT+='<rect x="'+(x-.8)+'" y="74" width="1.6" height="44" fill="#6b7aa8" stroke="#10244a" stroke-width="1.3" vector-effect="non-scaling-stroke"/><rect x="'+(x-2.8)+'" y="116.6" width="5.6" height="2.4" rx=".7" fill="#4a5788" stroke="#10244a" stroke-width="1.3" vector-effect="non-scaling-stroke"/>';
     LT+='<rect x="'+(x-5)+'" y="67.5" width="10" height="6.4" rx="2" fill="#3b4a86" stroke="#10244a" stroke-width="1.5" vector-effect="non-scaling-stroke"/>';
     for(let c=0;c<3;c++){const lx=x-3.1+c*3.1;LT+='<ellipse cx="'+lx+'" cy="70.7" rx="1.05" ry="1.6" fill="#FFF7B8" stroke="#E9B83A" stroke-width="1" vector-effect="non-scaling-stroke"/>';}
     });
