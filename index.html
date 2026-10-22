@@ -1256,7 +1256,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 412">Kickling · v412</div>
+  <div class="verl" aria-label="Kickling versión 413">Kickling · v413</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1681,13 +1681,13 @@ let _sbg={k:'',v:''};
 function stadiumLv(){try{const t=myTeam();return Math.max(1,Math.min(10,Math.round(+((t&&t.stad)||{}).gradas||0)||1));}catch(e){return 1;}}
 function standMarkup(L,K){
   let sd=L*7919+13;const rnd=()=>{sd=(sd*16807)%2147483647;return sd/2147483647;};
-  const x0=27-(L-1)*1.5,x1=100-x0,yb=112,yt=102-L*3.3,w=x1-x0;
+  const x0=31-(L-1)*2.3,x1=100-x0,yb=112,yt=99-L*4,w=x1-x0;
   const TH=L===1?['#9a7a52','#c9a877']:L===2?['#8c96ad','#c2cadb']:L===3?['#6b7792',K.c]:L>=10?['#c99700','#fff2b0']:[K.c,K.d];
   const PAL=L<3?['#FFFFFF','#FF6B6B','#6BCBFF','#FF9F43','#FFD166','#9BE564']:[K.c,K.c,K.d,'#FFFFFF',K.c,K.d];
   let o='<rect y="105.5" width="100" height="6.5" fill="#6f86c6" opacity=".55"/><rect y="107.5" width="100" height="4.5" fill="#4b5f9f" opacity=".6"/>';
   const wall=L<3?'#6b7792':L<7?'#26356b':'#1b2650';
   o+='<rect x="'+x0.toFixed(1)+'" y="'+yt.toFixed(1)+'" width="'+w.toFixed(1)+'" height="'+(yb-yt).toFixed(1)+'" fill="'+wall+'"/>';
-  const rows=Math.max(2,Math.round((yb-yt)/3.7)),rh=(yb-yt)/rows,dens=Math.min(.96,.18+.085*L);
+  const rows=Math.max(2,Math.round((yb-yt)/3.6)),rh=(yb-yt)/rows,dens=Math.min(.96,.18+.085*L);
   for(let r=0;r<rows;r++){const y=yt+r*rh;
     if(L<3){const ins=(rows-1-r)*1.6;o+='<rect x="'+(x0+ins).toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+(w-2*ins).toFixed(1)+'" height="'+(rh-.5).toFixed(1)+'" fill="'+TH[r%2]+'"/>';}
     else o+='<rect x="'+x0.toFixed(1)+'" y="'+(y+rh-.7).toFixed(1)+'" width="'+w.toFixed(1)+'" height=".7" fill="'+TH[0]+'" opacity=".85"/>';
