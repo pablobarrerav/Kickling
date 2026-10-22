@@ -1198,7 +1198,7 @@ nav.bot [aria-selected=true] svg{filter:drop-shadow(0 0 1px #fff) drop-shadow(0 
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 370">Kickling · v370</div>
+  <div class="verl" aria-label="Kickling versión 371">Kickling · v371</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1353,7 +1353,7 @@ function clean(o){const d=DEF();o=(o&&typeof o==='object')?o:{};if(o.lvl)d.pid=/
   {const c=o.cr,H=/^#[0-9A-Fa-f]{6}$/;d.cr=(c&&typeof c==='object'&&Number.isInteger(c.s)&&c.s>=0&&c.s<5&&Number.isInteger(c.p)&&c.p>=0&&c.p<4&&Number.isInteger(c.e)&&c.e>=0&&c.e<6&&H.test(c.a)&&H.test(c.b))?{s:c.s,p:c.p,e:c.e,a:c.a,b:c.b}:null;}
   d.pos=Array.isArray(o.pos)?POSK.filter(k=>o.pos.includes(k)).slice(0,1):[];
   d.num=(Number.isInteger(o.num)&&o.num>=1&&o.num<=99)?o.num:null;
-  d.claim=/^\d{4}-\d\d-\d\d$/.test(String(o.claim))?String(o.claim):'';
+  d.claim=/^\d{4}-\d\d-\d\d(-\d\d)?$/.test(String(o.claim))?String(o.claim):'';
   d.rev=Math.round(num(d.rev,0,1e9,0));d.lvl=Math.round(num(d.lvl,1,MAXLVL,1));d.xp=num(d.xp,0,1e7,0);
   d.coins=Math.round(num(d.coins,0,1e9,0));d.energy=num(d.energy,0,1000,100);d.t=num(d.t,0,8.64e15,Date.now());
   const tr=o.trained||{},ca=o.career||{};
