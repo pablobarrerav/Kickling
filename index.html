@@ -284,6 +284,7 @@ h2{font-size:26px;margin:0 0 8px;letter-spacing:.05em;-webkit-text-stroke:3px va
 .recc .rec{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:0;text-align:center}
 .recc .rec .label{font-size:11px}
 .recc .rec b{font-size:22px}
+.recc .rec.r5{grid-template-columns:repeat(5,1fr);gap:2px}.recc .rec.r5 .label{font-size:9.5px;letter-spacing:0}.recc .rec.r5 b{font-size:17px!important}
 .row.two{display:grid;grid-template-columns:1fr 1fr}
 .recc .note{margin:6px 0 0;text-align:center;font-size:12px}
 #drills{grid-template-columns:1fr 1fr}
@@ -1295,7 +1296,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 445">Kickling · v445</div>
+  <div class="verl" aria-label="Kickling versión 446">Kickling · v446</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1462,7 +1463,7 @@ function clean(o){const d=DEF();o=(o&&typeof o==='object')?o:{};if(o.lvl)d.pid=/
   const tr=o.trained||{},ca=o.career||{};
   d.trained={};['ritmo','regate','disparo','pase'].forEach(k=>d.trained[k]=Math.round(num(tr[k],0,999,0)*100)/100);
   d.boff=Math.round(num(o.boff,-30,0,0));d.career={};['pj','g','a','w','d','l','iv'].forEach(k=>d.career[k]=Math.round(num(ca[k],0,1e7,0)));
-  {const tc=o.tc&&o.tc.v===2?o.tc:{};d.tc={v:2};['pj','ga','cs','g','a','w','d','l','iv'].forEach(k=>d.tc[k]=Math.round(num(tc[k],0,1e7,0)));d.tc.upto=Math.round(num(tc.upto,0,8.64e15,0));}
+  {const tc=o.tc&&o.tc.v===2?o.tc:{};d.tc={v:2};['pj','ga','cs','g','a','w','d','l','iv','rn','mv'].forEach(k=>d.tc[k]=Math.round(num(tc[k],0,1e7,0)));d.tc.rs=Math.round(num(tc.rs,0,1e8,0)*10)/10;d.tc.upto=Math.round(num(tc.upto,0,8.64e15,0));}
   const ids=[];for(const sl of 'cpsz')ITEMS[sl].forEach(i=>ids.push(i.id));
   const own=Array.isArray(o.owned)?o.owned.filter(x=>ids.includes(x)):[];
   {const bo=o.boost&&typeof o.boost==='object'?o.boost:{};d.boost={};['r','x'].forEach(k=>{const b=bo[k]||{};const m=num(b.m,1,3,1),u=num(b.u,0,8.64e15,0);if(u>Date.now()&&m>1)d.boost[k]={m,u};});}
@@ -1761,7 +1762,7 @@ function EMAX(){return 100+2*(Math.max(1,Math.floor(S.lvl||1))-1);}
 function energy(){boostUI();const e=Math.floor(S.energy),mx=EMAX();$('#enbar').style.width=Math.min(100,e/mx*100)+'%';$('#entxt').textContent=e+'/'+mx;
   document.querySelectorAll('[data-cost]').forEach(b=>b.disabled=S.energy<+b.dataset.cost);}
 function tcUpdate(){try{if(!TM||!TM.ok||!TM.me||!TM.me.team||!S.tc)return;const now=Date.now(),joined=+TM.me.joined||0,tid=TM.me.team;let up=S.tc.upto||0,ch=false;
-  Object.keys(TM.sims).map(d=>[d,cutoff(d)]).filter(z=>z[1]>up&&z[1]<=now).sort((a,b)=>a[1]-b[1]).forEach(z=>{up=z[1];if(z[1]<joined)return;(TM.sims[z[0]].matches||[]).forEach(m=>{if(m.h!==tid&&m.a!==tid)return;const f=m.h===tid?m.hg:m.ag,c=m.h===tid?m.ag:m.hg;S.tc.pj++;S.tc.ga+=c;if(c===0)S.tc.cs++;{const r=rng('iv|'+z[0]+'|'+tid+'|'+UID);S.tc.iv=(S.tc.iv||0)+Math.max(1,Math.round(4+r()*6-c*.5+(c===0?2:0)));}goalsOf(z[0],m).forEach(g=>{if(g.tid!==tid)return;if(g.sc.id===UID)S.tc.g++;if(g.as&&g.as.id===UID)S.tc.a++;});if(f>c)S.tc.w++;else if(f===c)S.tc.d++;else S.tc.l++;ch=true;});});
+  Object.keys(TM.sims).map(d=>[d,cutoff(d)]).filter(z=>z[1]>up&&z[1]<=now).sort((a,b)=>a[1]-b[1]).forEach(z=>{up=z[1];if(z[1]<joined)return;(TM.sims[z[0]].matches||[]).forEach(m=>{if(m.h!==tid&&m.a!==tid)return;const f=m.h===tid?m.hg:m.ag,c=m.h===tid?m.ag:m.hg;S.tc.pj++;S.tc.ga+=c;if(c===0)S.tc.cs++;{const r=rng('iv|'+z[0]+'|'+tid+'|'+UID);S.tc.iv=(S.tc.iv||0)+Math.max(1,Math.round(4+r()*6-c*.5+(c===0?2:0)));}goalsOf(z[0],m).forEach(g=>{if(g.tid!==tid)return;if(g.sc.id===UID)S.tc.g++;if(g.as&&g.as.id===UID)S.tc.a++;});{const gl2=goalsOf(z[0],m),me2=xiOf(tid,cutoff(z[0])).find(x=>x.id===UID);if(me2){S.tc.rs=Math.round(((S.tc.rs||0)+ratingOf(z[0],m,tid,me2,gl2))*10)/10;S.tc.rn=(S.tc.rn||0)+1;const mp=mvpOf(z[0],m,tid);if(mp&&mp.pl.id===UID)S.tc.mv=(S.tc.mv||0)+1;}}if(f>c)S.tc.w++;else if(f===c)S.tc.d++;else S.tc.l++;ch=true;});});
   if(up!==S.tc.upto){S.tc.upto=up;ch=true;}if(ch)save(true);}catch(e){}}
 
 let _sbg={k:'',v:''};
@@ -1833,7 +1834,7 @@ function home(){const s=stats();{const g=document.querySelector('.hero .gearb.gh
   const rows=['ritmo','regate','disparo','pase'].map(k=>[statName(k),s[k],fmtD(s[k])]);
   $('#stats').innerHTML=rows.map(r=>'<div class="stat"><span>'+r[0]+'</span><div class="bar"><i style="width:'+r[1]+'%"></i></div><b class="num">'+r[2]+'</b></div>').join('');
   tcUpdate();const cells=r=>r.map(x=>'<div><span class="label">'+x[0]+'</span><b>'+x[1]+'</b></div>').join('');
-  {const q=S.tc;$('#rec').innerHTML=cells((()=>{const p=S.pos[0],vd=['V-E-D',q.w+'-'+q.d+'-'+q.l];return p==='por'?[['Partidos',q.pj],['Encaj.',q.ga],['Imbatido',q.cs],vd]:p==='def'?[['Partidos',q.pj],['Interv.',q.iv||0],['Goles',q.g],vd]:[['Partidos',q.pj],['Goles',q.g],['Asist.',q.a],vd];})());}
+  {const q=S.tc;$('#rec').innerHTML=cells((()=>{const p=S.pos[0],vd=['V-E-D',q.w+'-'+q.d+'-'+q.l];return (p==='por'?[['Partidos',q.pj],['Encaj.',q.ga],['Imbatido',q.cs],vd]:p==='def'?[['Partidos',q.pj],['Interv.',q.iv||0],['Goles',q.g],vd]:[['Partidos',q.pj],['Goles',q.g],['Asist.',q.a],vd]).concat([['Valoración',q.rn?rt1(q.rs/q.rn):'–']]);})());$('#rec').classList.add('r5');}
   {const k=S.career,vd=['V-E-D',k.w+'-'+k.d+'-'+k.l];$('#rec2').innerHTML=cells(S.pos[0]==='def'?[['Partidos',k.pj],['Interv.',k.iv||0],['Goles',k.g],vd]:[['Partidos',k.pj],['Goles',k.g],['Asist.',k.a],vd]);}
   let nxt=null;for(const sl of 'cpsz'){for(const it of ITEMS[sl]){if(!S.owned.includes(it.id)&&(!nxt||it.price<nxt.price))nxt=it;}}
   $('#hint').hidden=false;$('#hint').textContent=nxt?'Lo más barato que te falta en la tienda: '+nxt.n+' ('+fmt(nxt.price)+' monedas, nivel '+nxt.lvl+').':'Tienes toda la equipación. Eres una leyenda.';}
@@ -2608,6 +2609,14 @@ const FNAMES=['Álvaro','Hugo','Iker','Mateo','Dani','Marc','Nico','Sergio','Pab
 let MV=null,resDay=null,resKey='',resKeys=[],resCur='';
 const GW={por:.05,def:.6,med:1.6,del:3},AW={por:.1,def:.8,med:2.5,del:1.8};
 function wpick(pool,r,W){const w=pool.map(m=>(W[String(m.pos||'').split(',')[0]]||1)*(20+(+m.ovr||0)));let x=r()*w.reduce((a,b)=>a+b,0);for(let i=0;i<pool.length;i++){x-=w[i];if(x<=0)return pool[i];}return pool[pool.length-1];}
+const rt1=v=>(Math.round(v*10)/10).toFixed(1).replace('.',',');
+function ratingOf(day,m,tid,pl,gl){const f=m.h===tid?m.hg:m.ag,c=m.h===tid?m.ag:m.hg,r=rng('rt|'+day+'|'+m.h+'|'+m.a+'|'+pl.id),p=String(pl.pos||'').split(',')[0],mine=gl.filter(g=>g.tid===tid);
+  let v=6+(f>c?.6:f===c?.1:-.45)+(r()-.5)*1.5+((+pl.ovr||40)-50)/70;
+  mine.forEach(g=>{if(g.sc&&g.sc.id===pl.id)v+=1.1;if(g.as&&g.as.id===pl.id)v+=.6;});
+  if(p==='por'||p==='def')v+=c===0?.9:-.2*Math.min(c,4);else if(p==='del'&&!mine.some(g=>g.sc&&g.sc.id===pl.id))v-=.15;
+  return Math.round(Math.max(3.5,Math.min(10,v))*10)/10;}
+function mvpOf(day,m,tid){const gl=goalsOf(day,m),pool=xiOf(tid,cutoff(day));let best=null;
+  pool.forEach(pl=>{const v=ratingOf(day,m,tid,pl,gl),g=gl.filter(x=>x.tid===tid&&x.sc&&x.sc.id===pl.id).length;if(!best||v>best.v||(v===best.v&&(g>best.g||(g===best.g&&String(pl.id)<String(best.pl.id)))))best={pl:pl,v:v,g:g};});return best;}
 function goalsOf(day,m){const out=[];for(const side of ['h','a']){const id=m[side];if(!id||isBot(id)||id==='bot')continue;const pool=xiOf(id,cutoff(day));if(!pool.length)continue;
   const n=side==='h'?m.hg:m.ag;for(let i=0;i<n;i++){const r=rng('gs|'+day+'|'+m.h+'|'+m.a+'|'+side+'|'+i),sc=wpick(pool,r,GW),as=pool.length>1&&r()<.75?wpick(pool.filter(x=>x!==sc),r,AW):null;out.push({side:side,i:i,sc:sc,as:as,tid:id});}}return out;}
 function tmNameOf(id){const x=TM.teams.find(z=>z.id===id);if(x)return x.name||'';try{const b=activeTeams().find(z=>z.t.id===id);return b?b.t.name:'';}catch(e){return '';}}
@@ -2640,7 +2649,7 @@ function mvOpen(day,idx){const sm=TM.sims[day],m=sm&&sm.matches&&sm.matches[idx]
     const keep=ev.filter(e=>{if(!e.k)return true;const r=red[e.s+'|'+e.n];if(!r||e===r)return true;if(r.k==='roja2'&&e.k==='amarilla'&&e.t===r.t)return true;return e.t<=r.t;});
     keep.forEach(e=>{if(!e.o)return;const os=e.s==='h'?'a':'h',r=red[os+'|'+e.o];if(r&&r.t<e.t){const pl=(os==='h'?ph:pa).filter(n=>!red[os+'|'+n]);if(pl.length)e.o=pl[Math.floor(r_(e)*pl.length)];}});
     ev.length=0;keep.forEach(e=>ev.push(e));}
-  const my=myTeam();MV={m:m,ev:ev,min:0,k:0,h:0,a:0,my:my?my.id:'',tm:null,half:false,end:false,log:[]};
+  const my=myTeam();MV={m:m,day:day,ev:ev,min:0,k:0,h:0,a:0,my:my?my.id:'',tm:null,half:false,end:false,log:[]};
   $('#mvh').textContent=m.hn;$('#mva').textContent=m.an;
   mvLog(0,'Arranca el partido · '+lgLabel(m.d,m.g||0)+' · '+fdate(day)+'.');mvDraw();SFX.whistle(1);$('#mvsim').hidden=false;
   MV.tm=setInterval(mvTick,110);}
@@ -2660,7 +2669,7 @@ function mvGoals(){
     if(mine){goalBanner('¡GOL!');setTimeout(()=>SFX.goal(),hold());}else{goalBanner('Gol rival','r');setTimeout(()=>SFX.rival(),hold());}
     }
   if(MV.min>=45&&!MV.half){MV.half=true;mvLog(45,'Descanso. Marcador '+MV.h+' – '+MV.a+'.');SFX.whistle(1);}
-  if(MV.min>=90&&!MV.end){MV.end=true;mvLog(90,'Final del partido: '+MV.h+' – '+MV.a+'.');SFX.whistle(3);}}
+  if(MV.min>=90&&!MV.end){MV.end=true;mvLog(90,'Final del partido: '+MV.h+' – '+MV.a+'.');SFX.whistle(3);try{const my=MV.my,m=MV.m;if(my&&(m.h===my||m.a===my)){const mp=mvpOf(MV.day,m,my);if(mp){mvLog(90,'⭐ MVP de tu equipo: '+esc(mp.pl.name||'Jugador')+' · '+rt1(mp.v)+(mp.pl.id===UID?' · ¡Eres tú!':''),'gol');if(mp.pl.id!==UID){const me2=xiOf(my,cutoff(MV.day)).find(x=>x.id===UID);if(me2)mvLog(90,'Tu valoración: '+rt1(ratingOf(MV.day,m,my,me2,goalsOf(MV.day,m))),'');}}}}catch(e){}}}
 function mvStop(){if(MV&&MV.tm){clearInterval(MV.tm);MV.tm=null;}}
 $('#mvskip').addEventListener('click',()=>{if(!MV)return;MV.skip=true;clipUntil=0;MV.min=90;mvGoals();mvDraw();mvStop();});
 $('#mvclose').addEventListener('click',()=>{mvStop();MV=null;$('#mvsim').hidden=true;});
