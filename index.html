@@ -1095,7 +1095,7 @@ body.onhome .hero .hnm .gearb:active{transform:scale(.92)!important}
 .mdt.can{background:linear-gradient(#fff6d0,#ffe38a);box-shadow:0 0 0 1.5px #d99200,0 2px 0 rgba(120,70,0,.3)}.mdt.got{background:linear-gradient(#e4f9e6,#bfeec6);box-shadow:0 0 0 1.5px #1fa34a,0 2px 0 rgba(10,80,30,.25)}
 .mg{display:grid;grid-template-columns:repeat(6,1fr);gap:5px}
 .mdl{position:relative;aspect-ratio:1;display:flex;align-items:center;justify-content:center;padding:0;border:2px solid #fff;border-radius:12px;background:linear-gradient(#c9d3ea,#9aa8cb);box-shadow:0 0 0 1.5px #5d6f9f,0 2px 0 rgba(10,30,80,.35);cursor:pointer;font:inherit;overflow:hidden}
-.mdl>i{font-style:normal;font-size:21px;line-height:1;filter:grayscale(1);opacity:.55;margin-bottom:3px}
+.mdl>i{font-style:normal;font-size:21px;line-height:1;filter:grayscale(1);opacity:.55;margin:0}
 .mdl .mpb{position:absolute;left:4px;right:4px;bottom:3px;height:4px;border-radius:2px;background:rgba(16,36,74,.28);overflow:hidden}.mdl .mpb u{display:block;height:100%;background:linear-gradient(#ffd34d,#f5a800)}
 .mdl.can{background:linear-gradient(#ffe98c,#f5b100);box-shadow:0 0 0 1.5px #b87400,0 2px 0 rgba(120,70,0,.4);animation:achp 1.4s ease-in-out infinite}.mdl.can>i{filter:none;opacity:1}
 .mdl.got{background:linear-gradient(#6fdc7e,#1fa34a);box-shadow:0 0 0 1.5px #0f7a33,0 2px 0 rgba(10,80,30,.4)}.mdl.got>i{filter:none;opacity:1}.mdl.got .mpb,.mdl.can .mpb{display:none}
@@ -1296,7 +1296,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 440">Kickling · v440</div>
+  <div class="verl" aria-label="Kickling versión 441">Kickling · v441</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2264,42 +2264,42 @@ function dqClaim(ids){const q=dqEnsure();let c=0,x=0,n=0;
 const ACH=[
  ['debut','Debutante','Juega un partido',20,10,()=>S.career.pj>=1,()=>S.career.pj,1],
  ['win1','Victoria','Gana un partido',30,15,()=>S.career.w>=1,()=>S.career.w,1],
- ['win10','Ganador','10 victorias',80,40,()=>S.career.w>=10,()=>S.career.w,10],
- ['win50','Campeón','50 victorias',250,120,()=>S.career.w>=50,()=>S.career.w,50],
  ['gol1','Primer gol','Marca un gol',20,10,()=>S.career.g>=1,()=>S.career.g,1],
- ['gol25','Goleador','Marca 25 goles',100,50,()=>S.career.g>=25,()=>S.career.g,25],
- ['ast10','Asistente','10 asistencias',60,30,()=>S.career.a>=10,()=>S.career.a,10],
- ['lvl10','Joven talento','Llega al nivel 10',100,50,()=>S.lvl>=10,()=>S.lvl,10],
- ['lvl20','Estrella','Llega al nivel 20',200,100,()=>S.lvl>=20,()=>S.lvl,20],
- ['tour10','Rival duro','Torneo: nivel 10',150,70,()=>(S.tour||0)>=10,()=>S.tour||0,10],
- ['tour40','Invicto','Torneo completo',500,250,()=>(S.tour||0)>=40,()=>S.tour||0,40],
- ['club','Fichado','Únete a un club',40,20,()=>!!myTeam(),()=>myTeam()?1:0,1],
- ['pj10','Habitual','Juega 10 partidos',50,25,()=>S.career.pj>=10,()=>S.career.pj,10],
- ['pj50','Veterano','Juega 50 partidos',150,75,()=>S.career.pj>=50,()=>S.career.pj,50],
- ['pj100','Leyenda viva','Juega 100 partidos',300,150,()=>S.career.pj>=100,()=>S.career.pj,100],
- ['win25','Máquina de ganar','25 victorias',150,70,()=>S.career.w>=25,()=>S.career.w,25],
- ['win100','Imparable','100 victorias',500,250,()=>S.career.w>=100,()=>S.career.w,100],
- ['gol5','Pichichi','Marca 5 goles',40,20,()=>S.career.g>=5,()=>S.career.g,5],
- ['gol100','Máximo goleador','Marca 100 goles',400,200,()=>S.career.g>=100,()=>S.career.g,100],
  ['ast1','Buen pase','Da una asistencia',20,10,()=>S.career.a>=1,()=>S.career.a,1],
- ['ast50','Cerebro del equipo','50 asistencias',250,120,()=>S.career.a>=50,()=>S.career.a,50],
- ['tab5','Tablas','Empata 5 partidos',60,30,()=>S.career.d>=5,()=>S.career.d,5],
- ['lvl5','Promesa','Llega al nivel 5',50,25,()=>S.lvl>=5,()=>S.lvl,5],
- ['lvl30','Crack','Llega al nivel 30',350,170,()=>S.lvl>=30,()=>S.lvl,30],
- ['lvl40','Ídolo','Llega al nivel 40',500,250,()=>S.lvl>=40,()=>S.lvl,40],
- ['tour5','Primeros pasos','Torneo: nivel 5',80,40,()=>(S.tour||0)>=5,()=>S.tour||0,5],
- ['tour20','Primera página','Torneo: nivel 20',250,120,()=>(S.tour||0)>=20,()=>S.tour||0,20],
- ['tour30','Aspirante','Torneo: nivel 30',350,170,()=>(S.tour||0)>=30,()=>S.tour||0,30],
- ['teamp5','Compañero','Juega 5 partidos de equipo',80,40,()=>S.tc.pj>=5,()=>S.tc.pj,5],
- ['teamw5','Líder de equipo','Gana 5 partidos de equipo',150,70,()=>S.tc.w>=5,()=>S.tc.w,5],
- ['rach3','Constante','Racha de 3 días',60,30,()=>(S.sk&&S.sk.n||0)>=3,()=>S.sk&&S.sk.n||0,3],
- ['rach7','Imparable 7','Racha de 7 días',200,100,()=>(S.sk&&S.sk.n||0)>=7,()=>S.sk&&S.sk.n||0,7],
- ['rach30','Disciplina de acero','Racha de 30 días',800,400,()=>(S.sk&&S.sk.n||0)>=30,()=>S.sk&&S.sk.n||0,30]
+ ['club','Fichado','Únete a un club',40,20,()=>(myTeam()?1:0)>=1,()=>(myTeam()?1:0),1],
+ ['lvl5','Promesa','Llega al nivel 8',60,30,()=>S.lvl>=8,()=>S.lvl,8],
+ ['gol5','Pichichi','Marca 10 goles',60,30,()=>S.career.g>=10,()=>S.career.g,10],
+ ['win10','Ganador','15 victorias',100,50,()=>S.career.w>=15,()=>S.career.w,15],
+ ['pj10','Habitual','Juega 25 partidos',90,45,()=>S.career.pj>=25,()=>S.career.pj,25],
+ ['tab5','Tablas','Empata 15 partidos',100,50,()=>S.career.d>=15,()=>S.career.d,15],
+ ['rach3','Constante','Racha de 5 días',100,50,()=>(S.sk&&S.sk.n||0)>=5,()=>(S.sk&&S.sk.n||0),5],
+ ['tour5','Primeros pasos','Torneo: nivel 8',120,60,()=>(S.tour||0)>=8,()=>(S.tour||0),8],
+ ['ast10','Asistente','25 asistencias',120,60,()=>S.career.a>=25,()=>S.career.a,25],
+ ['teamp5','Compañero','Juega 20 partidos de equipo',140,70,()=>S.tc.pj>=20,()=>S.tc.pj,20],
+ ['lvl10','Joven talento','Llega al nivel 15',160,80,()=>S.lvl>=15,()=>S.lvl,15],
+ ['tour10','Rival duro','Torneo: nivel 15',200,100,()=>(S.tour||0)>=15,()=>(S.tour||0),15],
+ ['win25','Máquina de ganar','40 victorias',200,100,()=>S.career.w>=40,()=>S.career.w,40],
+ ['gol25','Goleador','Marca 60 goles',220,110,()=>S.career.g>=60,()=>S.career.g,60],
+ ['teamw5','Líder de equipo','Gana 12 partidos de equipo',220,110,()=>S.tc.w>=12,()=>S.tc.w,12],
+ ['pj50','Veterano','Juega 100 partidos',250,125,()=>S.career.pj>=100,()=>S.career.pj,100],
+ ['rach7','Imparable 7','Racha de 14 días',300,150,()=>(S.sk&&S.sk.n||0)>=14,()=>(S.sk&&S.sk.n||0),14],
+ ['lvl20','Estrella','Llega al nivel 25',350,170,()=>S.lvl>=25,()=>S.lvl,25],
+ ['tour20','Primera página','Torneo: nivel 28',350,170,()=>(S.tour||0)>=28,()=>(S.tour||0),28],
+ ['win50','Campeón','80 victorias',400,200,()=>S.career.w>=80,()=>S.career.w,80],
+ ['ast50','Cerebro del equipo','120 asistencias',450,220,()=>S.career.a>=120,()=>S.career.a,120],
+ ['lvl30','Crack','Llega al nivel máximo (30)',600,300,()=>S.lvl>=30,()=>S.lvl,30],
+ ['gol100','Máximo goleador','Marca 250 goles',700,350,()=>S.career.g>=250,()=>S.career.g,250],
+ ['tour30','Aspirante','Torneo: nivel 36',600,300,()=>(S.tour||0)>=36,()=>(S.tour||0),36],
+ ['pj100','Leyenda viva','Juega 250 partidos',800,400,()=>S.career.pj>=250,()=>S.career.pj,250],
+ ['win100','Imparable','200 victorias',900,450,()=>S.career.w>=200,()=>S.career.w,200],
+ ['tour40','Invicto','Torneo completo',1000,500,()=>(S.tour||0)>=40,()=>(S.tour||0),40],
+ ['mecena','Mecenas','Dona 500 monedas al club',500,250,()=>{try{return donOf(myTeam(),UID)>=500;}catch(e){return false;}},()=>{try{return donOf(myTeam(),UID);}catch(e){return 0;}},500],
+ ['rach30','Disciplina de acero','Racha de 60 días',1500,750,()=>(S.sk&&S.sk.n||0)>=60,()=>(S.sk&&S.sk.n||0),60]
 ];
-const ACHI={debut:'⚽',win1:'🏆',win10:'🏆',win50:'🏆',win25:'🏆',win100:'👑',gol1:'🥅',gol5:'🥅',gol25:'🥅',gol100:'🔥',ast1:'🎯',ast10:'🎯',ast50:'🧠',tab5:'🤝',lvl5:'⭐',lvl10:'⭐',lvl20:'🌟',lvl30:'🌟',lvl40:'💫',tour5:'🛡️',tour10:'🛡️',tour20:'📖',tour30:'🛡️',tour40:'👑',club:'🏟️',pj10:'👟',pj50:'👟',pj100:'🎖️',teamp5:'👥',teamw5:'👥',rach3:'🔥',rach7:'🔥',rach30:'🔥'};
+const ACHI={debut:'⚽',win1:'🏆',win10:'🏆',win50:'🏆',win25:'🏆',win100:'👑',gol1:'🥅',gol5:'🥅',gol25:'🥅',gol100:'🔥',ast1:'🎯',ast10:'🎯',ast50:'🧠',tab5:'🤝',lvl5:'⭐',lvl10:'⭐',lvl20:'🌟',lvl30:'🌟',mecena:'💰',tour5:'🛡️',tour10:'🛡️',tour20:'📖',tour30:'🛡️',tour40:'👑',club:'🏟️',pj10:'👟',pj50:'👟',pj100:'🎖️',teamp5:'👥',teamw5:'👥',rach3:'🔥',rach7:'🔥',rach30:'🔥'};
 const achOk=a=>{try{return !!a[5]();}catch(e){return false;}};
 const achClaimable=()=>ACH.filter(a=>achOk(a)&&!(S.ach||[]).includes(a[0]));
-function mailList(){const t=myTeam();return t&&Array.isArray(t.mail)?t.mail.filter(m=>m&&typeof m.text==='string'&&Number.isFinite(m.ts)).sort((a,b)=>b.ts-a.ts).slice(0,20):[];}
+function mailList(){const t=myTeam();return t&&Array.isArray(t.mail)?t.mail.filter(m=>m&&typeof m.text==='string'&&Number.isFinite(m.ts)&&m.ts>Date.now()-2592e6).sort((a,b)=>b.ts-a.ts).slice(0,20):[];}
 function mailUnread(){return mailList().filter(m=>m.ts>(S.mailSeen||0)&&m.uid!==UID).length;}
 function mailBadge(){try{const n=mailUnread(),c=achClaimable().length+dqReady(),h=$('#hface');if(h)h.classList.toggle('unread',n>0||c>0);const b=$('#mbadge');if(b){b.hidden=!n;b.textContent=n;}const q=$('#pbadge');if(q){q.hidden=!c;q.textContent=c;}}catch(e){}}
 setInterval(mailBadge,2000);
@@ -2478,8 +2478,8 @@ function pitchSvg(t,ms){const xi=xiOf(t.id),K=(t.kit&&HEX.test(t.kit.c))?t.kit:D
   ['del','med','def','por'].forEach(k=>{const L=G[k],gap=L.length===1?120:(W-76)/(L.length-1),avail=gap-4;L.forEach((m,i)=>{const x=L.length===1?W/2:38+i*gap,y=Y[k],sel=tmSwap===m.id,full=String(m.name||'Jugador').trim()||'Jugador';
     let ln=[full];if(full.length>9&&full.indexOf(' ')>0){const mid=full.length/2;let bi=-1,bd=99;for(let j=0;j<full.length;j++)if(full[j]===' '&&Math.abs(j-mid)<bd){bd=Math.abs(j-mid);bi=j;}if(bi>0)ln=[full.slice(0,bi),full.slice(bi+1)];}
     const ml=Math.max.apply(null,ln.map(z=>z.length));let fs=Math.min(9.5,avail/(ml*.62)),sq=false;if(fs<6.2){fs=6.2;sq=true;}
-    const tx=ln.map((z,j)=>'<text x="'+x+'" y="'+(y+25+j*(fs+1.5))+'" text-anchor="middle" font-family="inherit" font-weight="800" font-size="'+fs.toFixed(1)+'" fill="#fff" stroke="#10244a" stroke-width="2.4" paint-order="stroke"'+(sq&&z.length*fs*.62>avail?' textLength="'+avail.toFixed(0)+'" lengthAdjust="spacingAndGlyphs"':'')+'>'+esc(z)+'</text>').join('');
-    o+='<g data-pp="'+esc(m.id)+'" role="button" tabindex="0" aria-label="'+esc(full)+', media '+(+m.ovr||0)+'" style="cursor:pointer"><circle cx="'+x+'" cy="'+y+'" r="19" fill="#53a82a"/><circle cx="'+x+'" cy="'+y+'" r="'+(sel?15:13)+'" fill="'+({por:'#E8A317',def:'#2E86DE',med:'#1FA34A',del:'#D63031'}[k]||K.c)+'" stroke="'+(sel?'#FFC21A':'#fff')+'" stroke-width="'+(sel?3.5:2.5)+'"/><text x="'+x+'" y="'+(y+4.5)+'" text-anchor="middle" font-family="inherit" font-weight="800" font-size="12" fill="#fff" stroke="#10244a" stroke-width="2.6" paint-order="stroke">'+(+m.ovr||0)+'</text>'+tx+'</g>';});});
+    const tx=ln.map((z,j)=>'<text x="'+x+'" y="'+(y+25+j*(fs+1.5))+'" text-anchor="middle" font-family="inherit" font-weight="800" font-size="'+fs.toFixed(1)+'" fill="#fff" stroke="#10244a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" paint-order="stroke"'+(sq&&z.length*fs*.62>avail?' textLength="'+avail.toFixed(0)+'" lengthAdjust="spacingAndGlyphs"':'')+'>'+esc(z)+'</text>').join('');
+    o+='<g data-pp="'+esc(m.id)+'" role="button" tabindex="0" aria-label="'+esc(full)+', media '+(+m.ovr||0)+'" style="cursor:pointer"><circle cx="'+x+'" cy="'+y+'" r="19" fill="#53a82a"/><circle cx="'+x+'" cy="'+y+'" r="'+(sel?15:13)+'" fill="'+({por:'#E8A317',def:'#2E86DE',med:'#1FA34A',del:'#D63031'}[k]||K.c)+'" stroke="'+(sel?'#FFC21A':'#fff')+'" stroke-width="'+(sel?3.5:2.5)+'"/><text x="'+x+'" y="'+(y+4.5)+'" text-anchor="middle" font-family="inherit" font-weight="800" font-size="12" fill="#fff" stroke="#10244a" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" paint-order="stroke">'+(+m.ovr||0)+'</text>'+tx+'</g>';});});
   return o+'</svg>';}
 function swapView(t,ms){if(!tmSwap)return '';const xi=xiOf(t.id),out=xi.find(m=>m.id===tmSwap);if(!out){tmSwap=null;return '';}
   if(!canKit(t))return '';
