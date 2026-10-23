@@ -1296,7 +1296,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 446">Kickling · v446</div>
+  <div class="verl" aria-label="Kickling versión 447">Kickling · v447</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1834,7 +1834,7 @@ function home(){const s=stats();{const g=document.querySelector('.hero .gearb.gh
   const rows=['ritmo','regate','disparo','pase'].map(k=>[statName(k),s[k],fmtD(s[k])]);
   $('#stats').innerHTML=rows.map(r=>'<div class="stat"><span>'+r[0]+'</span><div class="bar"><i style="width:'+r[1]+'%"></i></div><b class="num">'+r[2]+'</b></div>').join('');
   tcUpdate();const cells=r=>r.map(x=>'<div><span class="label">'+x[0]+'</span><b>'+x[1]+'</b></div>').join('');
-  {const q=S.tc;$('#rec').innerHTML=cells((()=>{const p=S.pos[0],vd=['V-E-D',q.w+'-'+q.d+'-'+q.l];return (p==='por'?[['Partidos',q.pj],['Encaj.',q.ga],['Imbatido',q.cs],vd]:p==='def'?[['Partidos',q.pj],['Interv.',q.iv||0],['Goles',q.g],vd]:[['Partidos',q.pj],['Goles',q.g],['Asist.',q.a],vd]).concat([['Valoración',q.rn?rt1(q.rs/q.rn):'–']]);})());$('#rec').classList.add('r5');}
+  {const q=S.tc;$('#rec').innerHTML=cells((()=>{const p=S.pos[0],vd=['V-E-D',q.w+'-'+q.d+'-'+q.l];return ((a)=>{a.splice(3,0,['Valoración',q.rn?rt1(q.rs/q.rn):'–']);return a;})(p==='por'?[['Partidos',q.pj],['Encaj.',q.ga],['Imbatido',q.cs],vd]:p==='def'?[['Partidos',q.pj],['Interv.',q.iv||0],['Goles',q.g],vd]:[['Partidos',q.pj],['Goles',q.g],['Asist.',q.a],vd]);})());$('#rec').classList.add('r5');}
   {const k=S.career,vd=['V-E-D',k.w+'-'+k.d+'-'+k.l];$('#rec2').innerHTML=cells(S.pos[0]==='def'?[['Partidos',k.pj],['Interv.',k.iv||0],['Goles',k.g],vd]:[['Partidos',k.pj],['Goles',k.g],['Asist.',k.a],vd]);}
   let nxt=null;for(const sl of 'cpsz'){for(const it of ITEMS[sl]){if(!S.owned.includes(it.id)&&(!nxt||it.price<nxt.price))nxt=it;}}
   $('#hint').hidden=false;$('#hint').textContent=nxt?'Lo más barato que te falta en la tienda: '+nxt.n+' ('+fmt(nxt.price)+' monedas, nivel '+nxt.lvl+').':'Tienes toda la equipación. Eres una leyenda.';}
