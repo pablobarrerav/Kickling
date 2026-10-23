@@ -1275,7 +1275,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 428">Kickling · v428</div>
+  <div class="verl" aria-label="Kickling versión 429">Kickling · v429</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2171,6 +2171,7 @@ function xiOf(tid,cut){const t=TM.teams.find(x=>x.id===tid),ms=membersOf(tid,cut
   return L.length?L:xiAuto(ms);}
 const teamStr=(tid,cut)=>{const ms=xiOf(tid,cut);return ms.length?ms.reduce((a,m)=>a+(+m.ovr||0),0)/ms.length:0;};
 const STAD=[['campo','Campo','Césped y marcas: más fuerza en cada partido.',100,1.5],['porteria','Porterías','Las dos porterías mejoran a la vez: tu equipo encaja menos.',100,1.5],['gradas','Gradas','Más afición animando al equipo.',150,1],['banquillo','Banquillos','Los dos banquillos mejoran a la vez: mejores cambios.',120,1]];
+const donOf=(t,id)=>{const v=t&&t.dons&&typeof t.dons==='object'?Math.round(+t.dons[id]||0):0;return Math.max(0,Math.min(1e9,v));};
 const fundOf=t=>Math.max(0,Math.min(1e9,Math.round(+((t&&t.fund)||0)||0)));
 const stLv=(t,k)=>Math.max(0,Math.min(10,Math.round(+((t&&t.stad)||{})[k]||0)));
 const stBonus=t=>STAD.reduce((a,x)=>a+stLv(t,x[0])*x[4],0)/100;
@@ -2490,7 +2491,7 @@ function teamRender(){const el=$('#tmbody');if(!el)return;const _d=document.getE
     const XI=xiOf(t.id).map(m=>m.id),cap=ms.find(m=>m.id===t.owner),nums=t.nums||{};
     body=(tmTab==='mi'?homeView(t,ms)+
       (ed&&tmKitOpen?'<div class="kopen">'+row('c','Camiseta')+row('d','Detalles')+row('p','Pantaloneta')+row('s','Calcetines')+'</div>':''):'')+(tmTab==='pl'?'<ul class="lst plst">'+ms.sort((a,b)=>(+b.ovr||0)-(+a.ovr||0)||(a.joined||0)-(b.joined||0)).map(m=>{const inx=XI.includes(m.id),n=nums[m.id];
-        return '<li class="tl mem'+(inx?' xi':'')+'"><button class="tn tnb" data-pl="'+m.id+'" aria-label="Ver jugador '+esc(m.name||'Jugador')+'"><span>'+(isOn(m)?'<i class="onl" title="En línea" aria-label="En línea"></i>':'<i class="onl off" title="Desconectado" aria-label="Desconectado"></i>')+(function(){const p=String(m.pos||'').split(',')[0],A={por:'PT',def:'DF',med:'MC',del:'DC'}[p];return A?'<u class="pbd pb-'+p+'" title="'+POSN[p]+'">'+A+'</u>':'';})()+esc(m.name||'Jugador')+(m.id===UID?' <span class="me" title="Tu jugador" aria-label="Tu jugador">'+ico('head',18)+'</span>':'')+'</span><small>'+(m.id===t.owner?'Capitán':inx?'Titular':'Suplente')+'</small></button>'+
+        return '<li class="tl mem'+(inx?' xi':'')+'"><button class="tn tnb" data-pl="'+m.id+'" aria-label="Ver jugador '+esc(m.name||'Jugador')+'"><span>'+(isOn(m)?'<i class="onl" title="En línea" aria-label="En línea"></i>':'<i class="onl off" title="Desconectado" aria-label="Desconectado"></i>')+(function(){const p=String(m.pos||'').split(',')[0],A={por:'PT',def:'DF',med:'MC',del:'DC'}[p];return A?'<u class="pbd pb-'+p+'" title="'+POSN[p]+'">'+A+'</u>':'';})()+esc(m.name||'Jugador')+(m.id===UID?' <span class="me" title="Tu jugador" aria-label="Tu jugador">'+ico('head',18)+'</span>':'')+'</span><small>'+(m.id===t.owner?'Capitán':inx?'Titular':'Suplente')+(donOf(t,m.id)?' · '+ico('coin',11)+fmt(donOf(t,m.id)):'')+'</small></button>'+
           (ed?'<span class="dn">'+(tmNumEdit===m.id?'<input class="dnin num" id="dnin" data-dnid="'+m.id+'" type="number" inputmode="numeric" min="1" max="99" value="'+(n||'')+'" aria-label="Dorsal (1 a 99)">':'<button class="dnb num" data-dnedit="'+m.id+'" aria-label="Cambiar dorsal, ahora '+(n||'sin dorsal')+'">'+(n||'–')+'</button>')+'</span>':
             '<span class="dn">'+(n?'<b class="num dnv">'+n+'</b>':'')+'</span>')+
           '<b class="num ov po-'+String(m.pos||'').split(',')[0]+'">'+(+m.ovr||0)+'</b>'+'</li>';}).join('')+'</ul>'+
@@ -2642,7 +2643,7 @@ $('#p-team').addEventListener('click',async e=>{const hs=e.target.closest('[data
   if(b.dataset.pl){const t=myTeam();if(!t)return;const mm=membersOf(t.id).find(m=>m.id===b.dataset.pl);if(!mm)return;plId=mm.id;
     const p=String(mm.pos||'').split(',')[0],n=(t.nums||{})[mm.id],inx=xiOf(t.id).some(x=>x.id===mm.id);
     $('#plname').textContent=mm.name||'Jugador';
-    $('#plbody').innerHTML=[['Posición',POSN[p]||'Sin posición'],['Media',(+mm.ovr||0)],['Dorsal',n?'#'+n:'Sin dorsal'],['Rol',mm.id===t.owner?'Capitán':inx?'Titular':'Suplente']].map(r=>'<div class="plr"><span>'+r[0]+'</span><b>'+esc(String(r[1]))+'</b></div>').join('');
+    $('#plbody').innerHTML=[['Posición',POSN[p]||'Sin posición'],['Media',(+mm.ovr||0)],['Dorsal',n?'#'+n:'Sin dorsal'],['Rol',mm.id===t.owner?'Capitán':inx?'Titular':'Suplente'],['Donado al club',fmt(donOf(t,mm.id))+' monedas']].map(r=>'<div class="plr"><span>'+r[0]+'</span><b>'+esc(String(r[1]))+'</b></div>').join('');
     $('#plkick').hidden=!(canKit(t)&&mm.id!==UID);{const pm=$('#plmute');pm.hidden=!(canKit(t)&&mm.id!==UID&&mm.id!==t.owner);pm.textContent=(t.muted&&t.muted[mm.id]===true)?'Quitar silencio':'Silenciar en el chat';}$('#plm').hidden=false;return;}
   if(b.dataset.chdel){const id=b.dataset.chdel;chatMsgs=chatMsgs.filter(x=>x._id!==id);chatSig='';chatPaint();try{await DB.doc('chat/'+id).delete();}catch(er){toast('No se pudo borrar el mensaje.');chatLoad();}return;}
   if(b.dataset.swapx){tmSwap=null;teamRender();return;}
@@ -2695,7 +2696,7 @@ $('#p-team').addEventListener('click',async e=>{const hs=e.target.closest('[data
       if(!t2||!TM.me||TM.me.team!==t2.id){toast('Necesitas estar en un equipo.');}
       else if(![10,50,100].includes(n)||S.coins<n){toast('Te faltan monedas.');}
       else{S.coins-=n;save();render();
-        try{await DB.doc('teams/'+t2.id).update({fund:fundOf(t2)+n});toast('Has donado '+n+' monedas al club');confetti(18);}
+        try{await DB.doc('teams/'+t2.id).update({fund:fundOf(t2)+n,dons:Object.assign({},t2.dons||{},{[UID]:donOf(t2,UID)+n})});toast('Has donado '+n+' monedas al club');confetti(18);}
         catch(er){S.coins+=n;save();render();toast('No se pudo donar. Te devuelvo las monedas.');}}}
     else if(b.dataset.up){const key=b.dataset.up;await tmLoad();const t2=myTeam();
       if(!t2||!TM.me||TM.me.team!==t2.id){toast('Necesitas estar en un equipo.');}
