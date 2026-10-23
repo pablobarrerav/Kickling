@@ -1296,7 +1296,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 439">Kickling · v439</div>
+  <div class="verl" aria-label="Kickling versión 440">Kickling · v440</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2479,7 +2479,7 @@ function pitchSvg(t,ms){const xi=xiOf(t.id),K=(t.kit&&HEX.test(t.kit.c))?t.kit:D
     let ln=[full];if(full.length>9&&full.indexOf(' ')>0){const mid=full.length/2;let bi=-1,bd=99;for(let j=0;j<full.length;j++)if(full[j]===' '&&Math.abs(j-mid)<bd){bd=Math.abs(j-mid);bi=j;}if(bi>0)ln=[full.slice(0,bi),full.slice(bi+1)];}
     const ml=Math.max.apply(null,ln.map(z=>z.length));let fs=Math.min(9.5,avail/(ml*.62)),sq=false;if(fs<6.2){fs=6.2;sq=true;}
     const tx=ln.map((z,j)=>'<text x="'+x+'" y="'+(y+25+j*(fs+1.5))+'" text-anchor="middle" font-family="inherit" font-weight="800" font-size="'+fs.toFixed(1)+'" fill="#fff" stroke="#10244a" stroke-width="2.4" paint-order="stroke"'+(sq&&z.length*fs*.62>avail?' textLength="'+avail.toFixed(0)+'" lengthAdjust="spacingAndGlyphs"':'')+'>'+esc(z)+'</text>').join('');
-    o+='<g data-pp="'+esc(m.id)+'" role="button" tabindex="0" aria-label="'+esc(full)+', media '+(+m.ovr||0)+'" style="cursor:pointer"><circle cx="'+x+'" cy="'+y+'" r="'+(sel?15:13)+'" fill="'+({por:'#E8A317',def:'#2E86DE',med:'#1FA34A',del:'#D63031'}[k]||K.c)+'" stroke="'+(sel?'#FFC21A':'#fff')+'" stroke-width="'+(sel?3.5:2.5)+'"/><text x="'+x+'" y="'+(y+4.5)+'" text-anchor="middle" font-family="inherit" font-weight="800" font-size="12" fill="#fff" stroke="#10244a" stroke-width="2.6" paint-order="stroke">'+(+m.ovr||0)+'</text>'+tx+'</g>';});});
+    o+='<g data-pp="'+esc(m.id)+'" role="button" tabindex="0" aria-label="'+esc(full)+', media '+(+m.ovr||0)+'" style="cursor:pointer"><circle cx="'+x+'" cy="'+y+'" r="19" fill="#53a82a"/><circle cx="'+x+'" cy="'+y+'" r="'+(sel?15:13)+'" fill="'+({por:'#E8A317',def:'#2E86DE',med:'#1FA34A',del:'#D63031'}[k]||K.c)+'" stroke="'+(sel?'#FFC21A':'#fff')+'" stroke-width="'+(sel?3.5:2.5)+'"/><text x="'+x+'" y="'+(y+4.5)+'" text-anchor="middle" font-family="inherit" font-weight="800" font-size="12" fill="#fff" stroke="#10244a" stroke-width="2.6" paint-order="stroke">'+(+m.ovr||0)+'</text>'+tx+'</g>';});});
   return o+'</svg>';}
 function swapView(t,ms){if(!tmSwap)return '';const xi=xiOf(t.id),out=xi.find(m=>m.id===tmSwap);if(!out){tmSwap=null;return '';}
   if(!canKit(t))return '';
