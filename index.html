@@ -1275,7 +1275,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 431">Kickling · v431</div>
+  <div class="verl" aria-label="Kickling versión 432">Kickling · v432</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1764,7 +1764,7 @@ function standMarkup(L,K){
     for(let r=0;r<rows;r++){const ry=ty+r*rh;
       o+='<rect x="'+f(x0+.6)+'" y="'+f(ry)+'" width="'+f(w-1.2)+'" height="'+f(rh-.45)+'" fill="'+(L<3?(r%2?'#7f92cc':'#6a7db8'):(r%2?K.c:K.d))+'" opacity="'+(L<3?1:.92)+'"/>';
       o+='<rect x="'+f(x0+.6)+'" y="'+f(ry+rh-.7)+'" width="'+f(w-1.2)+'" height=".35" fill="#0b1840" opacity=".35"/>';
-      const n=Math.floor(w/3.6);for(let k=0;k<n;k++){if(rnd()>.5+.04*L)continue;o+='<ellipse cx="'+f(x0+2+k*3.6)+'" cy="'+f(ry+rh*.42)+'" rx="'+f(Math.min(2,rh*.36)*EX)+'" ry="'+f(Math.min(2,rh*.36))+'" fill="'+SKIN[Math.floor(rnd()*4)]+'" stroke="'+OL+'" stroke-width=".9" vector-effect="non-scaling-stroke"/>';}}
+      {const n=Math.max(4,Math.floor((w-3)/3.8)),sp=(w-4)/(n-1),off=r%2?sp/2:0,m=r%2?n-1:n;for(let k=0;k<m;k++){if(rnd()<.05)continue;const rr=Math.min(1.9,rh*.34);o+='<ellipse cx="'+f(x0+2+off+k*sp)+'" cy="'+f(ry+rh*.5)+'" rx="'+f(rr*EX)+'" ry="'+f(rr)+'" fill="'+SKIN[(k*3+r*2+t)%4]+'" stroke="'+OL+'" stroke-width=".9" vector-effect="non-scaling-stroke"/>';}}}
     {const nb=Math.max(2,Math.round(w/14));for(let b=1;b<nb;b++)o+='<rect x="'+f(x0+b*w/nb-.35)+'" y="'+f(ty)+'" width=".7" height="'+f(th-1.4)+'" fill="#10244a" opacity=".45"/>';}
     o+='<rect x="'+f(x0+.6)+'" y="'+f(ty+th-1.4)+'" width="'+f(w-1.2)+'" height="1.4" fill="#e8eefb" opacity=".75"/>';}
   /* vallas con los colores del equipo */
