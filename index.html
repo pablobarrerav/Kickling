@@ -1094,13 +1094,13 @@ body.onhome .hero .hnm .gearb:active{transform:scale(.92)!important}
 .mdt>em{font-style:normal;font-size:11px;font-weight:800;color:#26427a;text-align:center;line-height:1.3;white-space:nowrap}.mdt .btn{font-size:11px;line-height:1.2;padding:4px 8px;min-height:0;white-space:nowrap}
 .mdt.can{background:linear-gradient(#fff6d0,#ffe38a);box-shadow:0 0 0 1.5px #d99200,0 2px 0 rgba(120,70,0,.3)}.mdt.got{background:linear-gradient(#e4f9e6,#bfeec6);box-shadow:0 0 0 1.5px #1fa34a,0 2px 0 rgba(10,80,30,.25)}
 .mg{display:grid;grid-template-columns:repeat(6,1fr);gap:5px}
-.mt{position:relative;aspect-ratio:1;display:flex;align-items:center;justify-content:center;padding:0;border:2px solid #fff;border-radius:12px;background:linear-gradient(#c9d3ea,#9aa8cb);box-shadow:0 0 0 1.5px #5d6f9f,0 2px 0 rgba(10,30,80,.35);cursor:pointer;font:inherit;overflow:hidden}
-.mt>i{font-style:normal;font-size:21px;line-height:1;filter:grayscale(1);opacity:.55;margin-bottom:3px}
-.mt .mpb{position:absolute;left:4px;right:4px;bottom:3px;height:4px;border-radius:2px;background:rgba(16,36,74,.28);overflow:hidden}.mt .mpb u{display:block;height:100%;background:linear-gradient(#ffd34d,#f5a800)}
-.mt.can{background:linear-gradient(#ffe98c,#f5b100);box-shadow:0 0 0 1.5px #b87400,0 2px 0 rgba(120,70,0,.4);animation:achp 1.4s ease-in-out infinite}.mt.can>i{filter:none;opacity:1}
-.mt.got{background:linear-gradient(#6fdc7e,#1fa34a);box-shadow:0 0 0 1.5px #0f7a33,0 2px 0 rgba(10,80,30,.4)}.mt.got>i{filter:none;opacity:1}.mt.got .mpb,.mt.can .mpb{display:none}
-.mt .mck{position:absolute;top:0;right:0;min-width:15px;height:15px;border-radius:0 9px 0 8px;background:#0f7a33;color:#fff;font-size:10px;line-height:15px;text-align:center}.mt .mck.g{background:#d63031}
-.mt.sel{transform:scale(1.08);z-index:1;box-shadow:0 0 0 2.5px #17418f,0 3px 0 rgba(10,30,80,.45)}
+.mdl{position:relative;aspect-ratio:1;display:flex;align-items:center;justify-content:center;padding:0;border:2px solid #fff;border-radius:12px;background:linear-gradient(#c9d3ea,#9aa8cb);box-shadow:0 0 0 1.5px #5d6f9f,0 2px 0 rgba(10,30,80,.35);cursor:pointer;font:inherit;overflow:hidden}
+.mdl>i{font-style:normal;font-size:21px;line-height:1;filter:grayscale(1);opacity:.55;margin-bottom:3px}
+.mdl .mpb{position:absolute;left:4px;right:4px;bottom:3px;height:4px;border-radius:2px;background:rgba(16,36,74,.28);overflow:hidden}.mdl .mpb u{display:block;height:100%;background:linear-gradient(#ffd34d,#f5a800)}
+.mdl.can{background:linear-gradient(#ffe98c,#f5b100);box-shadow:0 0 0 1.5px #b87400,0 2px 0 rgba(120,70,0,.4);animation:achp 1.4s ease-in-out infinite}.mdl.can>i{filter:none;opacity:1}
+.mdl.got{background:linear-gradient(#6fdc7e,#1fa34a);box-shadow:0 0 0 1.5px #0f7a33,0 2px 0 rgba(10,80,30,.4)}.mdl.got>i{filter:none;opacity:1}.mdl.got .mpb,.mdl.can .mpb{display:none}
+.mdl .mck{position:absolute;top:0;right:0;min-width:15px;height:15px;border-radius:0 9px 0 8px;background:#0f7a33;color:#fff;font-size:10px;line-height:15px;text-align:center}.mdl .mck.g{background:#d63031}
+.mdl.sel{transform:scale(1.08);z-index:1;box-shadow:0 0 0 2.5px #17418f,0 3px 0 rgba(10,30,80,.45)}
 .dnt{margin:4px 0 0!important;font-size:12px;text-align:center}
 .achh{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 8px}.achh .label{margin:0!important}
 .ag{display:grid;grid-template-columns:1fr 1fr;gap:6px}
@@ -1296,7 +1296,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 438">Kickling · v438</div>
+  <div class="verl" aria-label="Kickling versión 439">Kickling · v439</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2313,7 +2313,7 @@ function dqHtml(){const q=dqEnsure(),sn=dqStreak(),rd=dqReady(),all=q.got.length
   +(all?'<p class="note dnt">¡Todo hecho! Vuelve mañana.</p>':'')+'</div>';}
 let achSel='';
 function achTile(a,sel){const ok=achOk(a),got=(S.ach||[]).includes(a[0]),can=ok&&!got,cur=Math.min(+a[6]()||0,a[7]),pc=got||can?100:Math.round(100*cur/a[7]);
-  return '<button type="button" class="mt'+(got?' got':can?' can':'')+(sel?' sel':'')+'" data-asel="'+a[0]+'" aria-label="'+esc(a[1])+(got?', conseguido':can?', listo para recoger':', '+cur+' de '+a[7])+'"><i>'+(ACHI[a[0]]||'🏅')+'</i><u class="mpb"><u style="width:'+pc+'%"></u></u>'+(got?'<b class="mck">✓</b>':can?'<b class="mck g">!</b>':'')+'</button>';}
+  return '<button type="button" class="mdl'+(got?' got':can?' can':'')+(sel?' sel':'')+'" data-asel="'+a[0]+'" aria-label="'+esc(a[1])+(got?', conseguido':can?', listo para recoger':', '+cur+' de '+a[7])+'"><i>'+(ACHI[a[0]]||'🏅')+'</i><u class="mpb"><u style="width:'+pc+'%"></u></u>'+(got?'<b class="mck">✓</b>':can?'<b class="mck g">!</b>':'')+'</button>';}
 function pProfile(){const done=ACH.filter(achOk).length,cl=achClaimable(),gotf=a=>(S.ach||[]).includes(a[0]);
   let sel=ACH.find(a=>a[0]===achSel);if(!sel)sel=cl[0]||ACH.filter(a=>!achOk(a)).sort((x,y)=>(Math.min(+y[6]()||0,y[7])/y[7])-(Math.min(+x[6]()||0,x[7])/x[7]))[0]||ACH[0];achSel=sel[0];
   const ok=achOk(sel),got=gotf(sel),can=ok&&!got,cur=Math.min(+sel[6]()||0,sel[7]),pc=got||can?100:Math.round(100*cur/sel[7]);
