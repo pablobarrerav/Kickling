@@ -1275,7 +1275,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 427">Kickling · v427</div>
+  <div class="verl" aria-label="Kickling versión 428">Kickling · v428</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1748,7 +1748,7 @@ let _sbg={k:'',v:''};
 function stadiumLv(){try{const t=myTeam();return Math.max(1,Math.min(10,Math.round(+((t&&t.stad)||{}).gradas||0)||1));}catch(e){return 1;}}
 function standMarkup(L,K){
   let sd=L*7919+13;const rnd=()=>{sd=(sd*16807)%2147483647;return sd/2147483647;};
-  const EX=.52,x0=31-(L-1)*2.3,x1=100-x0,w=x1-x0,yb=112,yt=99-L*4,H=yb-yt,OL='#10244a';
+  const EX=.52,x0=22-(L-1)*1.8,x1=100-x0,w=x1-x0,yb=112,yt=99-L*4,H=yb-yt,OL='#10244a';
   const f=n=>(+n).toFixed(1);
   const ob=(x,y,ww,hh,fill,rx,sw)=>'<rect x="'+f(x)+'" y="'+f(y)+'" width="'+f(ww)+'" height="'+f(hh)+'" rx="'+(rx||0)+'" fill="'+fill+'" stroke="'+OL+'" stroke-width="'+(sw||1.4)+'" vector-effect="non-scaling-stroke"/>';
   const SKIN=['#F2C9A0','#E0AE80','#B97F55','#F7D9B8'];
