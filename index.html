@@ -1275,7 +1275,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 432">Kickling · v432</div>
+  <div class="verl" aria-label="Kickling versión 433">Kickling · v433</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2492,8 +2492,8 @@ function teamRender(){const el=$('#tmbody');if(!el)return;const _d=document.getE
     body=(tmTab==='mi'?homeView(t,ms)+
       (ed&&tmKitOpen?'<div class="kopen">'+row('c','Camiseta')+row('d','Detalles')+row('p','Pantaloneta')+row('s','Calcetines')+'</div>':''):'')+(tmTab==='pl'?'<ul class="lst plst">'+ms.sort((a,b)=>(+b.ovr||0)-(+a.ovr||0)||(a.joined||0)-(b.joined||0)).map(m=>{const inx=XI.includes(m.id),n=nums[m.id];
         return '<li class="tl mem'+(inx?' xi':'')+'"><button class="tn tnb" data-pl="'+m.id+'" aria-label="Ver jugador '+esc(m.name||'Jugador')+'"><span>'+(isOn(m)?'<i class="onl" title="En línea" aria-label="En línea"></i>':'<i class="onl off" title="Desconectado" aria-label="Desconectado"></i>')+(function(){const p=String(m.pos||'').split(',')[0],A={por:'PT',def:'DF',med:'MC',del:'DC'}[p];return A?'<u class="pbd pb-'+p+'" title="'+POSN[p]+'">'+A+'</u>':'';})()+esc(m.name||'Jugador')+(m.id===UID?' <span class="me" title="Tu jugador" aria-label="Tu jugador">'+ico('head',18)+'</span>':'')+'</span><small>'+(m.id===t.owner?'Capitán':inx?'Titular':'Suplente')+'</small></button>'+
-          (ed?'<span class="dn">'+(donOf(t,m.id)?'<span class="dnd" title="Donado al club" aria-label="Donado al club: '+donOf(t,m.id)+' monedas">'+ico('coin',12)+fmt(donOf(t,m.id))+'</span>':'')+(tmNumEdit===m.id?'<input class="dnin num" id="dnin" data-dnid="'+m.id+'" type="number" inputmode="numeric" min="1" max="99" value="'+(n||'')+'" aria-label="Dorsal (1 a 99)">':'<button class="dnb num" data-dnedit="'+m.id+'" aria-label="Cambiar dorsal, ahora '+(n||'sin dorsal')+'">'+(n||'–')+'</button>')+'</span>':
-            '<span class="dn">'+(donOf(t,m.id)?'<span class="dnd" title="Donado al club" aria-label="Donado al club: '+donOf(t,m.id)+' monedas">'+ico('coin',12)+fmt(donOf(t,m.id))+'</span>':'')+(n?'<b class="num dnv">'+n+'</b>':'')+'</span>')+
+          (ed?'<span class="dn">'+(1?'<span class="dnd" title="Donado al club" aria-label="Donado al club: '+donOf(t,m.id)+' monedas">'+ico('coin',12)+fmt(donOf(t,m.id))+'</span>':'')+(tmNumEdit===m.id?'<input class="dnin num" id="dnin" data-dnid="'+m.id+'" type="number" inputmode="numeric" min="1" max="99" value="'+(n||'')+'" aria-label="Dorsal (1 a 99)">':'<button class="dnb num" data-dnedit="'+m.id+'" aria-label="Cambiar dorsal, ahora '+(n||'sin dorsal')+'">'+(n||'–')+'</button>')+'</span>':
+            '<span class="dn">'+(1?'<span class="dnd" title="Donado al club" aria-label="Donado al club: '+donOf(t,m.id)+' monedas">'+ico('coin',12)+fmt(donOf(t,m.id))+'</span>':'')+(n?'<b class="num dnv">'+n+'</b>':'')+'</span>')+
           '<b class="num ov po-'+String(m.pos||'').split(',')[0]+'">'+(+m.ovr||0)+'</b>'+'</li>';}).join('')+'</ul>'+
       '<div class="tmfoot"><span class="note">Jugadores '+ms.length+'/'+MAXM+' · media de titulares '+Math.round(teamStr(t.id))+'</span></div>':'');}
   else if(tmTab==='tab'){
