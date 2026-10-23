@@ -1275,7 +1275,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 429">Kickling · v429</div>
+  <div class="verl" aria-label="Kickling versión 430">Kickling · v430</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1500,7 +1500,7 @@ function floatTxt(t,x,y){if(calm())return;const e=document.createElement('div');
 /* Mini animación de cada jugada (goles y acciones del partido) */
 const CLIP_K={disparo:'Disparo desde la frontal',regate:'Regate y definición',penalti:'Penalti',falta:'Falta directa',cabezazo:'Remate de cabeza',contra:'Contraataque',asistencia:'Pase al hueco y remate'};
 const CLIP_O={gol:'¡Gol!',parada:'Lo para el portero',fuera:'Se va fuera',poste:'Al palo',perdida:'Pierde el balón',cortado:'Pase cortado'};
-let clipT=0,clipD=2.3,clipUntil=0,_df=0;const hold=()=>Math.max(0,clipUntil-Date.now());
+let clipT=0,clipD=2.3,clipUntil=0,_df=0,clipSnap=null;const hold=()=>Math.max(0,clipUntil-Date.now());
 function clipPlan(kind,out){
   const up=Math.random()<.5,gy=up?31.5:38.5,P={};
   let tg;if(out==='gol')tg=[121.6,gy];else if(out==='parada')tg=[113.5,gy];else if(out==='poste')tg=[120,29];else tg=[124,up?12:58];
@@ -1533,7 +1533,7 @@ function clipSvg(kind,out,col){
   o+=ppl(P.K,'#F5B800');o+=ppl(P.A,col.a);
   o+=dot(P.B,1.7,'#fff','stroke="#1d2b4d" stroke-width=".6"');
   return o+'</svg>';}
-function playClip(kind,out,op){if(calm())return;op=op||{};clearTimeout(clipT);clipUntil=Date.now()+clipD*1000+450;let el=document.getElementById('clip'),bg=document.getElementById('clipbg');if(!bg){bg=document.createElement('div');bg.id='clipbg';bg.className='clipbg';document.body.appendChild(bg);}if(!el){el=document.createElement('div');el.id='clip';el.className='clip';document.body.appendChild(el);}bg.className='clipbg on';
+function playClip(kind,out,op){if(calm())return;op=op||{};try{clipSnap={me:M?M.me:0,rt:M?M.rt:0,h:MV?MV.h:0,a:MV?MV.a:0};setTimeout(()=>{try{if(M&&$('#sc'))paintMatch();}catch(e){}try{if(MV)mvDraw();}catch(e){}},clipD*1000+520);}catch(e){clipSnap=null;}clearTimeout(clipT);clipUntil=Date.now()+clipD*1000+450;let el=document.getElementById('clip'),bg=document.getElementById('clipbg');if(!bg){bg=document.createElement('div');bg.id='clipbg';bg.className='clipbg';document.body.appendChild(bg);}if(!el){el=document.createElement('div');el.id='clip';el.className='clip';document.body.appendChild(el);}bg.className='clipbg on';
   const K=kit(),col=op.mine?{a:K.c,d:'#E0443A'}:op.rival?{a:'#E0443A',d:K.c}:op.side==='a'?{a:'#E0443A',d:'#2F8CFF'}:{a:'#2F8CFF',d:'#E0443A'};
   let sv=clipSvg(kind,out,col);if(op.flip)sv=sv.replace(/(<svg[^>]*>)/,'$1<g transform="translate(124 0) scale(-1 1)">').replace('</svg>','</g></svg>');
   el.className='clip';void el.offsetWidth;el.className='clip on';
@@ -1959,7 +1959,7 @@ $('#tlist').addEventListener('click',e=>{const pg=e.target.closest('[data-tpg]')
 $('#tback').addEventListener('click',()=>{$('#tview').hidden=true;$('#mmenu').hidden=false;comps();energy();});
 let M=null;
 function logAdd(min,txt,tag){const h=hold()>0?clipUntil:0;M.log.push({min,txt,tag,h});if(h)setTimeout(()=>{try{if(M&&$('#log'))paintMatch();}catch(e){}},hold()+40);}
-function paintMatch(){const sc=M.me+' – '+M.rt;if($('#sc').textContent!==sc&&M.min>0)popEl('#sc');$('#sc').textContent=sc;
+function paintMatch(){const cs=clipSnap&&hold()>0?clipSnap:null,sc=(cs?cs.me:M.me)+' – '+(cs?cs.rt:M.rt);if($('#sc').textContent!==sc&&M.min>0)popEl('#sc');$('#sc').textContent=sc;
   $('#clock').innerHTML=(M.over?'':ico('ball',20))+(M.over?'Final':"Minuto "+M.min+"'");
   $('#log').innerHTML=M.log.filter(l=>!l.h||l.h<=Date.now()).reverse().map(l=>'<li class="'+(l.tag||'')+'"><b class="num">'+l.min+"'</b><span>"+l.txt+'</span></li>').join('');}
 function startMatch(key,lv){if(M&&!M.over&&!$('#mview').hidden)return;if(M)clearInterval(M.timer);const T=lv?TOUR[lv-1]:null,k=T?{n:'Torneo · Nivel '+lv,cost:tCost(lv),delta:0,xp:T.xp,coins:T.coins}:COMP[key];if(S.energy<k.cost){toast('Sin energía. Espera a que se recupere.');if(T){$('#tview').hidden=false;}return;}
@@ -2615,16 +2615,16 @@ function mvOpen(day,idx){const sm=TM.sims[day],m=sm&&sm.matches&&sm.matches[idx]
   MV.tm=setInterval(mvTick,110);}
 function mvLog(min,txt,tag){const h=hold()>0?clipUntil:0;MV.log.push({min:min,txt:txt,tag:tag||'',h:h});mvRender();if(h)setTimeout(()=>{try{if(MV)mvRender();}catch(e){}},hold()+40);}
 function mvRender(){const L=$('#mvev');L.innerHTML=MV.log.filter(l=>!l.h||l.h<=Date.now()).reverse().map(l=>'<li class="'+l.tag+'"><b class="num">'+l.min+"'"+'</b><span>'+l.txt+'</span></li>').join('');}
-function mvDraw(){$('#mvs').textContent=MV.h+' – '+MV.a;$('#mvmin').innerHTML=(MV.min>=90?'':ico('ball',20))+(MV.min>=90?'Final':'Minuto '+MV.min+"'");}
+function mvDraw(){const cs=clipSnap&&hold()>0?clipSnap:null;$('#mvs').textContent=(cs?cs.h:MV.h)+' – '+(cs?cs.a:MV.a);$('#mvmin').innerHTML=(MV.min>=90?'':ico('ball',20))+(MV.min>=90?'Final':'Minuto '+MV.min+"'");}
 function mvTick(){if(!MV)return;if(Date.now()<clipUntil&&!MV.skip)return;if(MV.min<90)MV.min++;mvGoals();mvDraw();if(MV.min>=90)mvStop();}
 function mvGoals(){
   while(MV.k<MV.ev.length&&MV.ev[MV.k].t<=MV.min){const e=MV.ev[MV.k++];
     if(e.k){const id0=e.s==='h'?MV.m.h:MV.m.a,nm0=e.s==='h'?MV.m.hn:MV.m.an,tn=' ('+esc(nm0)+')',N=esc(e.n),O=esc(e.o||''),tg=(MV.m.h===MV.my||MV.m.a===MV.my)?(id0===MV.my?'':'rv'):'';
       const T={falta:'Falta de '+N+tn+(O?' sobre '+O:'')+'.',parada:'Parada del portero de '+esc(nm0)+'. Disparo de '+(e.s==='h'?esc(MV.m.an):esc(MV.m.hn))+' atajado.',fuera:'Disparo de '+N+tn+' que se va fuera.',corner:'Saque de esquina para '+esc(nm0)+'.',offside:'Fuera de juego de '+N+tn+'.',palo:'¡Al palo! Disparo de '+N+tn+'.',amarilla:'Tarjeta amarilla para '+N+tn+'.',roja:'¡Tarjeta roja directa para '+N+tn+'!',roja2:'Segunda amarilla y expulsión de '+N+tn+'.'};
       mvLog(e.t,T[e.k],e.k==='amarilla'?'am':e.k==='roja'||e.k==='roja2'?'rj':tg===''?'':'');if(e.k==='roja'||e.k==='roja2')SFX.whistle(2);else if(e.k==='amarilla')SFX.whistle(1);continue;}
-    if(e.s==='h')MV.h++;else MV.a++;
     const id=e.s==='h'?MV.m.h:MV.m.a,nm=e.s==='h'?MV.m.hn:MV.m.an,mine=id===MV.my,hasMine=MV.m.h===MV.my||MV.m.a===MV.my;
     if(!MV.skip)playClip(clipKindFor(e),'gol',hasMine?(mine?{mine:true}:{rival:true,flip:true}):{side:e.s,flip:e.s==='a'});
+    if(e.s==='h')MV.h++;else MV.a++;
     mvLog(e.t,(mine?'Gol de ':'Gol de ')+esc(e.n)+(mine?'.':' ('+esc(nm)+').'),hasMine?(mine?'gol':'rv'):'gol');
     if(mine){goalBanner('¡GOL!');setTimeout(()=>SFX.goal(),hold());}else{goalBanner('Gol rival','r');setTimeout(()=>SFX.rival(),hold());}
     }
