@@ -1298,7 +1298,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 455">Kickling · v455</div>
+  <div class="verl" aria-label="Kickling versión 456">Kickling · v456</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1768,7 +1768,7 @@ function tcUpdate(){try{if(!TM||!TM.ok||!TM.me||!TM.me.team||!S.tc)return;const 
   if(up!==S.tc.upto){S.tc.upto=up;ch=true;}if(ch)save(true);}catch(e){}}
 
 let _sbg={k:'',v:''};
-function benchLv(){try{const t=myTeam();return Math.max(1,Math.min(10,Math.round(+((t&&t.stad)||{}).banquillo||0)||1));}catch(e){return 1;}}
+function benchLv(){try{const t=myTeam();return Math.max(0,Math.min(10,Math.round(+((t&&t.stad)||{}).banquillo||0)||0));}catch(e){return 0;}}
 function benchMarkup(cx,L,K,mine){
   const f=n=>(+n).toFixed(1),OL='#10244a',yb=119,w=10+L*1.0,h=8+L*1.2,x0=cx-w/2,EX=.52;
   const ob=(x,y,ww,hh,fill,rx,sw,op)=>'<rect x="'+f(x)+'" y="'+f(y)+'" width="'+f(ww)+'" height="'+f(hh)+'" rx="'+(rx||0)+'" fill="'+fill+'" stroke="'+OL+'" stroke-width="'+(sw||1.3)+'" vector-effect="non-scaling-stroke"'+(op?' opacity="'+op+'"':'')+'/>';
@@ -1852,7 +1852,7 @@ function stadiumBg(){const K=kit(),SL=stadiumLv(),BL=benchLv(),HR=skyHour(),key=
   for(let i=0;i<W;i+=20)o+='<rect x="'+i+'" y="112" width="10" height="5.5" fill="'+K.c+'"/><rect x="'+(i+10)+'" y="112" width="10" height="5.5" fill="'+K.d+'"/>';
   o+='<rect y="117.3" width="100" height=".8" fill="#0d2a63" opacity=".4"/><rect y="118" width="100" height="62" fill="url(#gr)"/>';
   {let y=118,h=5,k=0;while(y<H){if(k%2===0)o+='<rect y="'+y.toFixed(1)+'" width="100" height="'+h.toFixed(1)+'" fill="#78D843" opacity=".35"/>';y+=h;h*=1.18;k++;}}
-  o+=benchMarkup(28,BL,K,true)+benchMarkup(72,1,K,false);
+  o+=(BL>=1?benchMarkup(28,BL,K,true):'')+benchMarkup(72,1,K,false);
   o+='<path d="M-10 168 Q50 150 110 168" fill="none" stroke="#fff" stroke-width="1.2" opacity=".55"/>'+(SK.n>.05?'<rect width="100" height="180" fill="#07102a" opacity="'+(SK.n*.42).toFixed(2)+'"/>':'')+'<g transform="translate(0 -1.5)">'+LT+'</g>'+'<rect width="100" height="180" fill="url(#v)"/></svg>';
   _sbg={k:key,v:'url("data:image/svg+xml,'+encodeURIComponent(o)+'") center/100% 100% no-repeat,#8FD6FF'};return _sbg.v;}
 
