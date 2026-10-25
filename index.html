@@ -1296,7 +1296,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 449">Kickling · v449</div>
+  <div class="verl" aria-label="Kickling versión 450">Kickling · v450</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2824,13 +2824,16 @@ const MUS=(()=>{
   function start(){if(!on||started&&ctx&&ctx.state==='running')return;
     try{if(!ctx){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;ctx=new AC();master=ctx.createGain();master.gain.value=.5;
         const c=ctx.createDynamicsCompressor();master.connect(c);c.connect(ctx.destination);}
+      try{const sb=ctx.createBuffer(1,1,22050),ss=ctx.createBufferSource();ss.buffer=sb;ss.connect(ctx.destination);ss.start(0);}catch(e){}
+      try{if(navigator.audioSession)navigator.audioSession.type='playback';}catch(e){}
       ctx.resume().then(()=>{if(!on){ctx.suspend();return;}started=true;if(!timer){next=ctx.currentTime+.08;timer=setInterval(sched,60);}}).catch(()=>{});
     }catch(e){}}
   function stop(){if(timer){clearInterval(timer);timer=0;}if(ctx&&ctx.state==='running')ctx.suspend().catch(()=>{});started=false;}
   function set(v){on=!!v;try{localStorage.setItem(KEY,on?'1':'0');}catch(e){}if(on)start();else stop();paint();}
   function paint(){const b=document.getElementById('musicbtn');if(!b)return;b.setAttribute('aria-checked',on);b.lastElementChild.textContent=on?'Sí':'No';}
-  const first=()=>{start();};
-  document.addEventListener('pointerdown',first,{passive:true});document.addEventListener('keydown',first);
+  const first=()=>{if(on&&(!ctx||ctx.state!=='running'))start();};
+  ['pointerdown','touchstart','touchend','click','keydown'].forEach(ev=>document.addEventListener(ev,first,{passive:true,capture:true}));
+  try{if(navigator.audioSession)navigator.audioSession.type='playback';}catch(e){}
   document.addEventListener('visibilitychange',()=>{if(document.hidden){if(ctx&&ctx.state==='running')ctx.suspend().catch(()=>{});}else if(on&&started)start();});
   document.getElementById('musicbtn').addEventListener('click',()=>set(!on));
   paint();
