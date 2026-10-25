@@ -1296,7 +1296,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 448">Kickling · v448</div>
+  <div class="verl" aria-label="Kickling versión 449">Kickling · v449</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1905,10 +1905,10 @@ function mgRitmo(){const goodN=16+Math.round(S.lvl*.3),perfN=goodN+10;let n=0,le
   const b=$('#mgb');b.addEventListener('pointerdown',e=>{e.preventDefault();if(D.done)return;if(!go){go=true;mgT.push(setInterval(()=>{left--;$('#mgt').textContent='Tiempo: '+(left/10).toFixed(1)+' s';if(left<=0){const m=n>=perfN?1.5:n>=goodN?1:.5;endDrill(m,m>=1.5?'¡Perfecto! '+n+' toques':m>=1?'Bien · '+n+' toques':'Flojo · '+n+' toques');}},100));}
     n++;$('#mgc').textContent=n;});}
 /* Control de balón: toca el cono que se ilumina */
-function mgRegate(){const R=6,T=Math.max(620,1120-S.lvl*12);let r=0,h=0,cur=-1,lock=false;
+function mgRegate(){const R=6,T=Math.max(1100,1800-S.lvl*10);let r=0,h=0,cur=-1,lock=false;
   $('#mg').innerHTML='<div class="mgh">Toca el cono que se ilumina</div><div class="mgcones">'+[0,1,2,3,4,5].map(i=>'<button class="mgcone" data-c="'+i+'">'+ico('cone',30)+'</button>').join('')+'</div><div class="mgs" id="mgt"></div>';
   const cs=[...document.querySelectorAll('.mgcone')];
-  function next(){if(r>=R){const m=h>=5?1.5:h>=3?1:.5;endDrill(m,m>=1.5?'¡Perfecto! '+h+'/'+R:m>=1?'Bien · '+h+'/'+R:'Flojo · '+h+'/'+R);return;}
+  function next(){if(r>=R){const m=h>=4?1.5:h>=2?1:.5;endDrill(m,m>=1.5?'¡Perfecto! '+h+'/'+R:m>=1?'Bien · '+h+'/'+R:'Flojo · '+h+'/'+R);return;}
     r++;lock=false;cs.forEach(c=>c.classList.remove('on','ok','ko'));let n;do{n=Math.floor(Math.random()*6)}while(n===cur);cur=n;cs[n].classList.add('on');$('#mgt').textContent='Ronda '+r+'/'+R+' · aciertos '+h;
     mgT.push(setTimeout(()=>{if(!lock){lock=true;cs[cur].classList.add('ko');mgT.push(setTimeout(next,260));}},T));}
   $('#mg').querySelector('.mgcones').addEventListener('pointerdown',e=>{const b=e.target.closest('.mgcone');if(!b||lock||D.done)return;lock=true;if(+b.dataset.c===cur){h++;b.classList.add('ok');}else b.classList.add('ko');mgT.push(setTimeout(next,260));});
