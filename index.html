@@ -1296,7 +1296,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 450">Kickling · v450</div>
+  <div class="verl" aria-label="Kickling versión 451">Kickling · v451</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2836,6 +2836,7 @@ const MUS=(()=>{
   try{if(navigator.audioSession)navigator.audioSession.type='playback';}catch(e){}
   document.addEventListener('visibilitychange',()=>{if(document.hidden){if(ctx&&ctx.state==='running')ctx.suspend().catch(()=>{});}else if(on&&started)start();});
   document.getElementById('musicbtn').addEventListener('click',()=>set(!on));
+  setTimeout(()=>{try{start();}catch(e){}},400);
   paint();
   return {set:set};
 })();
