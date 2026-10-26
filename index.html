@@ -502,6 +502,7 @@ nav.bot button[data-dot="1"]::after{content:"";position:absolute;top:1px;right:5
 .tl.mem.xi{background:linear-gradient(#EAF8C9,#CFEA9B);border-color:var(--green-b)}
 .cpt{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;margin-left:4px;border-radius:50%;background:linear-gradient(#ffd34d,#f5a800);border:1.5px solid #fff;box-shadow:0 0 0 1px #b87400;color:#5a3a00;font-family:var(--display);font-size:10px;line-height:1;vertical-align:middle}
 .tbh{display:flex;align-items:center;gap:5px}.tbi{flex:none;width:16px;height:16px;border-radius:50%;border:1.5px solid #17418f;background:rgba(23,65,143,.12);color:#17418f;font:italic 700 11px/1 Georgia,serif;padding:0;display:grid;place-items:center;cursor:pointer}
+.pwwrap{position:relative}.pwsh{position:absolute;right:8px;top:50%;transform:translateY(-50%);margin-top:-4px;border:0;background:rgba(23,65,143,.12);color:#17418f;border-radius:8px;padding:6px 10px;font-family:var(--display);font-size:12px;cursor:pointer}
 .lvm{position:relative;flex:none;margin-left:-2px;width:30px;height:30px;display:grid;place-items:center}.lvm .st{position:absolute;inset:0;display:block}.lvm .st .ico{width:100%;height:100%}.lvm b{position:relative;font-family:var(--display);font-weight:400;font-size:15px;line-height:1;color:#fff;-webkit-text-stroke:2.2px #0B3F9E;paint-order:stroke fill;transform:translateY(-.5px)}
 .lvc{flex:none;margin-left:6px;min-width:34px;text-align:center;padding:2px 5px;border-radius:8px;background:rgba(23,65,143,.12);border:1.5px solid rgba(23,65,143,.35);color:#17418f;font-family:var(--display);font-size:11px;line-height:1.2;white-space:nowrap}
 .dn{display:flex;align-items:center;gap:4px;margin-left:auto}.dnd{display:inline-flex;align-items:center;gap:2px;margin-right:4px;padding:1px 6px;border-radius:9px;background:#fff3d6;border:1.5px solid #f5b800;color:#8a5a00;font-size:11px;font-weight:800;white-space:nowrap}.dn b{min-width:22px;text-align:center;font-size:17px}
@@ -1292,14 +1293,14 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <p class="note" id="acst" style="margin:6px 0 8px"></p>
     <div id="acout">
       <input id="acmail" class="pin" type="email" placeholder="Correo" autocomplete="email" autocapitalize="off" spellcheck="false" style="margin:0 0 8px">
-      <input id="acpw" class="pin" type="password" placeholder="Contraseña (mín. 6)" autocomplete="current-password" style="margin:0 0 8px">
+      <div class="pwwrap"><input id="acpw" class="pin" type="password" placeholder="Contraseña (mín. 6)" autocomplete="current-password" style="margin:0 0 8px;padding-right:84px"><button type="button" id="acshow" class="pwsh" aria-pressed="false" aria-label="Mostrar contraseña">Mostrar</button></div>
       <div class="row" style="gap:8px"><button class="btn alt" id="accreate" style="flex:1">Crear cuenta</button><button class="btn alt" id="aclogin" style="flex:1">Iniciar sesión</button></div>
     </div>
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="acsave" style="flex:1">Guardar ahora</button><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 465">Kickling · v465</div>
+  <div class="verl" aria-label="Kickling versión 466">Kickling · v466</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2160,6 +2161,7 @@ async function acGo(kind){const em=$('#acmail').value.trim(),pw=$('#acpw').value
   try{if(kind==='new')await AQ.link(em,pw);else await AQ.login(em,pw);$('#acpw').value='';await acAfterAuth(kind==='new');}
   catch(e){toast(e&&e.message?e.message:'No se pudo.');}
   bs.forEach(b=>b.disabled=false);acPaint();}
+$('#acshow').addEventListener('click',()=>{const i=$('#acpw'),on=i.type==='password';i.type=on?'text':'password';const b=$('#acshow');b.textContent=on?'Ocultar':'Mostrar';b.setAttribute('aria-pressed',on);b.setAttribute('aria-label',on?'Ocultar contraseña':'Mostrar contraseña');});
 if(AQ){$('#accreate').addEventListener('click',()=>acGo('new'));$('#aclogin').addEventListener('click',()=>acGo('login'));
   $('#acsave').addEventListener('click',async()=>{toast(await acPush(true)?'Guardado en la nube.':'No se pudo guardar. Revisa la conexión.');});
   $('#aclogout').addEventListener('click',async()=>{await acPush(true);AQ.logout();toast('Sesión cerrada.');setTimeout(()=>location.reload(),400);});
