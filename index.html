@@ -1296,11 +1296,11 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
       <div class="pwwrap"><input id="acpw" class="pin" type="password" placeholder="Contraseña (mín. 6)" autocomplete="current-password" style="margin:0 0 8px;padding-right:84px"><button type="button" id="acshow" class="pwsh" aria-pressed="false" aria-label="Mostrar contraseña">Mostrar</button></div>
       <div class="row" style="gap:8px"><button class="btn alt" id="accreate" style="flex:1">Crear cuenta</button><button class="btn alt" id="aclogin" style="flex:1">Iniciar sesión</button></div>
     </div>
-    <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="acsave" style="flex:1">Guardar ahora</button><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
+    <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 468">Kickling · v468</div>
+  <div class="verl" aria-label="Kickling versión 469">Kickling · v469</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2187,7 +2187,6 @@ async function acGo(kind){const em=$('#acmail').value.trim(),pw=$('#acpw').value
   bs.forEach(b=>b.disabled=false);acPaint();}
 $('#acshow').addEventListener('click',()=>{const i=$('#acpw'),on=i.type==='password';i.type=on?'text':'password';const b=$('#acshow');b.textContent=on?'Ocultar':'Mostrar';b.setAttribute('aria-pressed',on);b.setAttribute('aria-label',on?'Ocultar contraseña':'Mostrar contraseña');});
 if(AQ){$('#accreate').addEventListener('click',()=>acGo('new'));$('#aclogin').addEventListener('click',()=>acGo('login'));
-  $('#acsave').addEventListener('click',async()=>{toast(await acPush(true)?'Guardado en la nube.':'No se pudo guardar. Revisa la conexión.');});
   $('#aclogout').addEventListener('click',async()=>{await acPush(true);AQ.logout();toast('Sesión cerrada.');setTimeout(()=>location.reload(),400);});
   document.addEventListener('click',e=>{if(e.target.closest('[data-set]'))acInfo();},true);acInfo();}
 
