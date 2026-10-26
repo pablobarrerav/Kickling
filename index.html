@@ -1299,7 +1299,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
   <button class="btn gold" id="setok" style="width:100%">Cerrar</button>
-  <div class="verl" aria-label="Kickling versión 462">Kickling · v462</div>
+  <div class="verl" aria-label="Kickling versión 463">Kickling · v463</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2044,10 +2044,10 @@ function tick(){if(!M||M.wait||M.over)return;if(Date.now()<clipUntil)return;M.mi
   if(M.idx<M.mom.length&&M.min>=M.mom[M.idx]){M.wait=true;showActs();}
   else if(M.min>=90){finish();return;}
   paintMatch();}
-function actP(k){const s=stats(),rv=M.rv,z=(M.sit&&M.sit[k])||0;
-  if(k==='chutar')return [clamp(.32+(s.disparo-rv)/140+z,.05,.9),1];
-  if(k==='regatear')return [clamp(.5+(s.regate-rv)/120+z,.1,.92),clamp(.5+(s.disparo-rv)/220+z/2,.2,.75)];
-  return [clamp(.62+(s.pase-rv)/150+z,.2,.95),.5];}
+function actP(k){const s=stats(),rv=M.rv,z=(M.sit&&M.sit[k])||0,b=M.tour?0:.09;
+  if(k==='chutar')return [clamp(.32+b+(s.disparo-rv)/140+z,.05,.95),1];
+  if(k==='regatear')return [clamp(.5+b+(s.regate-rv)/120+z,.1,.95),clamp(.5+b+(s.disparo-rv)/220+z/2,.2,.82)];
+  return [clamp(.62+b+(s.pase-rv)/150+z,.2,.97),.5+b];}
 function actPct(k){const P=actP(k);return [Math.round(P[0]*P[1]*100),k==='pasar'?'asist.':'gol'];}
 function showActs(){M.sit={};Object.keys(ACTS).forEach(k=>{M.sit[k]=(Math.random()-.5)*.28;});logAdd(M.min,'El balón llega a tus pies. ¿Qué haces?');
   $('#acts').innerHTML=Object.keys(ACTS).map(k=>'<button class="opt" data-act="'+k+'"><i class="oi">'+ico(ACT_ICO[k],34)+'</i><strong>'+ACTS[k].n+'</strong><span>'+ACTS[k].d+'</span><b class="apc num" aria-label="Probabilidad de acierto">'+actPct(k)[0]+'% '+actPct(k)[1]+'</b></button>').join('');
