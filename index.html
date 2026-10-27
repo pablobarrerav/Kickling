@@ -1297,7 +1297,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 479">Kickling · v479</div>
+  <div class="verl" aria-label="Kickling versión 480">Kickling · v480</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1916,7 +1916,7 @@ function trposView(){const el=$('#trpos');if(!el)return;const tl=$('#trlist');if
     '<span class="note" style="margin:0">'+(S.pos.length?'':'Elige tu posición tocando tu jugador. Mientras, entrenas como Delantero.')+'</span>';}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-trpos]');if(!b)return;trPos=b.dataset.trpos;trposView();drills();timedView();});
 function drills(){trposView();$('#drills').innerHTML=Object.keys(DRILLS).map(k=>{const d=PD(k),t=S.trained[k],full=t>=capT()-.05;
-  return '<button class="opt" data-drill="'+k+'" data-cost="'+DRILL_COST+'"><i class="oi">'+ico(DRILL_ICO[k],34)+'</i><strong>'+d.n+'</strong><span>'+d.st+(full?' · tope':'')+'</span><em>'+ico('drop',22)+DRILL_COST+'</em></button>';}).join('');}
+  return '<button class="opt" data-drill="'+k+'" data-cost="'+DRILL_COST+'"><i class="oi">'+ico(DRILL_ICO[k],34)+'</i><strong>'+d.n+'</strong><span>'+d.st+' · hasta +'+Math.round((12+S.lvl*.8)*1.5*xpMult())+' XP'+(full?' · tope':' · +'+fmtD(2/3*TRF))+'</span><em>'+ico('drop',22)+DRILL_COST+'</em></button>';}).join('');}
 function comps(){$('#comps').innerHTML=Object.keys(COMP).map(k=>{const c=COMP[k];
   return '<button class="opt" data-comp="'+k+'" data-cost="'+c.cost+'"><i class="oi">'+ico(COMP_ICO[k],34)+'</i><strong>'+c.n+'</strong><span>'+c.d+' · +'+c.xp+' XP base</span><em>'+ico('drop',22)+c.cost+'</em></button>';}).join('')+'<button class="opt" data-comp="torneo"><i class="oi">'+ico('flag',34)+'</i><strong>Torneo</strong><span>Aventura por niveles contra rivales cada vez más fuertes · '+Math.min(S.tour||0,TOUR_N)+'/'+TOUR_N+'</span><em>'+ico('trophy',22)+'Nivel '+Math.min((S.tour||0)+1,TOUR_N)+'</em></button>';}
 let shopSlot='c';
