@@ -1297,7 +1297,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 474">Kickling · v474</div>
+  <div class="verl" aria-label="Kickling versión 475">Kickling · v475</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1795,7 +1795,7 @@ function benchMarkup(cx,L,K,mine){
 function goalLv(){try{const t=myTeam();return Math.max(0,Math.min(10,Math.round(+((t&&t.stad)||{}).porteria||0)||0));}catch(e){return 0;}}
 function goalMarkup(cx,L,K){
   const f=n=>(+n).toFixed(1),OL='#10244a',yb=157,h=18+L*.9,m=cx<50?1:-1;
-  const W=[m*2,-(13+L*.5)],D=[-m*(7+L*.35),-2];
+  const W=[m*2,-(13+L*.5)],D=[-m*(5+L*.3),-2];
   const pc=['#b98b55','#8a5f33','#9aa6c4','#e8ecf5','#cfd8ee','#ffffff',K.c,K.d,'#7FD0FF','#FFE9A0','#F5B800'][L];
   const A=[cx,yb],B=[cx+W[0],yb+W[1]];/* A cerca, B lejos (parte baja del poste) */
   const up=(P,k)=>[P[0],P[1]-h*(k===undefined?1:k)],add=(P,V,k)=>[P[0]+V[0]*(k===undefined?1:k),P[1]+V[1]*(k===undefined?1:k)];
@@ -1891,7 +1891,7 @@ function stadiumBg(){const K=kit(),SL=stadiumLv(),BL=benchLv(),CL=campoLv(),GL=g
   if(CL>=3)o+='<rect y="118" width="100" height="62" fill="#9BE85A" opacity="'+Math.min(.2,(CL-2)*.025).toFixed(3)+'"/>';
   if(CL>=8){let y=118,h=5,k=0;while(y<H){if(k%2===1)o+='<rect y="'+y.toFixed(1)+'" width="100" height="'+h.toFixed(1)+'" fill="#1F6A10" opacity=".16"/>';y+=h;h*=1.18;k++;}}
   if(CL>=9)o+='<rect y="118" width="100" height="1.2" fill="'+(CL>=10?'#F5B800':'#E8F1FF')+'" opacity=".85"/>'+(CL>=10?'<rect y="118" width="100" height="62" fill="#FFF7B8" opacity=".07"/>'+[3,97].map(x=>'<rect x="'+(x-.3)+'" y="119" width=".6" height="6" fill="#fff" stroke="#10244a" stroke-width="1" vector-effect="non-scaling-stroke"/><polygon points="'+(x-.3)+',119 '+(x+(x<50?4:-4))+',120.6 '+(x-.3)+',122.2" fill="#F5B800" stroke="#10244a" stroke-width="1" vector-effect="non-scaling-stroke"/>').join(''):'');
-  o+=goalMarkup(14,GL,K)+goalMarkup(86,GL,K);
+  o+=goalMarkup(10,GL,K)+goalMarkup(90,GL,K);
   o+=BL>=1?benchMarkup(28,BL,K,true)+benchMarkup(72,BL,K,true):'';
   o+='<path d="M-10 168 Q50 150 110 168" fill="none" stroke="#fff" stroke-width="1.2" opacity=".55"/>'+(SK.n>.05?'<rect width="100" height="180" fill="#07102a" opacity="'+(SK.n*.42).toFixed(2)+'"/>':'')+'<g transform="translate(0 -1.5)">'+LT+'</g>'+'<rect width="100" height="180" fill="url(#v)"/></svg>';
   _sbg={k:key,v:'url("data:image/svg+xml,'+encodeURIComponent(o)+'") center/100% 100% no-repeat,#8FD6FF'};return _sbg.v;}
@@ -2099,7 +2099,7 @@ function act(t){if(!M||!M.wait)return;const s=stats(),rv=M.rv,m=M.min,g0=M.me;SF
 function finish(){dqEnsure();clearInterval(M.timer);M.over=true;SFX.whistle(3);logAdd(90,'Final del partido: '+M.me+' – '+M.rt+'.');paintMatch();
   const win=M.me>M.rt,draw=M.me===M.rt,k=M.k,xm=xpMult();
   const dr=draw&&M.tour;let xp=Math.round((k.xp*(win?1.3:dr?.25:draw?.65:.3)+(win||(draw&&!dr)?1:.5)*(15*M.g+10*M.a))*xm);
-  let co=!win?0:Math.round(k.coins*1.5+6*M.g),tnote='';
+  let co=!win?0:Math.round((k.coins*1.5+6*M.g)*(M.tour?1:.7)),tnote='';
   if(M.tour&&win&&M.tour>(S.tour||0)){S.tour=M.tour;if(M.tour%5===0)co+=60;tnote='¡Nivel '+M.tour+' del torneo superado!'+(M.tour>=TOUR_N?' ¡Eres campeón del torneo!':M.tour===20?' ¡Primera página completada! Ya puedes con los rivales 21–40.':'')+' ';}
   S.coins+=co;const up=addXP(xp);const c=S.career;c.pj++;c.g+=M.g;c.a+=M.a;c.iv=(c.iv||0)+Math.max(1,Math.round(3+rnd(0,5)-M.rt*.6));if(win)c.w++;else if(draw)c.d++;else c.l++;save();
   const t=$('#rtitle');if(win){t.setAttribute('aria-label','¡Victoria!');t.innerHTML=Array.from('¡Victoria!').map((c,i)=>'<span aria-hidden="true" style="--i:'+i+'">'+c+'</span>').join('');}else{const w=draw?'Empate':'Derrota';t.setAttribute('aria-label',w);t.innerHTML=Array.from(w).map((c,i)=>'<span aria-hidden="true" style="--i:'+i+'">'+c+'</span>').join('');}t.className='big '+(win?'w':draw?'d':'l');
