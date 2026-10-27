@@ -1297,7 +1297,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 485">Kickling · v485</div>
+  <div class="verl" aria-label="Kickling versión 486">Kickling · v486</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2566,7 +2566,7 @@ function pitchSvg(t,ms){const xi=xiOf(t.id),K=(t.kit&&HEX.test(t.kit.c))?t.kit:D
       +tx+'<g><rect x="'+(x-9)+'" y="'+(py-5.5)+'" width="18" height="10" rx="5" fill="#10244a" opacity=".85"/><text x="'+x+'" y="'+(py+2)+'" text-anchor="middle" font-family="inherit" font-weight="800" font-size="8" fill="#fff">'+(+m.ovr||0)+'</text></g></g>';});});
   return o+'</svg>';}
 function pickView(t){if(!tmPick)return '';const m=xiOf(t.id).find(x=>x.id===tmPick);if(!m||!canKit(t)){tmPick=null;return '';}
-  return '<div class="card swp"><div class="label">'+esc(m.name||'Jugador')+' · dorsal '+(((t.nums||{})[m.id])||'–')+'</div><div class="row" style="gap:8px"><button class="btn alt sm" data-pkdn="'+esc(m.id)+'" style="flex:1">Cambiar dorsal</button><button class="btn alt sm" data-pksw="'+esc(m.id)+'" style="flex:1">Cambiar jugador</button></div><div class="row" style="gap:8px;margin-top:8px"><button class="btn alt sm" data-pl="'+esc(m.id)+'" style="flex:1">Ver ficha</button><button class="btn alt sm" data-pkx="1" style="flex:1">Cancelar</button></div></div>';}
+  return '<div class="card swp"><div class="label">'+esc(m.name||'Jugador')+' · dorsal '+(((t.nums||{})[m.id])||'–')+'</div><div class="row" style="gap:8px"><button class="btn alt sm" data-pkdn="'+esc(m.id)+'" style="flex:1">Cambiar dorsal</button><button class="btn alt sm" data-pksw="'+esc(m.id)+'" style="flex:1">Cambiar jugador</button></div></div>';}
 function swapView(t,ms){if(!tmSwap)return '';const xi=xiOf(t.id),out=xi.find(m=>m.id===tmSwap);if(!out){tmSwap=null;return '';}
   if(!canKit(t))return '';
   const rest=xi.filter(m=>m.id!==out.id),bench=ms.filter(m=>!xi.some(x=>x.id===m.id)).sort((a,b)=>(+b.ovr||0)-(+a.ovr||0)),pb=m=>{const p=String(m.pos||'').split(',')[0],A={por:'PT',def:'DF',med:'MC',del:'DC'}[p];return A?'<u class="pbd pb-'+p+'" title="'+POSN[p]+'">'+A+'</u>':'';};
