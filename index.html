@@ -1297,7 +1297,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 480">Kickling · v480</div>
+  <div class="verl" aria-label="Kickling versión 481">Kickling · v481</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1468,7 +1468,7 @@ function clean(o){const d=DEF();o=(o&&typeof o==='object')?o:{};if(o.lvl)d.pid=/
   {const tc=o.tc&&o.tc.v===2?o.tc:{};d.tc={v:2};['pj','ga','cs','g','a','w','d','l','iv','rn','mv'].forEach(k=>d.tc[k]=Math.round(num(tc[k],0,1e7,0)));d.tc.rs=Math.round(num(tc.rs,0,1e8,0)*10)/10;d.tc.upto=Math.round(num(tc.upto,0,8.64e15,0));}
   const ids=[];for(const sl of 'cpsz')ITEMS[sl].forEach(i=>ids.push(i.id));
   const own=Array.isArray(o.owned)?o.owned.filter(x=>ids.includes(x)):[];
-  {const bo=o.boost&&typeof o.boost==='object'?o.boost:{};d.boost={};['r','x'].forEach(k=>{const b=bo[k]||{};const m=num(b.m,1,3,1),u=num(b.u,0,8.64e15,0);if(u>Date.now()&&m>1)d.boost[k]={m,u};});}
+  {const bo=o.boost&&typeof o.boost==='object'?o.boost:{};d.boost={};['r','x','m'].forEach(k=>{const b=bo[k]||{};const m=num(b.m,1,3,1),u=num(b.u,0,8.64e15,0);if(u>Date.now()&&m>1)d.boost[k]={m,u};});}
   d.tour=Math.round(num(o.tour,0,40,0));
   d.owned=Array.from(new Set(['c0','p0','s0','z0'].concat(own)));
   const eq={c:'c0',p:'p0',s:'s0',z:'z0'},oe=o.eq||{};
@@ -1488,8 +1488,9 @@ function paintSave(){const el=$('#savest');if(el)el.textContent='Tu progreso se 
 
 const gear=s=>ITEMS[s].find(i=>i.id===S.eq[s]);
 function stats(){const base=25+Math.floor(S.lvl*1.0)+(S.boff||0),TR=k=>(S.trained[k]||0)*TRF,c=gear('c'),p=gear('p'),z=gear('z'),so=gear('s');
-  return {ritmo:clamp(base+TR('ritmo')+p.b,1,99),regate:clamp(base+TR('regate')+Math.floor(z.b/2)+so.b,1,99),
-          disparo:clamp(base+TR('disparo')+z.b,1,99),pase:clamp(base+TR('pase')+c.b,1,99)};}
+  const bm=bMult('m');
+  return {ritmo:clamp((base+TR('ritmo')+p.b)*bm,1,99),regate:clamp((base+TR('regate')+Math.floor(z.b/2)+so.b)*bm,1,99),
+          disparo:clamp((base+TR('disparo')+z.b)*bm,1,99),pase:clamp((base+TR('pase')+c.b)*bm,1,99)};}
 const ovr=()=>{const s=stats(),w=STW[S.pos[0]||'del'];return Math.round(s.ritmo*w.ritmo+s.regate*w.regate+s.disparo*w.disparo+s.pase*w.pase)};
 const xpMult=()=>(1+(gear('c').xp+gear('p').xp+gear('s').xp+gear('z').xp)/100)*bMult('x');
 const TRF=.75;
@@ -1759,6 +1760,7 @@ function head(){$('#pshow2').textContent=S.name;try{const h=$('#hov');if(h){h.te
 function boostUI(){const el=$('#boosts');if(!el)return;const now=Date.now(),a=[];
   if(S.boost.r&&S.boost.r.u>now)a.push('Energía +'+Math.round((S.boost.r.m-1)*100)+'% · '+hrs(S.boost.r.u-now));
   if(S.boost.x&&S.boost.x.u>now)a.push('XP +'+Math.round((S.boost.x.m-1)*100)+'% · '+hrs(S.boost.x.u-now));
+  if(S.boost.m&&S.boost.m.u>now)a.push('Media +'+Math.round((S.boost.m.m-1)*100)+'% · '+hrs(S.boost.m.u-now));
   const h=a.map(t=>'<span>'+ico('bottle',16)+t+'</span>').join('');if(el.dataset.h!==h){el.dataset.h=h;el.innerHTML=h;}}
 function EMAX(){return 100+2*(Math.max(1,Math.floor(S.lvl||1))-1);}
 function energy(){boostUI();const e=Math.floor(S.energy),mx=EMAX();$('#enbar').style.width=Math.min(100,e/mx*100)+'%';$('#entxt').textContent=e+'/'+mx;
@@ -1926,14 +1928,15 @@ const DRINKS=[
  {id:'agua',n:'Agua fresca',d:'+25% de regeneración de energía durante 24 h',p:60,c:'#7FD1FF',k:'r',m:1.25,h:24},
  {id:'iso',n:'Isotónica',d:'+50% de regeneración de energía durante 24 h',p:130,c:'#FFB02E',k:'r',m:1.5,h:24},
  {id:'bat',n:'Batido de proteínas',d:'+25% de experiencia en entrenos y partidos durante 24 h',p:150,c:'#C98BFF',k:'x',m:1.25,h:24},
+ {id:'med',n:'Elixir de campeón',d:'+25% de media durante 24 h',p:500,c:'#FF5A5A',k:'m',m:1.25,h:24},
  {id:'ene',n:'Bebida energética',d:'Energía ×2 más rápida durante 6 h',p:200,c:'#5FDB6A',k:'r',m:2,h:6}];
 const hrs=ms=>{const m=Math.ceil(ms/6e4);return m>=60?Math.floor(m/60)+' h '+(m%60)+' min':m+' min';};
 document.addEventListener('click',e=>{const b=e.target.closest('[data-drink]');if(!b)return;const d=DRINKS.find(x=>x.id===b.dataset.drink);if(!d)return;
   if(S.coins<d.p){toast('No tienes monedas suficientes.');return;}
   const now=Date.now(),cur=S.boost[d.k],act=cur&&cur.u>now;
   S.coins-=d.p;S.boost[d.k]={m:Math.max(act?cur.m:1,d.m),u:(act?cur.u:now)+d.h*36e5};save();
-  toast(d.n+': activa durante '+d.h+' h.');head();energy();shop();});
-function bevStatus(){const now=Date.now(),a=[];if(S.boost.r&&S.boost.r.u>now)a.push('Energía +'+Math.round((S.boost.r.m-1)*100)+'% · '+hrs(S.boost.r.u-now));if(S.boost.x&&S.boost.x.u>now)a.push('XP +'+Math.round((S.boost.x.m-1)*100)+'% · '+hrs(S.boost.x.u-now));return a.length?'<p class="note drnote" style="font-weight:800">Activo: '+a.join(' · ')+'</p>':'';}
+  toast(d.n+': activa durante '+d.h+' h.');head();energy();home();shop();});
+function bevStatus(){const now=Date.now(),a=[];if(S.boost.r&&S.boost.r.u>now)a.push('Energía +'+Math.round((S.boost.r.m-1)*100)+'% · '+hrs(S.boost.r.u-now));if(S.boost.x&&S.boost.x.u>now)a.push('XP +'+Math.round((S.boost.x.m-1)*100)+'% · '+hrs(S.boost.x.u-now));if(S.boost.m&&S.boost.m.u>now)a.push('Media +'+Math.round((S.boost.m.m-1)*100)+'% · '+hrs(S.boost.m.u-now));return a.length?'<p class="note drnote" style="font-weight:800">Activo: '+a.join(' · ')+'</p>':'';}
 function shop(){const SL={bebidas:['Bebidas','bottle'],monedas:['Monedas (dinero real)','moneybag']};$('#seg').className='seg s6';$('#seg').innerHTML=Object.keys(SLOT).concat(['bebidas','monedas']).map(k=>{const lb=SL[k]?SL[k][0]:SLOT[k].label;return '<button data-slot="'+k+'" aria-pressed="'+(k===shopSlot)+'" aria-label="'+lb+'" title="'+lb+'">'+ico(SL[k]?SL[k][1]:SLOTICO[k],30)+'</button>';}).join('');
   if(shopSlot==='bebidas'){$('#items').innerHTML='<div class="label">Bebidas</div>'+bevStatus()+DRINKS.map(d=>'<div class="card item"><div class="sw drk" style="background:'+d.c+'">'+ico('bottle',28)+'</div><div><strong>'+d.n+'</strong><span>'+d.d+'</span></div><button class="btn gold" data-drink="'+d.id+'"'+(S.coins<d.p?' disabled':'')+'>'+ico('coin',22)+fmt(d.p)+'</button></div>').join('')+'';return;}
   if(shopSlot==='monedas'){$('#items').innerHTML='<p class="note drnote">Las compras con dinero real todavía no están activas. Estarán disponibles en la versión de la tienda de aplicaciones.</p>'+'<div class="label">Monedas</div>'+COINPK.map(d=>'<div class="card item"><div class="sw drk" style="background:'+d[3]+'">'+ico('coin',30)+'</div><div><strong>'+d[0]+'</strong><span>'+d[1]+'</span></div><button class="btn" disabled>'+d[2]+'</button></div>').join('')+'';return;}
