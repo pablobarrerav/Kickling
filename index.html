@@ -1297,7 +1297,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 488">Kickling · v488</div>
+  <div class="verl" aria-label="Kickling versión 489">Kickling · v489</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1494,6 +1494,7 @@ function stats(){const base=25+Math.floor(S.lvl*1.0)+(S.boff||0),TR=k=>(S.traine
 const ovr=()=>{const s=stats(),w=STW[S.pos[0]||'del'];return Math.round(s.ritmo*w.ritmo+s.regate*w.regate+s.disparo*w.disparo+s.pase*w.pase)};
 const xpMult=()=>(1+(gear('c').xp+gear('p').xp+gear('s').xp+gear('z').xp)/100)*bMult('x');
 const TRF=.75;
+const qRem=r=>Math.max(0,Math.floor(r/(2/3)+.03))*(2/3);
 const fmtD=n=>String(Math.round(n*10)/10).replace('.',',');
 const need=l=>Math.round(80+55*(l-1)+6*(l-1)*(l-1));
 const capT=()=>3+S.lvl*2;
@@ -1917,7 +1918,7 @@ function trposView(){const el=$('#trpos');if(!el)return;const tl=$('#trlist');if
   el.innerHTML=S.pos.length>1?S.pos.map(k=>'<button class="pchip'+(k===curPos()?' on':'')+'" data-trpos="'+k+'" aria-pressed="'+(k===curPos())+'">'+POSN[k]+'</button>').join(''):
     '<span class="note" style="margin:0">'+(S.pos.length?'':'Elige tu posición tocando tu jugador. Mientras, entrenas como Delantero.')+'</span>';}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-trpos]');if(!b)return;trPos=b.dataset.trpos;trposView();drills();timedView();});
-function drills(){trposView();$('#drills').innerHTML=Object.keys(DRILLS).map(k=>{const d=PD(k),t=S.trained[k],full=t>=capT()-.05;
+function drills(){trposView();$('#drills').innerHTML=Object.keys(DRILLS).map(k=>{const d=PD(k),t=S.trained[k],full=qRem(capT()-t)<=0;
   return '<button class="opt" data-drill="'+k+'" data-cost="'+DRILL_COST+'"><i class="oi">'+ico(DRILL_ICO[k],34)+'</i><strong>'+d.n+'</strong><span>'+d.st+' · hasta +'+Math.round((12+S.lvl*.8)*1.5*xpMult())+' XP'+(full?' · tope':' · +'+fmtD(2/3*TRF))+'</span><em>'+ico('drop',22)+DRILL_COST+'</em></button>';}).join('');}
 function comps(){$('#comps').innerHTML=Object.keys(COMP).map(k=>{const c=COMP[k];
   return '<button class="opt" data-comp="'+k+'" data-cost="'+c.cost+'"><i class="oi">'+ico(COMP_ICO[k],34)+'</i><strong>'+c.n+'</strong><span>'+c.d+' · +'+c.xp+' XP base</span><em>'+ico('drop',22)+c.cost+'</em></button>';}).join('')+'<button class="opt" data-comp="torneo"><i class="oi">'+ico('flag',34)+'</i><strong>Torneo</strong><span>Aventura por niveles contra rivales cada vez más fuertes · '+Math.min(S.tour||0,TOUR_N)+'/'+TOUR_N+'</span><em>'+ico('trophy',22)+'Nivel '+Math.min((S.tour||0)+1,TOUR_N)+'</em></button>';}
@@ -1966,7 +1967,7 @@ function startDrill(k){if(!S.pos.length){toast('Elige tu posición para poder en
   ({ritmo:mgRitmo,regate:mgRegate,disparo:mgDisparo,pase:mgPase})[k]();}
 function endDrill(m,msg){if(!D||D.done)return;D.done=true;mgClear();
   const xp=Math.round((12+S.lvl*.8)*m*xpMult()),co=m>=1.5?1:m>=1&&Math.random()<.5?1:0;let extra='';S.coins+=co;
-  if(m>=1){dqEnsure();S.dq.tr++;if(S.trained[D.k]<capT()-.05){S.trained[D.k]=Math.round(Math.min(capT(),S.trained[D.k]+2/3)*100)/100;extra=' · +'+fmtD(2/3*TRF)+' '+statName(D.k)}else extra=' · Tope de nivel'}
+  if(m>=1){dqEnsure();S.dq.tr++;if(qRem(capT()-S.trained[D.k])>0){S.trained[D.k]=Math.round((S.trained[D.k]+2/3)*100)/100;extra=' · +'+fmtD(2/3*TRF)+' '+statName(D.k)}else extra=' · Tope de nivel'}
   addXP(xp);save();const rc=$('#mg').getBoundingClientRect();floatTxt('+'+xp+' XP',rc.left+rc.width/2,rc.top+rc.height*.5);if(m>=1.5)confetti(26);
   $('#say').textContent=msg+' · +'+xp+' XP'+(co?' · +'+co+(co===1?' moneda':' monedas'):'')+extra;$('#again').hidden=false;$('#back').hidden=false;
   $('#again').disabled=S.energy<DRILL_COST;popEl('#say');head();home();drills();energy();}
@@ -2933,7 +2934,7 @@ const durMin=k=>tierOf(k).m;
 const mmss=ms=>{const t=Math.ceil(ms/1000),h=Math.floor(t/3600),m=Math.floor(t%3600/60),s2=t%60;return (h?h+':'+String(m).padStart(2,'0'):m)+':'+String(s2).padStart(2,'0');};
 const fdur=m=>m>=60?Math.floor(m/60)+' h'+(m%60?' '+m%60+' min':''):m+' min';
 const tLeft=()=>{const A=S.timed;if(!A)return null;return Math.max(0,A.d-(Date.now()-Math.min(A.t,Date.now())));};
-function timedPay(k,min){return {xp:Math.round((12+S.lvl*.8)*(min/10)*1.2*xpMult()),pts:Math.max(0,Math.min((TIERS.find(t=>t.m===min)||{g:1.5}).g/TRF,capT()-S.trained[k])),coins:Math.round((6+S.lvl*.5)*(min/10)*.6)};}
+function timedPay(k,min){return {xp:Math.round((12+S.lvl*.8)*(min/10)*1.2*xpMult()),pts:Math.max(0,Math.min((TIERS.find(t=>t.m===min)||{g:1.5}).g/TRF,qRem(capT()-S.trained[k]))),coins:Math.round((6+S.lvl*.5)*(min/10)*.6)};}
 function timedView(){const el=$('#timed');if(!el)return;const A=S.timed,l=tLeft();
   el.innerHTML=Object.keys(TIMED).map(k=>{const T={n:PD(k).t,st:statName(k)},mine=A&&A.k===k;let em,attr,cls='',bar='',min=mine?Math.round(A.d/6e4):durMin(k);const pay=timedPay(k,min);
     if(mine&&l===0){em='<em class="rdy">¡Recoger!</em>';attr='data-tclaim="'+k+'" data-ready="1"';cls=' ready';}
