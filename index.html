@@ -1297,7 +1297,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 487">Kickling · v487</div>
+  <div class="verl" aria-label="Kickling versión 488">Kickling · v488</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2754,6 +2754,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-mvd]');if(
 document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('[data-mvd]')){e.preventDefault();mvOpen(e.target.dataset.mvd,+e.target.dataset.mvi);}});
 $('#p-team').addEventListener('click',async e=>{const hs=e.target.closest('[data-st]');if(hs){stSel=hs.dataset.st;teamRender();return;}
   if(e.target.id==='dnin')return;
+  if(tmPick&&!e.target.closest('[data-pp],.swp')){tmPick=null;if(!e.target.closest('button,[data-tv],[data-mvd],input,a')){teamRender();return;}}
   const pp=e.target.closest('[data-pp]');if(pp&&DB){const t=myTeam();if(!t)return;
     if(canKit(t)){tmSwap=null;tmPick=tmPick===pp.dataset.pp?null:pp.dataset.pp;teamRender();return;}
     const f=document.createElement('button');f.dataset.pl=pp.dataset.pp;f.hidden=true;$('#p-team').appendChild(f);f.click();f.remove();return;}
