@@ -1297,7 +1297,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 484">Kickling · v484</div>
+  <div class="verl" aria-label="Kickling versión 485">Kickling · v485</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1928,8 +1928,8 @@ const DRINKS=[
  {id:'agua',n:'Agua fresca',d:'+25% de regeneración de energía durante 24 h',p:60,c:'#7FD1FF',k:'r',m:1.25,h:24},
  {id:'iso',n:'Isotónica',d:'+50% de regeneración de energía durante 24 h',p:130,c:'#FFB02E',k:'r',m:1.5,h:24},
  {id:'bat',n:'Batido de proteínas',d:'+25% de experiencia en entrenos y partidos durante 24 h',p:150,c:'#C98BFF',k:'x',m:1.25,h:24},
- {id:'med',n:'Elixir de campeón',d:'+25% de media durante 24 h',p:500,c:'#FF5A5A',k:'m',m:1.25,h:24},
- {id:'ene',n:'Bebida energética',d:'Energía ×2 más rápida durante 6 h',p:200,c:'#5FDB6A',k:'r',m:2,h:6}];
+ {id:'ene',n:'Bebida energética',d:'Energía ×2 más rápida durante 6 h',p:200,c:'#5FDB6A',k:'r',m:2,h:6},
+ {id:'med',n:'Elixir de campeón',d:'+25% de media durante 24 h',p:500,c:'#FF5A5A',k:'m',m:1.25,h:24}];
 const hrs=ms=>{const m=Math.ceil(ms/6e4);return m>=60?Math.floor(m/60)+' h '+(m%60)+' min':m+' min';};
 document.addEventListener('click',e=>{const b=e.target.closest('[data-drink]');if(!b)return;const d=DRINKS.find(x=>x.id===b.dataset.drink);if(!d)return;
   if(S.coins<d.p){toast('No tienes monedas suficientes.');return;}
