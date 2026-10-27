@@ -1297,7 +1297,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 491">Kickling · v491</div>
+  <div class="verl" aria-label="Kickling versión 492">Kickling · v492</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1497,7 +1497,7 @@ const TRF=.75;
 const qRem=r=>Math.max(0,Math.floor(r/(2/3)+.03))*(2/3);
 const fmtD=n=>String(Math.round(n*10)/10).replace('.',',');
 const need=l=>Math.round(80+55*(l-1)+6*(l-1)*(l-1));
-const capT=()=>3+S.lvl*2;
+const capT=()=>5+S.lvl*3;
 
 let toastT=0;
 function toast(m,ms){const t=$('#toast');t.textContent=m;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>t.hidden=true,ms||2600);}
