@@ -1297,7 +1297,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 478">Kickling · v478</div>
+  <div class="verl" aria-label="Kickling versión 479">Kickling · v479</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1795,7 +1795,7 @@ function benchMarkup(cx,L,K,mine){
 function goalLv(){try{const t=myTeam();return Math.max(0,Math.min(10,Math.round(+((t&&t.stad)||{}).porteria||0)||0));}catch(e){return 0;}}
 function goalMarkup(cx,L,K){
   const f=n=>(+n).toFixed(1),OL='#10244a',yb=153,h=38+L*1.4,m=cx<50?1:-1;
-  const W=[m*2.5,-(17+L*.7)],D=[-m*(5+L*.35),-3];
+  const W=[m*2.5,-(17+L*.7)],D=[-m*(3+L*.3),-3];
   const pc=['#b98b55','#8a5f33','#9aa6c4','#e8ecf5','#cfd8ee','#ffffff',K.c,K.d,'#7FD0FF','#FFE9A0','#F5B800'][L];
   const A=[cx,yb],B=[cx+W[0],yb+W[1]];/* A cerca, B lejos (parte baja del poste) */
   const up=(P,k)=>[P[0],P[1]-h*(k===undefined?1:k)],add=(P,V,k)=>[P[0]+V[0]*(k===undefined?1:k),P[1]+V[1]*(k===undefined?1:k)];
@@ -1892,7 +1892,7 @@ function stadiumBg(){const K=kit(),SL=stadiumLv(),BL=benchLv(),CL=campoLv(),GL=g
   if(CL>=8){let y=118,h=5,k=0;while(y<H){if(k%2===1)o+='<rect y="'+y.toFixed(1)+'" width="100" height="'+h.toFixed(1)+'" fill="#1F6A10" opacity=".16"/>';y+=h;h*=1.18;k++;}}
   if(CL>=9)o+='<rect y="118" width="100" height="1.2" fill="'+(CL>=10?'#F5B800':'#E8F1FF')+'" opacity=".85"/>'+(CL>=10?'<rect y="118" width="100" height="62" fill="#FFF7B8" opacity=".07"/>'+[3,97].map(x=>'<rect x="'+(x-.3)+'" y="119" width=".6" height="6" fill="#fff" stroke="#10244a" stroke-width="1" vector-effect="non-scaling-stroke"/><polygon points="'+(x-.3)+',119 '+(x+(x<50?4:-4))+',120.6 '+(x-.3)+',122.2" fill="#F5B800" stroke="#10244a" stroke-width="1" vector-effect="non-scaling-stroke"/>').join(''):'');
   o+='<g transform="translate(0 -1.5)">'+LP+'</g>';
-  o+=goalMarkup(9,GL,K)+goalMarkup(91,GL,K);
+  o+=goalMarkup(6,GL,K)+goalMarkup(94,GL,K);
   o+=BL>=1?benchMarkup(28,BL,K,true)+benchMarkup(72,BL,K,true):'';
   o+='<path d="M-10 168 Q50 150 110 168" fill="none" stroke="#fff" stroke-width="1.2" opacity=".55"/>'+(SK.n>.05?'<rect width="100" height="180" fill="#07102a" opacity="'+(SK.n*.42).toFixed(2)+'"/>':'')+'<g transform="translate(0 -1.5)">'+LT+'</g>'+'<rect width="100" height="180" fill="url(#v)"/></svg>';
   _sbg={k:key,v:'url("data:image/svg+xml,'+encodeURIComponent(o)+'") center/100% 100% no-repeat,#8FD6FF'};return _sbg.v;}
