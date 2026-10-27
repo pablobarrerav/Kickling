@@ -1297,7 +1297,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 477">Kickling · v477</div>
+  <div class="verl" aria-label="Kickling versión 478">Kickling · v478</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1794,7 +1794,7 @@ function benchMarkup(cx,L,K,mine){
   return o;}
 function goalLv(){try{const t=myTeam();return Math.max(0,Math.min(10,Math.round(+((t&&t.stad)||{}).porteria||0)||0));}catch(e){return 0;}}
 function goalMarkup(cx,L,K){
-  const f=n=>(+n).toFixed(1),OL='#10244a',yb=160,h=38+L*1.4,m=cx<50?1:-1;
+  const f=n=>(+n).toFixed(1),OL='#10244a',yb=153,h=38+L*1.4,m=cx<50?1:-1;
   const W=[m*2.5,-(17+L*.7)],D=[-m*(5+L*.35),-3];
   const pc=['#b98b55','#8a5f33','#9aa6c4','#e8ecf5','#cfd8ee','#ffffff',K.c,K.d,'#7FD0FF','#FFE9A0','#F5B800'][L];
   const A=[cx,yb],B=[cx+W[0],yb+W[1]];/* A cerca, B lejos (parte baja del poste) */
@@ -1870,11 +1870,11 @@ function stadiumBg(){const K=kit(),SL=stadiumLv(),BL=benchLv(),CL=campoLv(),GL=g
   if(SK.n>.25){let r2=11;const rn2=()=>{r2=(r2*16807)%2147483647;return r2/2147483647;};for(let q=0;q<26;q++){const stx=rn2()*100,sty=rn2()*62,sr=.35+rn2()*.5;o+='<circle cx="'+stx.toFixed(1)+'" cy="'+sty.toFixed(1)+'" r="'+sr.toFixed(2)+'" fill="#fff" opacity="'+(SK.n*(.45+rn2()*.5)).toFixed(2)+'"/>';}}
   if(night)o+='<ellipse cx="'+(sx*100).toFixed(1)+'" cy="'+(sy*180).toFixed(1)+'" rx="'+(5*.52).toFixed(2)+'" ry="5" fill="#F4F7FF" opacity=".95"/>';
   o=o.replace('</defs>','<linearGradient id="std" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2d3c78"/><stop offset="1" stop-color="#18224c"/></linearGradient><radialGradient id="lg" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFF7C2" stop-opacity=".95"/><stop offset=".45" stop-color="#FFF1A8" stop-opacity=".4"/><stop offset="1" stop-color="#FFF1A8" stop-opacity="0"/></radialGradient><linearGradient id="pl" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8896C4"/><stop offset=".5" stop-color="#5B6A9A"/><stop offset="1" stop-color="#3E4B7C"/></linearGradient><linearGradient id="bm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF9D6" stop-opacity=".75"/><stop offset=".6" stop-color="#FFF3B0" stop-opacity=".22"/><stop offset="1" stop-color="#FFF3B0" stop-opacity="0"/></linearGradient><linearGradient id="sh" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b1840" stop-opacity=".45"/><stop offset="1" stop-color="#0b1840" stop-opacity="0"/></linearGradient></defs>');
-  let LT='';
+  let LT='',LP='';
   [9,91].forEach(x=>{const d=x>50?-1:1;
     LT+='<ellipse cx="'+x+'" cy="70.7" rx="7" ry="9" fill="url(#lg)" opacity=".8"/>';
     LT+='<path d="M'+(x-3)+' 72 L'+(x-3+d*22)+' 118 L'+(x+3+d*22)+' 118 L'+(x+3)+' 72Z" fill="url(#bm)" opacity=".5"/>';
-    LT+='<rect x="'+(x-.8)+'" y="74" width="1.6" height="44" fill="#6b7aa8" stroke="#10244a" stroke-width="1.3" vector-effect="non-scaling-stroke"/><rect x="'+(x-2.8)+'" y="116.6" width="5.6" height="2.4" rx=".7" fill="#4a5788" stroke="#10244a" stroke-width="1.3" vector-effect="non-scaling-stroke"/>';
+    LP+='<rect x="'+(x-.8)+'" y="74" width="1.6" height="44" fill="#6b7aa8" stroke="#10244a" stroke-width="1.3" vector-effect="non-scaling-stroke"/><rect x="'+(x-2.8)+'" y="116.6" width="5.6" height="2.4" rx=".7" fill="#4a5788" stroke="#10244a" stroke-width="1.3" vector-effect="non-scaling-stroke"/>';
     LT+='<rect x="'+(x-5)+'" y="67.5" width="10" height="6.4" rx="2" fill="#3b4a86" stroke="#10244a" stroke-width="1.5" vector-effect="non-scaling-stroke"/>';
     for(let c=0;c<3;c++){const lx=x-3.1+c*3.1;LT+='<ellipse cx="'+lx+'" cy="70.7" rx="1.05" ry="1.6" fill="#FFF7B8" stroke="#E9B83A" stroke-width="1" vector-effect="non-scaling-stroke"/>';}
     });
@@ -1891,6 +1891,7 @@ function stadiumBg(){const K=kit(),SL=stadiumLv(),BL=benchLv(),CL=campoLv(),GL=g
   if(CL>=3)o+='<rect y="118" width="100" height="62" fill="#9BE85A" opacity="'+Math.min(.2,(CL-2)*.025).toFixed(3)+'"/>';
   if(CL>=8){let y=118,h=5,k=0;while(y<H){if(k%2===1)o+='<rect y="'+y.toFixed(1)+'" width="100" height="'+h.toFixed(1)+'" fill="#1F6A10" opacity=".16"/>';y+=h;h*=1.18;k++;}}
   if(CL>=9)o+='<rect y="118" width="100" height="1.2" fill="'+(CL>=10?'#F5B800':'#E8F1FF')+'" opacity=".85"/>'+(CL>=10?'<rect y="118" width="100" height="62" fill="#FFF7B8" opacity=".07"/>'+[3,97].map(x=>'<rect x="'+(x-.3)+'" y="119" width=".6" height="6" fill="#fff" stroke="#10244a" stroke-width="1" vector-effect="non-scaling-stroke"/><polygon points="'+(x-.3)+',119 '+(x+(x<50?4:-4))+',120.6 '+(x-.3)+',122.2" fill="#F5B800" stroke="#10244a" stroke-width="1" vector-effect="non-scaling-stroke"/>').join(''):'');
+  o+='<g transform="translate(0 -1.5)">'+LP+'</g>';
   o+=goalMarkup(9,GL,K)+goalMarkup(91,GL,K);
   o+=BL>=1?benchMarkup(28,BL,K,true)+benchMarkup(72,BL,K,true):'';
   o+='<path d="M-10 168 Q50 150 110 168" fill="none" stroke="#fff" stroke-width="1.2" opacity=".55"/>'+(SK.n>.05?'<rect width="100" height="180" fill="#07102a" opacity="'+(SK.n*.42).toFixed(2)+'"/>':'')+'<g transform="translate(0 -1.5)">'+LT+'</g>'+'<rect width="100" height="180" fill="url(#v)"/></svg>';
