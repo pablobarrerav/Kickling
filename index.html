@@ -1297,7 +1297,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 490">Kickling · v490</div>
+  <div class="verl" aria-label="Kickling versión 491">Kickling · v491</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2934,7 +2934,7 @@ const durMin=k=>tierOf(k).m;
 const mmss=ms=>{const t=Math.ceil(ms/1000),h=Math.floor(t/3600),m=Math.floor(t%3600/60),s2=t%60;return (h?h+':'+String(m).padStart(2,'0'):m)+':'+String(s2).padStart(2,'0');};
 const fdur=m=>m>=60?Math.floor(m/60)+' h'+(m%60?' '+m%60+' min':''):m+' min';
 const tLeft=()=>{const A=S.timed;if(!A)return null;return Math.max(0,A.d-(Date.now()-Math.min(A.t,Date.now())));};
-function timedPay(k,min){return {xp:Math.round((12+S.lvl*.8)*(min/10)*1.2*xpMult()),pts:Math.max(0,Math.min((TIERS.find(t=>t.m===min)||{g:1.5}).g/TRF,qRem(capT()-S.trained[k]))),coins:Math.round((6+S.lvl*.5)*(min/10)*.6)};}
+function timedPay(k,min){return {xp:Math.round((12+S.lvl*.8)*(min/10)*1.2*xpMult()),pts:qRem(capT()-S.trained[k])>0?(TIERS.find(t=>t.m===min)||{g:1.5}).g/TRF:0,coins:Math.round((6+S.lvl*.5)*(min/10)*.6)};}
 function timedView(){const el=$('#timed');if(!el)return;const A=S.timed,l=tLeft();
   el.innerHTML=Object.keys(TIMED).map(k=>{const T={n:PD(k).t,st:statName(k)},mine=A&&A.k===k;let em,attr,cls='',bar='',min=mine?Math.round(A.d/6e4):durMin(k);const pay=timedPay(k,min);
     if(mine&&l===0){em='<em class="rdy">¡Recoger!</em>';attr='data-tclaim="'+k+'" data-ready="1"';cls=' ready';}
