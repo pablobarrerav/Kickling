@@ -1297,7 +1297,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 494">Kickling · v494</div>
+  <div class="verl" aria-label="Kickling versión 495">Kickling · v495</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1705,7 +1705,7 @@ function sockPat(d,K,x){const a=x,b=x+24;
   if(d==='ancho')return '<rect x="'+a+'" y="131" width="24" height="10" fill="'+K.d+'"/>';
   if(d==='punta')return '<rect x="'+a+'" y="146" width="24" height="9" fill="'+K.d+'"/><rect x="'+a+'" y="126" width="24" height="5" fill="'+K.d+'"/>';
   if(d==='cebra'){let o='';for(let i=0;i<4;i++)o+='<rect x="'+(a+1.5+i*6)+'" y="126" width="3" height="30" fill="'+(K.s||K.c)+'"/>';return o;}
-  if(d==='diagonal'){let o='';for(let i=-2;i<5;i++)o+='<path d="M'+(a+i*6)+' 126h3l8 30h-3z" fill="'+K.d+'"/>';return o;}
+  if(d==='diagonal'){let o='';for(let i=0;i<3;i++){const y=130+i*8;o+='<path d="M'+a+' '+y+'L'+b+' '+(y+8)+'V'+(y+13)+'L'+a+' '+(y+5)+'z" fill="'+K.d+'"/>';}return o;}
   if(d==='puntos'){let o='';for(let r=0;r<4;r++)for(let q=0;q<3;q++)o+='<circle cx="'+(a+4+q*8+(r%2?4:0))+'" cy="'+(131+r*6)+'" r="1.7" fill="'+K.d+'"/>';return o;}
   if(d==='oro')return '<path d="M'+a+' 131H'+b+'M'+a+' 135H'+b+'M'+a+' 139H'+b+'" stroke="#F5C518" stroke-width="2"/><rect x="'+a+'" y="146" width="24" height="9" fill="#F5C518"/>';
   if(d==='elite')return '<path d="M'+a+' 132H'+b+'M'+a+' 137H'+b+'" stroke="#E0AE1B" stroke-width="2.6"/>';
