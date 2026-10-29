@@ -1317,7 +1317,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 514">Kickling · v514</div>
+  <div class="verl" aria-label="Kickling versión 515">Kickling · v515</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2495,7 +2495,7 @@ function mailUnread(){return mailList().filter(m=>m.ts>(S.mailSeen||0)&&m.uid!==
 function mailBadge(){try{const n=mailUnread(),c=achClaimable().length+dqReady(),h=$('#hface');if(h)h.classList.toggle('unread',n>0||c>0);const b=$('#mbadge');if(b){b.hidden=!n;b.textContent=n;}const q=$('#pbadge');if(q){q.hidden=!c;q.textContent=c;}}catch(e){}}
 setInterval(mailBadge,2000);
 const pOpen=id=>{['pmenu','pprof','pmail','pcomp'].forEach(x=>{if(x!==id)$('#'+x).hidden=true;});$('#'+id).hidden=false;};
-function pMenu(){const t=myTeam();$('#pmh').innerHTML='<span class="pav">'+avatar(true)+'</span><div><b>'+esc(S.name)+'</b><small>Nivel '+S.lvl+(t?' · '+esc(t.name):'')+'</small></div>';mailBadge();pOpen('pmenu');}
+function pMenu(){const t=myTeam();$('#pmh').innerHTML='<span class="pav">'+avatar(true)+'</span><div><b>'+esc(S.name)+'</b><small>Nivel '+S.lvl+(t?' · '+esc(t.name):'')+'<br>'+(S.pos[0]?POSN[S.pos[0]]+' · ':'')+'Media '+ovr()+'</small></div>';mailBadge();pOpen('pmenu');}
 function dqHtml(){const q=dqEnsure(),sn=dqStreak(),rd=dqReady(),all=q.got.length>=q.goals.length;
   let dots='';for(let i=1;i<=7;i++){const m=sn%7===0&&sn>0?7:sn%7;dots+='<i class="'+(i<=m?'on':'')+(i===7?' bg':'')+'"></i>';}
   return '<div class="dqb"><div class="achh"><div class="label">Hoy · '+q.got.length+'/'+q.goals.length+'</div><span class="dsk"><b>🔥 '+sn+(sn===1?' día':' días')+'</b><span class="dd">'+dots+'</span></span>'+(rd>1?'<button class="btn gold sm" data-dqall="1" type="button">Todo</button>':'')+'</div>'
