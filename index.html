@@ -1316,7 +1316,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 508">Kickling · v508</div>
+  <div class="verl" aria-label="Kickling versión 509">Kickling · v509</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2732,7 +2732,7 @@ document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.tar
 $('#kickno').addEventListener('click',()=>{kickId=null;$('#kickm').hidden=true;});
 $('#kickm').addEventListener('click',e=>{if(e.target.id==='kickm'){kickId=null;$('#kickm').hidden=true;}});
 $('#kickyes').addEventListener('click',async()=>{const id=kickId,t=myTeam();kickId=null;$('#kickm').hidden=true;if(!id||!t||!canKit(t)||!DB)return;const mm=membersOf(t.id).find(m=>m.id===id);if(!mm)return;
-  try{await DB.doc('members/'+id).update({team:''});if(Array.isArray(t.lineup)&&t.lineup.includes(id)){const L=t.lineup.filter(x=>x!==id);t.lineup=L;await DB.doc('teams/'+t.id).update({lineup:L});}toast((mm.name||'El jugador')+' ha sido echado del equipo.');}
+  try{await DB.doc('members/'+id).update({team:''});if(Array.isArray(t.lineup)&&t.lineup.includes(id)){const L=t.lineup.filter(x=>x!==id);t.lineup=L;await DB.doc('teams/'+t.id).update({lineup:L});}toast((mm.name||'El jugador')+' ha sido echado del equipo.');await sysMsg(t.id,String(mm.name||'Un jugador').slice(0,16)+' ha sido echado del equipo');}
   catch(er){toast('No se pudo echar al jugador.');}
   await tmLoad();teamRender();});
 async function numSet(id,raw){const t=myTeam();tmNumEdit=null;if(!t||!canKit(t)){teamRender();return;}const n=Math.round(+raw);
@@ -2742,6 +2742,7 @@ async function numSet(id,raw){const t=myTeam();tmNumEdit=null;if(!t||!canKit(t))
   nums[id]=n;t.nums=nums;applyKit();teamRender();try{const u={};u[id]=n;await DB.doc('teams/'+t.id).update({nums:u});}catch(er){toast('No se pudo cambiar el dorsal.');await tmLoad();applyKit();teamRender();}}
 $('#p-team').addEventListener('keydown',e=>{if(e.target.id==='dnin'&&e.key==='Enter'){e.preventDefault();numSet(e.target.dataset.dnid,e.target.value.trim());}if(e.target.id==='dnin'&&e.key==='Escape'){tmNumEdit=null;teamRender();}});
 $('#p-team').addEventListener('focusout',e=>{if(e.target.id==='dnin'&&tmNumEdit){const i=e.target;setTimeout(()=>{if(tmNumEdit)numSet(i.dataset.dnid,i.value.trim());},0);}});
+async function sysMsg(tid,text){try{const ts=Date.now(),cid='m'+ts.toString(36)+Math.random().toString(36).slice(2,6);await DB.doc('chat/'+cid).set({team:tid,uid:UID,sys:1,name:String(S.name||'Jugador').slice(0,16),text:text,ts:ts});chatSig='';if(tmChat)chatLoad();}catch(e){}}
 async function joinMsg(tid){try{const ts=Date.now();await DB.doc('chat/m'+ts.toString(36)+Math.random().toString(36).slice(2,6)).set({team:tid,uid:UID,sys:1,name:String(S.name||'Jugador').slice(0,16),text:String(S.name||'Jugador').slice(0,16)+' se ha unido al equipo',ts:ts});}catch(e){}}
 $('#p-team').addEventListener('submit',async e=>{if(e.target.id!=='chform')return;e.preventDefault();const t=myTeam(),inp=document.getElementById('chtxt');if(!t||!DB||!CANW||!inp)return;if(chMuted(UID)){toast('El capitán te ha silenciado en el chat.');return;}let text=inp.value.replace(/\s+/g,' ').trim().slice(0,200);if(!text)return;{const br=BAD.mask(text);if(br.hit){text=br.text;toast('Mensaje con lenguaje ofensivo: se ha tapado. Mantén un chat respetuoso.');}}
   if(Date.now()-chatBusy<700)return;chatBusy=Date.now();inp.value='';const ts=Date.now(),cid='m'+ts.toString(36)+Math.random().toString(36).slice(2,6),m={team:t.id,uid:UID,name:String(S.name||'Jugador').slice(0,16),text:text,ts:ts};chatMsgs.push(Object.assign({_id:cid},m));chatSig=chatMsgs.length+':'+ts;chatPaint();inp.focus();
