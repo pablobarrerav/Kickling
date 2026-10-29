@@ -1317,7 +1317,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 517">Kickling · v517</div>
+  <div class="verl" aria-label="Kickling versión 518">Kickling · v518</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2412,7 +2412,9 @@ async function procDay(day){
     const by={};L.forEach(x=>by[x.t.id]=x);
     for(const pq of pairsFor(ids,day)){const A=by[pq[0]],B=pq[1]?by[pq[1]]:null;
       const sb=B?B.str:botStr(div),g=simMatch(A.str,sb,r);
-      matches.push({d:div,g:G.g,h:A.t.id,hn:A.t.name,a:B?B.t.id:'bot',an:B?B.t.name:'Rival invitado',hg:g[0],ag:g[1]});}}
+      const mo={d:div,g:G.g,h:A.t.id,hn:A.t.name,a:B?B.t.id:'bot',an:B?B.t.name:'Rival invitado',hg:g[0],ag:g[1]};
+      try{const gl=goalsOf(day,mo);if(gl.length)mo.gs=gl.map(x=>[x.side==='h'?0:1,x.i,x.sc.id,String(x.sc.name||'').slice(0,16),String(x.sc.pos||'').split(',')[0],x.as?x.as.id:'',x.as?String(x.as.name||'').slice(0,16):'',x.as?String(x.as.pos||'').split(',')[0]:'']);}catch(e){}
+      matches.push(mo);}}
   const promo=[];
   if(isSeasonEnd(day)){const ws=seasonStart(slotDay(day)),sims=Object.assign({},TM.sims);sims[day]={matches:matches};
     for(const G of groupsOf(act)){const div=G.d,tb=table(G.L,sims,ws),n=tb.length;if(n<2)continue;if(n<4)continue;
@@ -2806,7 +2808,9 @@ function ratingOf(day,m,tid,pl,gl){const f=m.h===tid?m.hg:m.ag,c=m.h===tid?m.ag:
   return Math.round(Math.max(3.5,Math.min(10,v))*10)/10;}
 function mvpOf(day,m,tid){const gl=goalsOf(day,m),pool=xiOf(tid,cutoff(day));let best=null;
   pool.forEach(pl=>{const v=ratingOf(day,m,tid,pl,gl),g=gl.filter(x=>x.tid===tid&&x.sc&&x.sc.id===pl.id).length;if(!best||v>best.v||(v===best.v&&(g>best.g||(g===best.g&&String(pl.id)<String(best.pl.id)))))best={pl:pl,v:v,g:g};});return best;}
-function goalsOf(day,m){const out=[];for(const side of ['h','a']){const id=m[side];if(!id||isBot(id)||id==='bot')continue;const pool=xiOf(id,cutoff(day));if(!pool.length)continue;
+function goalsOf(day,m){const out=[];
+  if(Array.isArray(m.gs)){m.gs.forEach(z=>{if(!Array.isArray(z)||z.length<8)return;const side=z[0]?'a':'h',id=m[side];out.push({side:side,i:+z[1]||0,sc:{id:z[2],name:z[3],pos:z[4]},as:z[5]?{id:z[5],name:z[6],pos:z[7]}:null,tid:id});});return out;}
+  for(const side of ['h','a']){const id=m[side];if(!id||isBot(id)||id==='bot')continue;const pool=xiOf(id,cutoff(day));if(!pool.length)continue;
   const n=side==='h'?m.hg:m.ag;for(let i=0;i<n;i++){const r=rng('gs|'+day+'|'+m.h+'|'+m.a+'|'+side+'|'+i),sc=wpick(pool,r,GW),as=pool.length>1&&r()<.75?wpick(pool.filter(x=>x!==sc),r,AW):null;out.push({side:side,i:i,sc:sc,as:as,tid:id});}}return out;}
 function tmNameOf(id){const x=TM.teams.find(z=>z.id===id);if(x)return x.name||'';try{const b=activeTeams().find(z=>z.t.id===id);return b?b.t.name:'';}catch(e){return '';}}
 function rankings(t,ws){const R={};const gk0=gk(t.div,grpOf(t));
