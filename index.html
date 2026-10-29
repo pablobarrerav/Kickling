@@ -1316,7 +1316,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 512">Kickling · v512</div>
+  <div class="verl" aria-label="Kickling versión 513">Kickling · v513</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2151,7 +2151,7 @@ $('#drills').addEventListener('click',e=>{const b=e.target.closest('[data-drill]
 /* ---------- partido ---------- */
 const TOUR_N=40,TOUR_COST=60,TOUR_TEAMS=['Peña La Esquina','CD Barrio Alto','Juvenil Las Pistas','Atlético Callejón','Real Pradera','Unión Estación','Deportivo Faro','Racing Muralla','Sporting Dársena','CF Los Olivos','Ciudad Roja','Real Cumbre','Athletic Ribera','Internacional Azul','Dinamo Costa','Rayo Meseta','Olympique Bahía','Gran Estrella FC','Campeones del Norte','Titanes Kickling','Ciudad Vieja FC','Estrella del Sur','Real Montaña','Atlético Marina','Racing Cumbres','Juventud Alba','CD Horizonte','Real Estrella','Dragones del Este','Halcones FC','Leones de Hierro','Gigantes del Valle','Real Eclipse','Atlético Tormenta','Imperio Dorado','Deportivo Cóndor','Unión Meridiana','Sporting Aurora','Titanes del Mundo','Leyendas Kickling'];
 const TOUR=TOUR_TEAMS.map((n,i)=>({n,ovr:Math.round(i<20?20+2.4*i:66+1.6*(i-19)),xp:40+8*i,coins:Math.round((30+6*i)*.6)}));
-const tCost=lv=>lv<=5?60:lv<=10?65:lv<=20?70:70+5*Math.ceil((lv-20)/10);
+const tCost=lv=>60+5*Math.floor((lv-1)/5);
 function tourCost(){return TOUR_COST;}
 function openTour(){tSel=0;tPage=0;$('#mmenu').hidden=true;$('#mres').hidden=true;$('#mview').hidden=true;$('#tview').hidden=false;tourRender();}
 let tSel=0,tPage=0;
