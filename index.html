@@ -1317,7 +1317,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 519">Kickling · v519</div>
+  <div class="verl" aria-label="Kickling versión 520">Kickling · v520</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1907,7 +1907,7 @@ function benchMarkup(cx,L,K,mine){
 function goalLv(){try{const t=myTeam();return Math.max(0,Math.min(10,Math.round(+((t&&t.stad)||{}).porteria||0)||0));}catch(e){return 0;}}
 function goalMarkup(cx,L,K){
   const f=n=>(+n).toFixed(1),OL='#10244a',yb=153,h=44+L*1.6,m=cx<50?1:-1;
-  const W=[m*2.8,-(20+L*.85)],D=[-m*(4+L*.45),-4.2];
+  const W=[m*2.8,-(20+L*.85)],D=[-m*(6+L*.7),-6.5];
   const pc=['#b98b55','#8a5f33','#9aa6c4','#e8ecf5','#cfd8ee','#ffffff',K.c,K.d,'#7FD0FF','#FFE9A0','#F5B800'][L];
   const A=[cx,yb],B=[cx+W[0],yb+W[1]];/* A cerca, B lejos (parte baja del poste) */
   const up=(P,k)=>[P[0],P[1]-h*(k===undefined?1:k)],add=(P,V,k)=>[P[0]+V[0]*(k===undefined?1:k),P[1]+V[1]*(k===undefined?1:k)];
@@ -1928,7 +1928,7 @@ function goalMarkup(cx,L,K){
     for(let k=1;k<=2+Math.floor(L/3);k++){const t=k/(3+Math.floor(L/3));o+=nl(lerp(A,Ab,t),lerp(At,Abt,t),.0)+nl(up(A,1),up(A,1),0)+nl(lerp(At,Abt,t),lerp(Bt,Bbt,t),.4);}
     o+=ln(Ab,Abt,OL,1,.7)+ln(Bb,Bbt,OL,1,.7)+ln(Abt,Bbt,OL,1,.7)+ln(A,Ab,OL,1,.6)+ln(B,Bb,OL,1,.6)+ln(At,Abt,OL,1,.7)+ln(Bt,Bbt,OL,1,.7);
   }
-  const wd=L<=1?1.8:L<=5?2.3:2.7;
+  const wd=L<=1?3.2:L<=5?3.8:4.3;
   o+=ln(A,At,OL,wd+1.6)+ln(B,Bt,OL,wd+1.6)+ln(At,Bt,OL,wd+1.6);
   o+=ln(A,At,pc,wd)+ln(B,Bt,pc,wd)+ln(At,Bt,pc,wd);
   if(L>=3&&L<=8)o+=ln(At,Bt,L>=7?K.d:K.c,wd,0,'1.8 1.8');
