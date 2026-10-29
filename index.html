@@ -1317,7 +1317,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 518">Kickling · v518</div>
+  <div class="verl" aria-label="Kickling versión 519">Kickling · v519</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2948,7 +2948,7 @@ $('#p-team').addEventListener('click',async e=>{const hs=e.target.closest('[data
         else{const c=upCost(key,lv);
           if(fundOf(t2)<c){toast('Faltan fondos en el club.');}
           else{try{const st=Object.assign({},t2.stad||{});st[key]=lv+1;await DB.doc('teams/'+t2.id).update({stad:st,fund:fundOf(t2)-c});toast(STAD.find(x=>x[0]===key)[1]+' al nivel '+(lv+1));confetti(30);}
-            catch(er){toast('No se pudo mejorar.');}}}}}
+            catch(er){let mm='';try{const j=String(er&&er.message||'').match(/"message":"([^"]{1,120})/);mm=j?j[1]:String(er&&er.message||'').slice(0,120);}catch(e2){}toast('No se pudo mejorar'+(mm?': '+mm:'.'),6000);}}}}}
     else if(b.id==='tmleave'){if(!b.dataset.sure){b.dataset.sure='1';b.classList.add('sure');toast('Pulsa otra vez para salir del equipo');setTimeout(()=>{if(b.isConnected){delete b.dataset.sure;b.classList.remove('sure');}},3500);b.disabled=false;return;}
       const tid=TM.me.team,last=membersOf(tid).length<=1,tt=TM.teams.find(x=>x.id===tid),nb=bestOf(tid,UID);if(!last&&tt&&tt.owner===UID&&nb)await DB.doc('teams/'+tid).update({owner:nb.id});await DB.doc('members/'+UID).update({team:''});if(last)await DB.doc('teams/'+tid).delete();toast('Has salido del equipo');}
   }catch(x){toast('No se pudo guardar. Inténtalo otra vez.');}
