@@ -1317,7 +1317,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 522">Kickling · v522</div>
+  <div class="verl" aria-label="Kickling versión 523">Kickling · v523</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1360,7 +1360,7 @@ const fmt=n=>Math.round(n).toLocaleString('es-ES');
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const rnd=(a,b)=>a+Math.random()*(b-a);
 const pick=a=>a[Math.floor(Math.random()*a.length)];
-const KEY='cantera-v1', MAXLVL=30;
+const KEY='cantera-v1', MAXLVL=1000;
 const ICO={
  coin:'<circle cx="12" cy="12" r="10" fill="#FFC21A" stroke="#7D3F04" stroke-width="2"/><circle cx="12" cy="12" r="7.6" fill="#FFE27A" stroke="#C47A08" stroke-width="1.2"/><path d="M14.3 9.7A3.2 3.2 0 1 0 14.3 14.3" fill="none" stroke="#C47A08" stroke-width="1.8" stroke-linecap="round"/><path d="M6.2 9.2A6.6 6.6 0 0 1 11 5.5" fill="none" stroke="#fff" stroke-opacity=".75" stroke-width="1.5" stroke-linecap="round"/>',
  drop:'<path d="M12 2.5C12 2.5 5.2 10 5.2 14.8a6.8 6.8 0 0013.6 0C18.8 10 12 2.5 12 2.5z" fill="#3FA9FF" stroke="#0C3F80" stroke-width="2" stroke-linejoin="round"/><ellipse cx="9.4" cy="14" rx="1.5" ry="2.6" fill="#fff" fill-opacity=".6"/>',
@@ -2480,7 +2480,7 @@ const ACH=[
  ['tour20','Primera página','Torneo: nivel 28',350,170,()=>(S.tour||0)>=28,()=>(S.tour||0),28],
  ['win50','Campeón','80 victorias',400,200,()=>S.career.w>=80,()=>S.career.w,80],
  ['ast50','Cerebro del equipo','120 asistencias',450,220,()=>S.career.a>=120,()=>S.career.a,120],
- ['lvl30','Crack','Llega al nivel máximo (30)',600,300,()=>S.lvl>=30,()=>S.lvl,30],
+ ['lvl30','Crack','Llega al nivel 30',600,300,()=>S.lvl>=30,()=>S.lvl,30],
  ['gol100','Máximo goleador','Marca 250 goles',700,350,()=>S.career.g>=250,()=>S.career.g,250],
  ['tour30','Aspirante','Torneo: nivel 36',600,300,()=>(S.tour||0)>=36,()=>(S.tour||0),36],
  ['pj100','Leyenda viva','Juega 250 partidos',800,400,()=>S.career.pj>=250,()=>S.career.pj,250],
