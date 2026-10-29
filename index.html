@@ -994,7 +994,7 @@ body:has(#p-shop:not([hidden])) main>.wrap{flex:1 1 auto;min-height:0;width:100%
 #p-shop #items.dr>.card.item{flex:1 1 0;min-height:44px;max-height:76px;padding-block:3px;margin:0}
 #p-shop #items.dr>.card.item .sw{width:clamp(34px,5.4dvh,46px);height:clamp(34px,5.4dvh,46px)}
 #p-shop #items.dr>.card.item strong{font-size:clamp(12.5px,1.9dvh,15px);line-height:1.1}
-#p-shop #items.dr>.card.item span{font-size:clamp(9.5px,1.4dvh,11.5px);line-height:1.15}
+#p-shop #items.dr>.card.item span{white-space:nowrap;font-size:clamp(9.5px,1.4dvh,11.5px);line-height:1.15}
 #p-shop #items.dr>.card.item .btn{min-height:clamp(26px,4.2dvh,34px);font-size:13px;padding:0 10px;-webkit-text-stroke:0!important;paint-order:normal!important;text-shadow:0 1px 1px rgba(0,0,0,.55)!important}
 #p-shop .seg button{padding-block:clamp(3px,.8dvh,8px)}
 #acts .opt .apc{grid-column:1;display:inline-block;white-space:nowrap;margin-top:3px;padding:2px 8px;border-radius:999px;background:#0d3a78;color:#fff;font-family:var(--display);font-weight:400;font-size:13px;letter-spacing:.02em}
@@ -1316,7 +1316,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 507">Kickling · v507</div>
+  <div class="verl" aria-label="Kickling versión 508">Kickling · v508</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1989,11 +1989,11 @@ let shopSlot='c';
 const SLOTICO={c:'shirt',p:'shorts',s:'sock',z:'boot'};
 const COINPK=[['Puñado de monedas','100 monedas','0,99 €','#FFE27A'],['Bolsa de monedas','550 monedas','4,99 €','#FFD24D'],['Cofre de monedas','1.200 monedas','9,99 €','#FFC21A'],['Tesoro del club','3.000 monedas','19,99 €','#FFB000']];
 const DRINKS=[
- {id:'agua',n:'Agua fresca',d:'+25% de regeneración de energía durante 24 h',p:60,c:'#7FD1FF',k:'r',m:1.25,h:24},
- {id:'iso',n:'Isotónica',d:'+50% de regeneración de energía durante 24 h',p:130,c:'#FFB02E',k:'r',m:1.5,h:24},
- {id:'bat',n:'Batido de proteínas',d:'+25% de experiencia en entrenos y partidos durante 24 h',p:150,c:'#C98BFF',k:'x',m:1.25,h:24},
+ {id:'agua',n:'Agua fresca',d:'+25% de energía durante 24 h',p:60,c:'#7FD1FF',k:'r',m:1.25,h:24},
+ {id:'iso',n:'Isotónica',d:'+50% de energía durante 24 h',p:130,c:'#FFB02E',k:'r',m:1.5,h:24},
+ {id:'bat',n:'Batido de proteínas',d:'+25% de experiencia durante 24 h',p:150,c:'#C98BFF',k:'x',m:1.25,h:24},
  {id:'ene',n:'Bebida energética',d:'Energía ×2 más rápida durante 6 h',p:200,c:'#5FDB6A',k:'r',m:2,h:6},
- {id:'tie',n:'Poción del tiempo',d:'Entrenamientos por tiempo un 50% más cortos durante 24 h',p:400,c:'#2EC4B6',k:'t',m:2,h:24},
+ {id:'tie',n:'Poción del tiempo',d:'Entrenos por tiempo −50% durante 24 h',p:400,c:'#2EC4B6',k:'t',m:2,h:24},
  {id:'med',n:'Elixir de campeón',d:'+25% de media durante 24 h',p:500,c:'#FF5A5A',k:'m',m:1.25,h:24}];
 const hrs=ms=>{const m=Math.ceil(ms/6e4);return m>=60?Math.floor(m/60)+' h '+(m%60)+' min':m+' min';};
 document.addEventListener('click',e=>{const b=e.target.closest('[data-drink]');if(!b)return;const d=DRINKS.find(x=>x.id===b.dataset.drink);if(!d)return;
