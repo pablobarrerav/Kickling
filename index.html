@@ -1316,7 +1316,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 506">Kickling · v506</div>
+  <div class="verl" aria-label="Kickling versión 507">Kickling · v507</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1532,9 +1532,9 @@ function paintSave(){const el=$('#savest');if(el)el.textContent='Tu progreso se 
 
 const gear=s=>ITEMS[s].find(i=>i.id===S.eq[s]);
 function stats(){const base=25+Math.floor(S.lvl*1.0)+(S.boff||0),TR=k=>(S.trained[k]||0)*TRF,c=gear('c'),p=gear('p'),z=gear('z'),so=gear('s');
-  const bm=bMult('m');
-  return {ritmo:clamp((base+TR('ritmo')+p.b)*bm,1,99),regate:clamp((base+TR('regate')+Math.floor(z.b/2)+so.b)*bm,1,99),
-          disparo:clamp((base+TR('disparo')+z.b)*bm,1,99),pase:clamp((base+TR('pase')+c.b)*bm,1,99)};}
+  const bm=bMult('m'),h=v=>Math.round(v*2)/2;
+  return {ritmo:h(clamp((base+TR('ritmo')+p.b)*bm,1,99)),regate:h(clamp((base+TR('regate')+Math.floor(z.b/2)+so.b)*bm,1,99)),
+          disparo:h(clamp((base+TR('disparo')+z.b)*bm,1,99)),pase:h(clamp((base+TR('pase')+c.b)*bm,1,99))};}
 const ovr=()=>{const s=stats(),w=STW[S.pos[0]||'del'];return Math.round(s.ritmo*w.ritmo+s.regate*w.regate+s.disparo*w.disparo+s.pase*w.pase)};
 const xpMult=()=>(1+(gear('c').xp+gear('p').xp+gear('s').xp+gear('z').xp)/100)*bMult('x');
 const TRF=.75;
