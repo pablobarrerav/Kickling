@@ -1,10 +1,11 @@
-<!doctype html><html lang="es"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#a9c8f6"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Kickling"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="manifest.json"><link rel="icon" type="image/png" href="icon-192.png"><link rel="apple-touch-icon" href="icon-180.png"><script src="config.js"></script><script src="backend.js"></script><script src="push.js"></script><script src="update.js"></script><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html lang="es"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#a9c8f6"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Kickling"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="manifest.json"><link rel="icon" type="image/png" href="icon-192.png"><link rel="apple-touch-icon" href="icon-180.png"><script src="config.js"></script><script src="backend.js"></script><script src="push.js"></script><script src="update.js"></script><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Kickling</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@600;700;800&display=swap">
 <style>
+*{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 /* Estética: juego cartoon de estrategia para móvil. Hierba, madera, pergamino y botones gordos con borde oscuro. */
 :root{
   --wood:#8A5324; --wood-d:#4B2A0E; --wood-l:#B7773A; --ink:#3A2410; --muted:#7A5A36; --fg:#3A2410;
@@ -1316,7 +1317,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 513">Kickling · v513</div>
+  <div class="verl" aria-label="Kickling versión 514">Kickling · v514</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -3111,6 +3112,8 @@ render();
     S.name=v;nameOK=v;srv('rename');setPos(pick);$('#pname').value=v;save();render();ob.hidden=true;tab('home');});}
 setInterval(()=>{if(S.energy<EMAX()){S.energy=Math.min(EMAX(),S.energy+.2*rMult());energy();}},1000);
 srvBoot();
+['gesturestart','gesturechange','gestureend'].forEach(g=>document.addEventListener(g,e=>e.preventDefault(),{passive:false}));
+document.addEventListener('dblclick',e=>{if(!e.target.closest('input,textarea'))e.preventDefault();});
 setInterval(()=>save(true),10000);
 document.addEventListener('visibilitychange',()=>{if(document.hidden)save(true);});
 })();
