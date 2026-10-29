@@ -988,6 +988,14 @@ body:has(#p-shop:not([hidden])) main>.wrap{flex:1 1 auto;min-height:0;width:100%
 #p-shop #items.g2>.card.item span.eqd svg{width:14px;height:14px}
 #p-shop #items.g2>.card.item .btn{-webkit-text-stroke:0!important;paint-order:normal!important;text-shadow:0 1px 1px rgba(0,0,0,.55)!important;letter-spacing:0;font-size:13px;font-weight:400}
 #p-shop #items.g2>.card.item span.eqd{-webkit-text-stroke:0!important}
+#p-shop #items.dr{overflow-y:auto;gap:clamp(4px,.8dvh,8px)!important;margin-top:clamp(8px,1.5dvh,14px)!important;padding-bottom:0!important}
+#p-shop #items.dr>.label{margin:0;flex:none;line-height:1}
+#p-shop #items.dr>.note{margin:0;flex:none;font-size:11px;line-height:1.2}
+#p-shop #items.dr>.card.item{flex:1 1 0;min-height:44px;max-height:76px;padding-block:3px;margin:0}
+#p-shop #items.dr>.card.item .sw{width:clamp(34px,5.4dvh,46px);height:clamp(34px,5.4dvh,46px)}
+#p-shop #items.dr>.card.item strong{font-size:clamp(12.5px,1.9dvh,15px);line-height:1.1}
+#p-shop #items.dr>.card.item span{font-size:clamp(9.5px,1.4dvh,11.5px);line-height:1.15}
+#p-shop #items.dr>.card.item .btn{min-height:clamp(26px,4.2dvh,34px);font-size:13px;padding:0 10px;-webkit-text-stroke:0!important;paint-order:normal!important;text-shadow:0 1px 1px rgba(0,0,0,.55)!important}
 #p-shop .seg button{padding-block:clamp(3px,.8dvh,8px)}
 #acts .opt .apc{grid-column:1;display:inline-block;white-space:nowrap;margin-top:3px;padding:2px 8px;border-radius:999px;background:#0d3a78;color:#fff;font-family:var(--display);font-weight:400;font-size:13px;letter-spacing:.02em}
 #avatar svg svg,.lookhead .cu svg svg,.lookhead .fb svg svg{animation:none!important;transform:none!important;position:static!important;filter:none!important}
@@ -1308,7 +1316,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 505">Kickling · v505</div>
+  <div class="verl" aria-label="Kickling versión 506">Kickling · v506</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1994,7 +2002,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-drink]');i
   S.coins-=d.p;S.boost[d.k]={m:Math.max(act?cur.m:1,d.m),u:(act?cur.u:now)+d.h*36e5};save();
   toast(d.n+': activa durante '+d.h+' h.');head();energy();home();shop();timedView();});
 function bevStatus(){const now=Date.now(),a=[];if(S.boost.r&&S.boost.r.u>now)a.push('Energía +'+Math.round((S.boost.r.m-1)*100)+'% · '+hrs(S.boost.r.u-now));if(S.boost.x&&S.boost.x.u>now)a.push('XP +'+Math.round((S.boost.x.m-1)*100)+'% · '+hrs(S.boost.x.u-now));if(S.boost.m&&S.boost.m.u>now)a.push('Media +'+Math.round((S.boost.m.m-1)*100)+'% · '+hrs(S.boost.m.u-now));if(S.boost.t&&S.boost.t.u>now)a.push('Tiempo −'+Math.round((1-1/S.boost.t.m)*100)+'% · '+hrs(S.boost.t.u-now));return a.length?'<p class="note drnote" style="font-weight:800">Activo: '+a.join(' · ')+'</p>':'';}
-function shop(){$('#items').classList.toggle('g2',shopSlot!=='bebidas'&&shopSlot!=='monedas');const SL={bebidas:['Bebidas','bottle'],monedas:['Monedas (dinero real)','moneybag']};$('#seg').className='seg s6';$('#seg').innerHTML=Object.keys(SLOT).concat(['bebidas','monedas']).map(k=>{const lb=SL[k]?SL[k][0]:SLOT[k].label;return '<button data-slot="'+k+'" aria-pressed="'+(k===shopSlot)+'" aria-label="'+lb+'" title="'+lb+'">'+ico(SL[k]?SL[k][1]:SLOTICO[k],30)+'</button>';}).join('');
+function shop(){$('#items').classList.toggle('g2',shopSlot!=='bebidas'&&shopSlot!=='monedas');$('#items').classList.toggle('dr',shopSlot==='bebidas'||shopSlot==='monedas');const SL={bebidas:['Bebidas','bottle'],monedas:['Monedas (dinero real)','moneybag']};$('#seg').className='seg s6';$('#seg').innerHTML=Object.keys(SLOT).concat(['bebidas','monedas']).map(k=>{const lb=SL[k]?SL[k][0]:SLOT[k].label;return '<button data-slot="'+k+'" aria-pressed="'+(k===shopSlot)+'" aria-label="'+lb+'" title="'+lb+'">'+ico(SL[k]?SL[k][1]:SLOTICO[k],30)+'</button>';}).join('');
   if(shopSlot==='bebidas'){$('#items').innerHTML='<div class="label">Bebidas</div>'+bevStatus()+DRINKS.map(d=>'<div class="card item"><div class="sw drk" style="background:'+d.c+'">'+ico('bottle',28)+'</div><div><strong>'+d.n+'</strong><span>'+d.d+'</span></div><button class="btn gold" data-drink="'+d.id+'"'+(S.coins<d.p?' disabled':'')+'>'+ico('coin',22)+fmt(d.p)+'</button></div>').join('')+'';return;}
   if(shopSlot==='monedas'){$('#items').innerHTML='<p class="note drnote">Las compras con dinero real todavía no están activas. Estarán disponibles en la versión de la tienda de aplicaciones.</p>'+'<div class="label">Monedas</div>'+COINPK.map(d=>'<div class="card item"><div class="sw drk" style="background:'+d[3]+'">'+ico('coin',30)+'</div><div><strong>'+d[0]+'</strong><span>'+d[1]+'</span></div><button class="btn" disabled>'+d[2]+'</button></div>').join('')+'';return;}
   $('#items').innerHTML=ITEMS[shopSlot].map(it=>{const owned=S.owned.includes(it.id),on=S.eq[shopSlot]===it.id,locked=S.lvl<it.lvl;
