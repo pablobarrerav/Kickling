@@ -1317,7 +1317,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 521">Kickling · v521</div>
+  <div class="verl" aria-label="Kickling versión 522">Kickling · v522</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1534,8 +1534,8 @@ function paintSave(){const el=$('#savest');if(el)el.textContent='Tu progreso se 
 const gear=s=>ITEMS[s].find(i=>i.id===S.eq[s]);
 function stats(){const base=25+Math.floor(S.lvl*1.0)+(S.boff||0),TR=k=>(S.trained[k]||0)*TRF,c=gear('c'),p=gear('p'),z=gear('z'),so=gear('s');
   const bm=bMult('m'),h=v=>Math.round(v*2)/2;
-  return {ritmo:h(clamp((base+TR('ritmo')+p.b)*bm,1,99)),regate:h(clamp((base+TR('regate')+Math.floor(z.b/2)+so.b)*bm,1,99)),
-          disparo:h(clamp((base+TR('disparo')+z.b)*bm,1,99)),pase:h(clamp((base+TR('pase')+c.b)*bm,1,99))};}
+  return {ritmo:h(clamp((base+TR('ritmo')+p.b)*bm,1,999)),regate:h(clamp((base+TR('regate')+Math.floor(z.b/2)+so.b)*bm,1,999)),
+          disparo:h(clamp((base+TR('disparo')+z.b)*bm,1,999)),pase:h(clamp((base+TR('pase')+c.b)*bm,1,999))};}
 const ovr=()=>{const s=stats(),w=STW[S.pos[0]||'del'];return Math.round(s.ritmo*w.ritmo+s.regate*w.regate+s.disparo*w.disparo+s.pase*w.pase)};
 const xpMult=()=>(1+(gear('c').xp+gear('p').xp+gear('s').xp+gear('z').xp)/100)*bMult('x');
 const TRF=.75;
@@ -2176,7 +2176,7 @@ function paintMatch(){const cs=clipSnap&&hold()>0?clipSnap:null,sc=(cs?cs.me:M.m
   $('#log').innerHTML=M.log.filter(l=>!l.h||l.h<=Date.now()).reverse().map(l=>'<li class="'+(l.tag||'')+'"><b class="num">'+l.min+"'</b><span>"+l.txt+'</span></li>').join('');}
 function startMatch(key,lv){if(M&&!M.over&&!$('#mview').hidden)return;if(M)clearInterval(M.timer);const T=lv?TOUR[lv-1]:null,k=T?{n:'Torneo · Nivel '+lv,cost:tCost(lv),delta:0,xp:T.xp,coins:T.coins}:COMP[key];if(S.energy<k.cost){toast('Sin energía. Espera a que se recupere.');if(T){$('#tview').hidden=false;}return;}
   S.energy-=k.cost;save();energy();srv('matchStart',lv?{lv}:{key});
-  const rv=T?T.ovr:clamp(ovr()+k.delta+Math.round(rnd(-3,3)),20,99),n=3+(Math.random()<.5?1:0),seg=Math.floor(78/n),mom=[];
+  const rv=T?T.ovr:clamp(ovr()+k.delta+Math.round(rnd(-3,3)),20,999),n=3+(Math.random()<.5?1:0),seg=Math.floor(78/n),mom=[];
   for(let i=0;i<n;i++)mom.push(8+i*seg+Math.floor(rnd(0,seg-4)));
   M={key,k,rv,tour:lv||0,name:T?T.n:pick(RIVALS),min:0,me:0,rt:0,g:0,a:0,log:[],mom,idx:0,wait:false,over:false,timer:0};
   logAdd(0,'Arranca el partido ('+k.n.toLowerCase()+') contra '+M.name+'.');
@@ -2574,7 +2574,7 @@ const CR_SH=['M4 3H36V24Q36 38 20 44Q4 38 4 24Z','M20 4A19 19 0 1 1 19.99 4Z','M
 const CR_EM=['M20.0 14.0 L22.5 19.6 L28.6 20.2 L24.0 24.3 L25.3 30.3 L20.0 27.2 L14.7 30.3 L16.0 24.3 L11.4 20.2 L17.5 19.6Z','BALL','M22 11L13 25H19.5L17.5 36L27 21H20.5Z','M11 31L12 16L17.5 22L20 14L22.5 22L28 16L29 31Z','M20 12L29 23L20 34L11 23Z','M17 12H23V20H31V26H23V35H17V26H9V20H17Z'];
 const CR_SHN=['Clásico','Redondo','Punta','Cuadrado','Hexágono'],CR_PN=['Liso','Mitad','Franja','Diagonal'],CR_EN=['Estrella','Balón','Rayo','Corona','Rombo','Cruz'];
 let crN=0,tmCrestOpen=false,tmSetOpen=false;
-function clubSet(t){const mn=Math.max(0,Math.min(99,Math.round(+t.minOvr||0))),pv=!!t.priv;
+function clubSet(t){const mn=Math.max(0,Math.min(999,Math.round(+t.minOvr||0))),pv=!!t.priv;
   return '<div class="cset"><div class="label">Ajustes del club</div>'+
   '<div class="csr"><span>Media mínima para entrar</span><div class="csn"><button class="btn alt sm" data-minovr="-5" aria-label="Bajar 5 la media mínima">−5</button><button class="btn alt sm" data-minovr="-1" aria-label="Bajar 1 la media mínima">−1</button><b class="num" aria-live="polite">'+(mn||'Sin mín.')+'</b><button class="btn alt sm" data-minovr="1" aria-label="Subir 1 la media mínima">+1</button><button class="btn alt sm" data-minovr="5" aria-label="Subir 5 la media mínima">+5</button></div></div>'+
   '<div class="csr"><span>Acceso al club</span><div class="cseg"><button class="chip" data-priv="0" aria-pressed="'+!pv+'">Público</button><button class="chip" data-priv="1" aria-pressed="'+pv+'">Privado</button></div></div>'+
@@ -2897,7 +2897,7 @@ $('#p-team').addEventListener('click',async e=>{const hs=e.target.closest('[data
   if(b.dataset.rdv){const i=Math.max(0,Math.min(resKeys.length-1,resKeys.indexOf(resCur)+ +b.dataset.rdv));resKey=resKeys[i]||'';teamRender();return;}
   if(b.dataset.clubset){const t=myTeam();if(!canKit(t))return;tmSetOpen=!tmSetOpen;tmKitOpen=false;tmCrestOpen=false;tmTab='mi';teamRender();return;}
   if(b.dataset.minovr||b.dataset.priv!==undefined){const t=myTeam();if(!canKit(t))return;const u={};
-    if(b.dataset.minovr){u.minOvr=Math.max(0,Math.min(99,Math.round((+t.minOvr||0)+ +b.dataset.minovr)));}else{u.priv=b.dataset.priv==='1';}
+    if(b.dataset.minovr){u.minOvr=Math.max(0,Math.min(999,Math.round((+t.minOvr||0)+ +b.dataset.minovr)));}else{u.priv=b.dataset.priv==='1';}
     Object.assign(t,u);teamRender();try{await DB.doc('teams/'+t.id).update(u);}catch(er){toast('No se pudo guardar el ajuste.');await tmLoad();teamRender();}return;}
   if(b.dataset.kitbtn){tmKitOpen=(tmTab==='mi'||tmTab==='pl')?!tmKitOpen:true;tmCrestOpen=false;if(tmTab!=='pl')tmTab='mi';teamRender();return;}
   if(b.dataset.xi||b.dataset.dn){const t=myTeam();if(!canKit(t))return;
