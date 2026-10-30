@@ -1158,25 +1158,29 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
 .clipv{aspect-ratio:124/70;line-height:0}.clipv svg{display:block;width:100%;height:100%}
 .clipc{display:flex;justify-content:space-between;align-items:center;gap:8px;background:rgba(13,42,99,.94);color:#fff;font-family:var(--display);font-size:14px;padding:5px 10px}.clipc b{font-weight:400;color:#cfe0ff}.clipc b.gol{color:#FFE27A}.clipc b.parada,.clipc b.fuera,.clipc b.poste,.clipc b.perdida,.clipc b.cortado{color:#ffb4a8}
 
-/* logros: mismo estilo que el resto de tarjetas */
-.pfa .ax{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
-.pfa .ax .opt{grid-template-columns:1fr;justify-items:center;text-align:center;min-height:0;padding:8px 6px 8px;gap:2px;position:relative;font:inherit}
-.pfa .ax .opt .oi{grid-column:1;grid-row:1;width:42px;height:42px}
-.pfa .ax .opt strong{grid-column:1;grid-row:2;align-self:auto;font-size:16px;line-height:1.05}
-.pfa .ax .opt span{grid-column:1;grid-row:3;font-size:11.5px;line-height:1.15;align-self:auto}
-.pfa .ax .opt .pgb{grid-column:1;grid-row:4;width:82%;margin:3px 0 0}
-.pfa .ax .opt em{grid-column:1;grid-row:5;margin-top:5px;font-size:14px;padding:2px 10px 2px 6px}
-.pfa .dqo{grid-template-columns:44px 1fr auto;min-height:0;padding:6px 10px;margin:0 0 6px;font:inherit}
-.pfa .dqo .oi{width:38px;height:38px;grid-row:1 / span 2}
-.pfa .dqo strong{font-size:16px;align-self:end}
-.pfa .dqo span{align-self:start}.pfa .dqo .pgb{margin:3px 0 0}
-.pfa .dqo em{font-size:14px;padding:2px 10px 2px 6px}
+/* logros: mismo estilo que el resto de tarjetas, todo en una pantalla */
+.pfa{max-height:96dvh}
+.pfa .ax{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px}
+.pfa .ax .opt{grid-template-columns:36px 1fr;justify-items:start;text-align:left;min-height:0;padding:5px 7px 6px;gap:0 6px;position:relative;font:inherit;border-width:3px;box-shadow:0 3px 0 var(--wood-d),inset 0 0 0 2px rgba(255,255,255,.55)}
+.pfa .ax .opt .oi{grid-column:1;grid-row:1 / span 2;width:34px;height:34px;border-radius:11px;border-width:2px;justify-self:center}
+.pfa .ax .opt .oi svg{width:22px;height:22px}
+.pfa .ax .opt strong{grid-column:2;grid-row:1;align-self:end;font-size:14px;line-height:1.05}
+.pfa .ax .opt span{grid-column:2;grid-row:2;font-size:10.5px;line-height:1.1;align-self:start}
+.pfa .ax .opt em{grid-column:1 / -1;grid-row:3;justify-self:center;margin-top:4px;font-size:13px;padding:1px 9px 1px 5px}
+.pfa .dqo{grid-template-columns:36px 1fr auto;min-height:0;padding:3px 8px;margin:0 0 4px;font:inherit;border-width:3px;box-shadow:0 3px 0 var(--wood-d),inset 0 0 0 2px rgba(255,255,255,.55)}
+.pfa .dqo .oi{width:32px;height:32px;grid-row:1 / span 2;border-radius:10px;border-width:2px}
+.pfa .dqo .oi svg{width:20px;height:20px}
+.pfa .dqo strong{font-size:15px;align-self:end;line-height:1.05}
+.pfa .dqo span{align-self:start}.pfa .dqo .pgb{margin:2px 0 0;height:4px}
+.pfa .dqo em{font-size:13px;padding:1px 9px 1px 5px}
 .pfa .opt em svg,.pfa .opt .ico{vertical-align:-3px}
 .pfa .opt.can{border-color:#f5b800;animation:achp 1.4s ease-in-out infinite}
 .pfa .opt.can em{background:linear-gradient(#ffd34d,#f5a800);color:#5a3500;text-shadow:none}
-.pfa .opt.got{opacity:1}.pfa .opt.got em{background:#1fa34a;text-shadow:none}
+.pfa .opt.got em{background:#1fa34a;text-shadow:none}
 .pfa .opt.got .oi{background:linear-gradient(#7be08a,#2ea64f);border-color:#0f7a33}
 .pfa .opt .pgb{background:rgba(80,100,150,.25)}
+.pfa .apg{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:8px}.pfa .apg span{font-family:var(--display);font-size:16px;color:#26427a;min-width:48px;text-align:center}.pfa .apg .btn{min-width:52px}
+.pfa .dqb{margin:0 0 4px;padding:0 0 4px}
 </style>
 
 <header class="top"><div class="wrap">
@@ -1337,7 +1341,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 525">Kickling · v525</div>
+  <div class="verl" aria-label="Kickling versión 526">Kickling · v526</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2524,17 +2528,19 @@ function dqHtml(){const q=dqEnsure(),sn=dqStreak(),rd=dqReady(),all=q.got.length
   +q.goals.map(g=>{const p=dqProg(g),ok=p>=g[1],got=q.got.includes(g[0]),r=dqReward(g),pc=Math.round(100*p/g[1]),tg=ok&&!got?'button type="button" data-dq="'+g[0]+'"':'div',tc=ok&&!got?'button':'div';
     return '<'+tg+' class="opt dqo'+(got?' got':ok?' can':'')+'"><i class="oi">'+ico(DQI[g[0]]||'ball',24)+'</i><strong>'+dqText(g)+'</strong><span><u class="pgb"><u style="width:'+pc+'%"></u></u></span><em>'+(got?'✓ Hecho':ok?'Recoger · '+ico('coin',16)+r.c:ico('coin',16)+r.c+' · '+p+'/'+g[1])+'</em></'+tc+'>';}).join('')
   +(all?'<p class="note dnt">¡Todo hecho! Vuelve mañana.</p>':'')+'</div>';}
-let achSel='';
+let achSel='',achPage=0;
+const achPer=()=>Math.max(4,Math.min(12,2*Math.floor(((window.innerHeight||700)*.9-310)/88)));
 const DQI={pj:'cone',g:'ball',w:'trophy',a:'arrow',tr:'clock'};
 const ACHO={debut:'ball',win1:'trophy',win10:'trophy',win25:'trophy',win50:'trophy',win100:'trophy',gol1:'ball',gol5:'ball',gol25:'ball',gol100:'ball',ast1:'arrow',ast10:'arrow',ast50:'arrow',tab5:'flag',lvl5:'starb',lvl10:'starb',lvl20:'starb',lvl30:'starb',mecena:'coin',tour5:'trophy',tour10:'trophy',tour20:'trophy',tour30:'trophy',tour40:'trophy',club:'flag',pj10:'cone',pj50:'cone',pj100:'cone',teamp5:'head',teamw5:'head',rach3:'clock',rach7:'clock',rach30:'clock'};
 function achCard(a){const ok=achOk(a),got=(S.ach||[]).includes(a[0]),can=ok&&!got,cur=Math.min(+a[6]()||0,a[7]),pc=got||can?100:Math.round(100*cur/a[7]),tg=can?'button type="button" data-ach="'+a[0]+'"':'div',tc=can?'button':'div';
-  return '<'+tg+' class="opt axc'+(got?' got':can?' can':'')+'"><i class="oi">'+ico(ACHO[a[0]]||'starb',26)+'</i><strong>'+a[1]+'</strong><span>'+a[2]+'</span><u class="pgb"><u style="width:'+pc+'%"></u></u><em>'+(got?'✓ Conseguido':can?'Recoger · '+ico('coin',16)+a[3]:ico('coin',16)+a[3]+' · '+cur+'/'+a[7])+'</em></'+tc+'>';}
+  return '<'+tg+' class="opt axc'+(got?' got':can?' can':'')+'"><i class="oi">'+ico(ACHO[a[0]]||'starb',26)+'</i><strong>'+a[1]+'</strong><span>'+a[2]+'</span><em>'+(got?'✓ Conseguido':can?'Recoger · '+ico('coin',16)+a[3]:ico('coin',16)+a[3]+' · '+cur+'/'+a[7])+'</em></'+tc+'>';}
 function achTile(a,sel){const ok=achOk(a),got=(S.ach||[]).includes(a[0]),can=ok&&!got,cur=Math.min(+a[6]()||0,a[7]),pc=got||can?100:Math.round(100*cur/a[7]);
   return '<button type="button" class="mdl'+(got?' got':can?' can':'')+(sel?' sel':'')+'" data-asel="'+a[0]+'" aria-label="'+esc(a[1])+(got?', conseguido':can?', listo para recoger':', '+cur+' de '+a[7])+'"><i>'+(ACHI[a[0]]||'🏅')+'</i><u class="mpb"><u style="width:'+pc+'%"></u></u>'+(got?'<b class="mck">✓</b>':can?'<b class="mck g">!</b>':'')+'</button>';}
 function pProfile(){const done=ACH.filter(achOk).length,cl=achClaimable(),gotf=a=>(S.ach||[]).includes(a[0]);
   const rk=a=>gotf(a)?2:achOk(a)?0:1,pr=a=>Math.min(+a[6]()||0,a[7])/a[7];
   const L=ACH.slice().sort((x,y)=>rk(x)-rk(y)||(rk(x)===1?pr(y)-pr(x):0));
-  $('#pfbody').innerHTML=dqHtml()+'<div class="achh"><div class="label">Logros · '+done+'/'+ACH.length+'</div>'+(cl.length>1?'<button class="btn gold sm" data-achall="1" type="button">Recoger todo</button>':'')+'</div><div class="ax">'+L.map(achCard).join('')+'</div>';
+  const per=achPer(),pages=Math.max(1,Math.ceil(L.length/per));if(achPage>=pages)achPage=pages-1;if(achPage<0)achPage=0;
+  $('#pfbody').innerHTML=dqHtml()+'<div class="achh"><div class="label">Logros · '+done+'/'+ACH.length+'</div>'+(cl.length>1?'<button class="btn gold sm" data-achall="1" type="button">Recoger todo</button>':'')+'</div><div class="ax">'+L.slice(achPage*per,achPage*per+per).map(achCard).join('')+'</div>'+(pages>1?'<div class="apg"><button type="button" class="btn alt sm" data-apg="-1" aria-label="Página anterior"'+(achPage?'':' disabled')+'>‹</button><span>'+(achPage+1)+' / '+pages+'</span><button type="button" class="btn alt sm" data-apg="1" aria-label="Página siguiente"'+(achPage<pages-1?'':' disabled')+'>›</button></div>':'');
   pOpen('pprof');mailBadge();}
 function achClaim(ids){let c=0,x=0;ids.forEach(id=>{const a=ACH.find(z=>z[0]===id);if(!a||!achOk(a)||(S.ach||[]).includes(id))return;S.ach=(S.ach||[]).concat(id);c+=a[3];x+=a[4];});
   if(!c&&!x)return;srv('achClaim',{ids,tcpj:(S.tc&&S.tc.pj)||0,tcw:(S.tc&&S.tc.w)||0});S.coins+=c;addXP(x);save();render();toast('+'+c+' monedas y +'+x+' XP');pProfile();}
@@ -2554,7 +2560,7 @@ document.addEventListener('click',e=>{const T=e.target;
   if(T.closest&&T.closest('#hface')){pMenu();return;}
   const c=T.closest&&T.closest('[data-close]');if(c){const id=c.dataset.close;if(id)$('#'+id).hidden=true;}
   if(T.classList&&T.classList.contains('ovl')&&['pmenu','pprof','pmail','pcomp'].includes(T.id)){T.hidden=true;return;}
-  if(T.closest('[data-pro]'))pProfile();else if(T.closest('[data-mail]'))pMail();else if(T.closest('[data-sendmail]'))pComp();else if(T.closest('#cpsend'))pSend();else if(T.closest('[data-dqall]')){const q=dqEnsure();dqClaim(q.goals.map(g=>g[0]));}else if(T.closest('[data-dq]'))dqClaim([T.closest('[data-dq]').dataset.dq]);else if(T.closest('[data-asel]')){achSel=T.closest('[data-asel]').dataset.asel;pProfile();}else if(T.closest('[data-achall]'))achClaim(achClaimable().map(a=>a[0]));else{const b=T.closest('[data-ach]');if(b)achClaim([b.dataset.ach]);}});
+  if(T.closest('[data-pro]')){achPage=0;pProfile();}else if(T.closest('[data-apg]')){achPage+=+T.closest('[data-apg]').dataset.apg;pProfile();}else if(T.closest('[data-mail]'))pMail();else if(T.closest('[data-sendmail]'))pComp();else if(T.closest('#cpsend'))pSend();else if(T.closest('[data-dqall]')){const q=dqEnsure();dqClaim(q.goals.map(g=>g[0]));}else if(T.closest('[data-dq]'))dqClaim([T.closest('[data-dq]').dataset.dq]);else if(T.closest('[data-asel]')){achSel=T.closest('[data-asel]').dataset.asel;pProfile();}else if(T.closest('[data-achall]'))achClaim(achClaimable().map(a=>a[0]));else{const b=T.closest('[data-ach]');if(b)achClaim([b.dataset.ach]);}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')['pmenu','pprof','pmail','pcomp'].forEach(x=>{$('#'+x).hidden=true;});if((e.key==='Enter'||e.key===' ')&&document.activeElement&&document.activeElement.id==='hface'){e.preventDefault();pMenu();}});
 $('#cptxt').addEventListener('input',()=>{$('#cpcnt').textContent=$('#cptxt').value.length+'/200';});
 function curNum(){try{const t=myTeam(),v=t&&t.nums?t.nums[UID]:null;if(Number.isInteger(v)&&v>=1&&v<=99)return v;}catch(e){}return S.num||0;}
