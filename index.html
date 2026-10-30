@@ -1342,7 +1342,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 528">Kickling · v528</div>
+  <div class="verl" aria-label="Kickling versión 529">Kickling · v529</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -3112,6 +3112,9 @@ $('#timed').addEventListener('click',async e=>{const b=e.target.closest('.opt');
   if(b.dataset.tstart){if(!S.pos.length){toast('Elige tu posición para poder entrenar.');return;}if(S.timed){toast('Ya tienes un entrenamiento en marcha.');return;}const k=b.dataset.tstart,min=durMin(k);
     if(SRV.on){b.disabled=true;const r=await srv('timedStart',{k});if(r){timedView();if(r.ok&&S.timed)toast(PD(k).t+': vuelve en '+fdur(S.timed.d/6e4));return;}b.disabled=false;}
     const sp=bMult('t'),rm=min/sp;S.timed={k:k,t:Date.now(),d:Math.round(rm*60000),m:min};save();srv('timedStart',{k});timedView();toast(PD(k).t+': vuelve en '+fdur(rm));return;}
+  if(b.dataset.trun){const A=S.timed;if(!A)return;const k=A.k;let o=document.getElementById('tco');if(o)o.remove();o=document.createElement('div');o.id='tco';o.style.cssText='position:fixed;inset:0;z-index:9000;background:rgba(10,20,50,.55);display:flex;align-items:center;justify-content:center;padding:16px';
+    o.innerHTML='<div role="dialog" aria-label="Cancelar entrenamiento" style="background:#eaf1ff;border-radius:18px;padding:16px;width:100%;max-width:340px;box-shadow:0 8px 30px rgba(0,0,0,.4);text-align:center"><b style="font-family:var(--display);font-size:20px;display:block;margin-bottom:6px">¿Cancelar entrenamiento?</b><p class="note" style="margin:0 0 12px">'+esc(PD(k).t)+': perderás el tiempo que llevas y no recibirás la recompensa.</p><div class="row" style="gap:8px"><button class="btn alt sm" data-tcn="0" style="flex:1">Seguir</button><button class="btn sm" data-tcn="1" style="flex:1">Cancelar</button></div></div>';
+    o.addEventListener('click',ev=>{const c=ev.target.closest('[data-tcn]');if(ev.target===o||(c&&c.dataset.tcn==='0')){o.remove();return;}if(c){o.remove();if(S.timed&&S.timed.k===k){S.timed=null;save();srv('timedCancel',{k});timedView();toast('Entrenamiento cancelado.');}}});document.body.appendChild(o);return;}
   if(b.dataset.tclaim){const k=b.dataset.tclaim;if(!S.timed||S.timed.k!==k||tLeft()!==0)return;const pay=timedPay(k,S.timed.m||Math.round(S.timed.d/6e4));S.timed=null;if(!SRV.on)tShuffle();dqEnsure();S.dq.tr++;
     S.trained[k]+=pay.pts;S.coins+=pay.coins;addXP(pay.xp);save();srv('timedClaim',{k,ld:dqDate()});const rc=b.getBoundingClientRect();floatTxt('+'+pay.xp+' XP',rc.left+rc.width/2,rc.top+10);confetti(24);
     toast('+'+pay.xp+' XP · +'+pay.coins+' monedas'+(pay.pts?' · +'+fmtD(pay.pts*TRF)+' '+statName(k):''));head();home();drills();timedView();energy();}});
