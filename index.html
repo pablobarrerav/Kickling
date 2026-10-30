@@ -1343,7 +1343,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 537">Kickling · v537</div>
+  <div class="verl" aria-label="Kickling versión 538">Kickling · v538</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2731,9 +2731,9 @@ function lmList(){try{const t=myTeam();if(!t||!TM||!TM.ok||!TM.me)return;const n
   const ps=document.body.style.overflow,pe=document.documentElement.style.overflow,cl=()=>{o.remove();document.body.style.overflow=ps;document.documentElement.style.overflow=pe;};document.body.style.overflow='hidden';document.documentElement.style.overflow='hidden';const nb=e=>e.preventDefault();o.addEventListener('touchmove',nb,{passive:false});o.addEventListener('wheel',nb,{passive:false});o.addEventListener('click',e=>{if(e.target===o||e.target.closest('[data-lmx],[data-mvd]'))cl();});document.body.appendChild(o);}catch(e){}}
 document.addEventListener('click',e=>{const c=e.target.closest('#rec');if(c)lmList();});
 function lineupFill(){try{const o=document.getElementById('lno');if(!o)return;const t=myTeam();if(!t){o.click();return;}const ms=membersOf(t.id);
-  o.firstChild.innerHTML='<div class="hmpitch" style="height:min(66dvh,560px);flex:none">'+pitchSvg(t,ms,true)+'</div>'+pickView(t)+swapView(t,ms);}catch(e){}}
-function lineupOpen(){try{const t=myTeam();if(!t)return;let o=document.getElementById('lno');if(o)o.remove();o=document.createElement('div');o.id='lno';o.style.cssText='position:fixed;inset:0;z-index:9000;background:rgba(10,20,50,.55);display:flex;align-items:center;justify-content:center;padding:12px;overscroll-behavior:none';
-  o.innerHTML='<div role="dialog" aria-label="Alineación" style="background:#eaf1ff;border-radius:18px;padding:10px;width:100%;max-width:420px;max-height:92dvh;overflow-y:auto;box-shadow:0 8px 30px rgba(0,0,0,.4);display:flex;flex-direction:column;gap:8px"></div>';
+  o.firstChild.innerHTML='<div class="hmpitch" style="height:min(58dvh,500px);flex:none">'+pitchSvg(t,ms,true)+'</div><div style="min-height:100px">'+pickView(t)+swapView(t,ms)+'</div>';}catch(e){}}
+function lineupOpen(){try{const t=myTeam();if(!t)return;let o=document.getElementById('lno');if(o)o.remove();o=document.createElement('div');o.id='lno';o.style.cssText='position:fixed;inset:0;z-index:9000;background:rgba(10,20,50,.55);display:flex;align-items:flex-start;justify-content:center;padding:max(12px,4dvh) 12px 12px;overscroll-behavior:none';
+  o.innerHTML='<div role="dialog" aria-label="Alineación" style="background:#eaf1ff;border-radius:18px;padding:10px;width:100%;max-width:420px;max-height:calc(100dvh - max(12px,4dvh) - 12px);overflow-y:auto;box-shadow:0 8px 30px rgba(0,0,0,.4);display:flex;flex-direction:column;gap:8px"></div>';
   const ps=document.body.style.overflow,pe=document.documentElement.style.overflow;const cl=()=>{tmPick=null;tmSwap=null;o.remove();document.body.style.overflow=ps;document.documentElement.style.overflow=pe;};
   document.body.style.overflow='hidden';document.documentElement.style.overflow='hidden';o.addEventListener('click',e=>{if(e.target===o){cl();teamRender();}else if(e.target.closest('[data-pl]'))cl();});$('#p-team').appendChild(o);tmPick=null;tmSwap=null;lineupFill();}catch(e){}}
 document.addEventListener('click',e=>{if(e.target.closest('[data-lineup]'))lineupOpen();});
