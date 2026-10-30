@@ -1343,7 +1343,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 541">Kickling · v541</div>
+  <div class="verl" aria-label="Kickling versión 542">Kickling · v542</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2086,7 +2086,7 @@ function shop(){$('#items').classList.toggle('g2',shopSlot!=='bebidas'&&shopSlot
 function render(){timedView();posView();head();energy();home();look();paintSave();drills();comps();shop();energy();}
 
 /* ---------- pestañas ---------- */
-function tab(n){document.body.classList.toggle('fitl',n==='look');if(n==='home')kitSync();document.body.classList.toggle('onhome',n==='home');$('#hface').innerHTML=avatar(true);if(n==='home'){try{$('#avatar').style.setProperty('background',stadiumBg(),'important');}catch(e){}}if(n!=='team'){document.body.classList.remove('stfull');document.body.classList.remove('fitv');document.body.classList.remove('tmmi');}if(n==='team'){const tb=$('#tmbody');tb.classList.add('enter');setTimeout(()=>tb.classList.remove('enter'),1100);setTimeout(teamOpen,0);}document.querySelectorAll('.panel').forEach(p=>p.hidden=p.id!=='p-'+n);
+function tab(n){document.body.classList.toggle('fitl',n==='look');if(n==='home')kitSync();document.body.classList.toggle('onhome',n==='home');$('#hface').innerHTML=avatar(true);if(n==='home'){try{$('#avatar').style.setProperty('background',stadiumBg(),'important');}catch(e){}}if(n!=='team'){document.body.classList.remove('stfull');document.body.classList.remove('fitv');document.body.classList.remove('tmmi');}if(n==='team'&&!$('#p-team').hidden){}else if(n==='team'){const tb=$('#tmbody'),old=Date.now()-(teamRefresh.at||0)>45000;if(old){tb.classList.add('enter');setTimeout(()=>tb.classList.remove('enter'),1100);}setTimeout(()=>teamOpen(old),0);}document.querySelectorAll('.panel').forEach(p=>p.hidden=p.id!=='p-'+n);
   document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===(n==='look'?'home':n)));window.scrollTo(0,0);}
 $('#tabs').addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(b)tab(b.dataset.tab);});
 document.body.classList.add('onhome');
@@ -2578,7 +2578,7 @@ const ONL=90000,isOn=m=>!!m&&(m.id===UID||Date.now()-(+m.seen||0)<ONL),isIdle=m=
 async function beat(){if(!DB||!CANW||!TM.me||document.hidden)return;try{const n=Date.now();await DB.doc('members/'+UID).update({seen:n});TM.me.seen=n;}catch(e){}}
 setTimeout(beat,2500);setInterval(beat,40000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)beat();});
 const tmSig=()=>JSON.stringify([TM.ok,TM.err,TM.teams,TM.members.map(m=>{const r=Object.assign({},m);delete r.seen;r.on=isOn(m);r.idle=isIdle(m);return r;}),Object.assign({},TM.me,{seen:0}),Object.keys(TM.sims).sort().map(k=>k+':'+((TM.sims[k].matches||[]).length))]);
-async function teamRefresh(force){if(tmWorking)return;tmWorking=true;const before=tmSig();
+async function teamRefresh(force){if(tmWorking)return;tmWorking=true;teamRefresh.at=Date.now();const before=tmSig();
   try{await tmLoad();if(TM.ok){if(await runSims())await tmLoad();await syncMe();await fixOwner();applyKit();}}finally{tmWorking=false;}
   if(force===true||(tmSig()!==before&&!tmChat)){const tb=$('#tmbody');if(tb)tb.classList.remove('enter');teamRender();}}
 async function kitSync(){if(!DB||tmWorking||document.hidden||(kitSync.b&&Date.now()-kitSync.b<15000))return;kitSync.b=Date.now();try{
@@ -2591,7 +2591,7 @@ setTimeout(kitSync,1500);setInterval(kitSync,20000);document.addEventListener('v
 const bestOf=(tid,skip)=>membersOf(tid).filter(m=>m.id!==skip).sort((a,b)=>(+b.ovr||0)-(+a.ovr||0)||(a.joined||0)-(b.joined||0)||(a.id<b.id?-1:1))[0]||null;
 async function fixOwner(){if(!DB||!CANW||!TM.ok||!TM.me||!TM.me.team)return;const t=myTeam();if(!t||membersOf(t.id).some(m=>m.id===t.owner))return;const b=bestOf(t.id,null);
   if(b&&b.id===UID){try{await DB.doc('teams/'+t.id).update({owner:UID});t.owner=UID;}catch(e){}}}
-function teamOpen(){teamRender();teamRefresh();}
+function teamOpen(old){teamRender();if(old!==false)teamRefresh();}
 function myTeam(){return TM.me&&TM.me.team?TM.teams.find(t=>t.id===TM.me.team)||null:null;}
 function claimable(){const t=myTeam();if(!t||!TM.me)return [];const out=[];
   Object.keys(TM.sims).sort((a,b)=>nk(a)<nk(b)?-1:1).forEach(d=>{if(nk(d)<=nk(S.claim||'')||cutoff(d)<=(TM.me.joined||0))return;
