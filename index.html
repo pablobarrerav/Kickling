@@ -1343,7 +1343,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 542">Kickling · v542</div>
+  <div class="verl" aria-label="Kickling versión 543">Kickling · v543</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2724,7 +2724,7 @@ function lmList(){try{const t=myTeam();if(!t||!TM||!TM.ok||!TM.me)return;const n
   Object.keys(TM.sims).sort((a,b)=>nk(a)<nk(b)?1:-1).forEach(d=>{const c=cutoff(d);if(c>now||c<joined)return;(TM.sims[d].matches||[]).forEach((m,i)=>{if(m.h===t.id||m.a===t.id)L.push({d:d,i:i,m:m});});});
   const rows=L.slice(0,10).map(z=>{const m=z.m,me=m.h===t.id,gf=me?m.hg:m.ag,ga=me?m.ag:m.hg,c=gf>ga?'#1fa34a':gf<ga?'#d9382f':'#8a94ad';
     let st='';{const cu=cutoff(z.d),pl=xiOf(t.id,cu).find(x=>x.id===UID);if(!pl)st='Suplente · 0\'';else{const gl=goalsOf(z.d,m),sb=subOf(z.d,m,t.id),g=gl.filter(q=>q.tid===t.id&&q.sc.id===UID).length,a=gl.filter(q=>q.tid===t.id&&q.as&&q.as.id===UID).length;let rt='';try{rt=rt1(ratingOf(z.d,m,t.id,pl,gl));}catch(e){}
-      st=(sb?sb.min:90)+'\' jugados · '+g+' gol'+(g===1?'':'es')+' · '+a+' asist.'+(rt?' · '+rt:'')+(sb?' · cambiado':'');}}
+      st=(sb?sb.min:90)+'\' jugados · '+g+' gol'+(g===1?'':'es')+' · '+a+' asist.'+(rt?' · '+rt:'')+(sb?' · cambiado':'');try{const mp=mvpOf(z.d,m,t.id);if(mp&&mp.pl.id===UID)st+=' · <b style="color:#d98a00">⭐ MVP</b>';}catch(e){}}}
     return '<li data-mvd="'+z.d+'" data-mvi="'+z.i+'" role="button" tabindex="0" style="padding:4px 10px;border-radius:12px;background:#fff;border:2px solid rgba(150,175,225,.55);border-left:6px solid '+c+';cursor:pointer;font-size:14px"><div style="display:flex;align-items:center;gap:8px"><span style="flex:1;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(m.hn)+'</span>'+crestFor(m.h,20)+'<b class="num" style="min-width:48px;text-align:center">'+m.hg+' – '+m.ag+'</b>'+crestFor(m.a,20)+'<span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(m.an)+'</span></div><div style="text-align:center;font-size:11.5px;opacity:.75;margin-top:1px">'+st+'</div></li>';}).join('');
   let o=document.getElementById('lmo');if(o)o.remove();o=document.createElement('div');o.id='lmo';o.style.cssText='position:fixed;inset:0;z-index:9000;background:rgba(10,20,50,.55);display:flex;align-items:center;justify-content:center;padding:16px;touch-action:none;overscroll-behavior:none';
   o.innerHTML='<div style="background:#eaf1ff;border-radius:18px;padding:14px;width:100%;max-width:420px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.4)"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><b style="font-family:var(--display);font-size:20px">Últimos partidos</b></div>'+(rows?'<ul style="display:grid;gap:6px;list-style:none;margin:0;padding:0">'+rows+'</ul>':'<p class="note" style="text-align:center">Aún no has jugado partidos con tu equipo.</p>')+'</div>';
