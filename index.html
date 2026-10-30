@@ -1165,7 +1165,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
 .pfa .ax .opt .oi{grid-column:1;grid-row:1 / span 2;width:34px;height:34px;border-radius:11px;border-width:2px;justify-self:center}
 .pfa .ax .opt .oi svg{width:22px;height:22px}
 .pfa .ax .opt strong{grid-column:2;grid-row:1;align-self:end;font-size:14px;line-height:1.05}
-.pfa .ax .opt span{grid-column:2;grid-row:2;font-size:10.5px;line-height:1.1;align-self:start}
+.pfa .ax .opt span{grid-column:2;grid-row:2;font-size:10.5px;font-weight:400;line-height:1.1;align-self:start}
 .pfa .ax .opt em{grid-column:1 / -1;grid-row:3;justify-self:center;margin-top:4px;font-size:13px;padding:1px 9px 1px 5px}
 .pfa .dqo{grid-template-columns:36px 1fr auto;min-height:0;padding:3px 8px;margin:0 0 4px;font:inherit;border-width:3px;box-shadow:0 3px 0 var(--wood-d),inset 0 0 0 2px rgba(255,255,255,.55)}
 .pfa .dqo .oi{width:32px;height:32px;grid-row:1 / span 2;border-radius:10px;border-width:2px}
@@ -1177,6 +1177,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
 .pfa .opt.can{border-color:#f5b800;animation:achp 1.4s ease-in-out infinite}
 .pfa .opt.can em{background:linear-gradient(#ffd34d,#f5a800);color:#5a3500;text-shadow:none}
 .pfa .opt.got em{background:#1fa34a;text-shadow:none}
+.pfa .opt em,.pfa .dqo em{font-family:'Nunito',system-ui,-apple-system,sans-serif;font-weight:500;text-shadow:none;letter-spacing:0}
 .pfa .opt.got .oi{background:linear-gradient(#7be08a,#2ea64f);border-color:#0f7a33}
 .pfa .opt .pgb{background:rgba(80,100,150,.25)}
 .pfa .apg{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:8px}.pfa .apg span{font-family:var(--display);font-size:16px;color:#26427a;min-width:48px;text-align:center}.pfa .apg .btn{min-width:52px}
@@ -1341,7 +1342,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 526">Kickling · v526</div>
+  <div class="verl" aria-label="Kickling versión 527">Kickling · v527</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2642,9 +2643,12 @@ function stadiumSvg(t){const c=stLv(t,'campo'),p=stLv(t,'porteria'),g=stLv(t,'gr
   const n=8,hh=(pb-pt)/n;for(let i=0;i<n;i+=2)pitch+='<rect x="'+(16+i*268/n)+'" y="'+pt+'" width="'+(268/n)+'" height="'+(pb-pt)+'" fill="#1F6A10" opacity="'+(c>=3?.1+c*.012:.07)+'"/>';
   pitch+='<g stroke="#fff" stroke-width="2.2" fill="none" opacity=".9"><path d="M150 '+pt+'V'+pb+'"/><circle cx="150" cy="'+my+'" r="26"/><circle cx="150" cy="'+my+'" r="2.4" fill="#fff"/><rect x="18" y="'+(my-48)+'" width="40" height="96"/><rect x="242" y="'+(my-48)+'" width="40" height="96"/><rect x="18" y="'+(my-22)+'" width="16" height="44"/><rect x="266" y="'+(my-22)+'" width="16" height="44"/></g>';
   o+=hot('campo','Campo',hit('campo')+pitch+sel('campo'));
-  const nl=2+Math.ceil(p/2);let gl='';
-  R.porteria.forEach((r,j)=>{gl+='<rect x="'+r[0]+'" y="'+r[1]+'" width="16" height="'+r[3]+'" fill="#fff" fill-opacity=".35" stroke="#fff" stroke-width="'+(2.5+p*.2)+'" rx="2"/>';
-    for(let i=1;i<nl;i++)gl+='<path d="M'+r[0]+' '+(r[1]+i*r[3]/nl)+'h16" stroke="#fff" stroke-opacity=".7"/>';});
+  const nl=2+Math.ceil(p/2),pw=1.6+p*.14;let gl='';
+  R.porteria.forEach((r,j)=>{const x0=r[0],y0=r[1],h=r[3],L=j===0,xb=L?x0:x0+16,xf=L?x0+16:x0;
+    gl+='<rect x="'+x0+'" y="'+y0+'" width="16" height="'+h+'" fill="#fff" fill-opacity=".22"/>';
+    for(let i=1;i<nl;i++)gl+='<path d="M'+x0+' '+(y0+i*h/nl).toFixed(1)+'h16" stroke="#fff" stroke-opacity=".65" stroke-width=".9"/>';
+    for(let i=1;i<4;i++)gl+='<path d="M'+(x0+i*4)+' '+y0+'v'+h+'" stroke="#fff" stroke-opacity=".5" stroke-width=".9"/>';
+    gl+='<path d="M'+xf+' '+y0+'H'+xb+'V'+(y0+h)+'H'+xf+'" fill="none" stroke="#fff" stroke-width="'+pw.toFixed(1)+'" stroke-linejoin="round" stroke-linecap="round"/><circle cx="'+xf+'" cy="'+y0+'" r="'+(pw/2+.6).toFixed(1)+'" fill="#fff"/><circle cx="'+xf+'" cy="'+(y0+h)+'" r="'+(pw/2+.6).toFixed(1)+'" fill="#fff"/>';});
   o+=hot('porteria','Porterías',hit('porteria')+gl+sel('porteria'));
   const bh=21+b*.3;let bn='';
   R.banquillo.forEach((r,q)=>{const x=r[0],yb=r[1]+24,top=yb-bh,sk=['#F1C9A5','#C98E63','#8D5A3B'];
@@ -2714,6 +2718,14 @@ function swapView(t,ms){if(!tmSwap)return '';const xi=xiOf(t.id),out=xi.find(m=>
   const rest=xi.filter(m=>m.id!==out.id),bench=ms.filter(m=>!xi.some(x=>x.id===m.id)).sort((a,b)=>(+b.ovr||0)-(+a.ovr||0)),pb=m=>{const p=String(m.pos||'').split(',')[0],A={por:'PT',def:'DF',med:'MC',del:'DC'}[p];return A?'<u class="pbd pb-'+p+'" title="'+POSN[p]+'">'+A+'</u>':'';};
   return '<div class="card swp"><div class="label">Cambiar a '+esc(out.name||'Jugador')+' por:</div>'+(bench.length?'<ul class="lst swl">'+bench.map(m=>{const why=xiWhy(rest,m);return '<li class="tl mem'+(why?' dim':'')+'"><button class="tn tnb" data-swapto="'+esc(m.id)+'" aria-label="Poner a '+esc(m.name||'Jugador')+'"><span>'+pb(m)+esc(m.name||'Jugador')+'</span></button><b class="num ov">'+(+m.ovr||0)+'</b></li>';}).join('')+'</ul>':'<p class="note">No hay suplentes en el equipo.</p>')+
     '<div class="row" style="gap:8px;margin-top:8px"><button class="btn alt sm" data-pl="'+esc(out.id)+'" style="flex:1">Ver ficha</button><button class="btn alt sm" data-swapx="1" style="flex:1">Cancelar</button></div></div>';}
+function lmList(){try{const t=myTeam();if(!t||!TM||!TM.ok||!TM.me)return;const now=Date.now(),joined=+TM.me.joined||0,L=[];
+  Object.keys(TM.sims).sort((a,b)=>nk(a)<nk(b)?1:-1).forEach(d=>{const c=cutoff(d);if(c>now||c<joined)return;(TM.sims[d].matches||[]).forEach((m,i)=>{if(m.h===t.id||m.a===t.id)L.push({d:d,i:i,m:m});});});
+  const rows=L.slice(0,12).map(z=>{const m=z.m,me=m.h===t.id,gf=me?m.hg:m.ag,ga=me?m.ag:m.hg,c=gf>ga?'#1fa34a':gf<ga?'#d9382f':'#8a94ad';
+    return '<li data-mvd="'+z.d+'" data-mvi="'+z.i+'" role="button" tabindex="0" style="display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;background:#fff;border:2px solid rgba(150,175,225,.55);border-left:6px solid '+c+';cursor:pointer;font-size:14px"><span style="flex:1;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(m.hn)+'</span>'+crestFor(m.h,20)+'<b class="num" style="min-width:48px;text-align:center">'+m.hg+' – '+m.ag+'</b>'+crestFor(m.a,20)+'<span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(m.an)+'</span></li>';}).join('');
+  let o=document.getElementById('lmo');if(o)o.remove();o=document.createElement('div');o.id='lmo';o.style.cssText='position:fixed;inset:0;z-index:9000;background:rgba(10,20,50,.55);display:flex;align-items:center;justify-content:center;padding:16px';
+  o.innerHTML='<div style="background:#eaf1ff;border-radius:18px;padding:14px;width:100%;max-width:420px;max-height:80dvh;overflow:auto;box-shadow:0 8px 30px rgba(0,0,0,.4)"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><b style="font-family:var(--display);font-size:20px">Últimos partidos</b><button class="btn alt sm" data-lmx="1">Cerrar</button></div>'+(rows?'<ul style="display:grid;gap:6px;list-style:none;margin:0;padding:0">'+rows+'</ul>':'<p class="note" style="text-align:center">Aún no has jugado partidos con tu equipo.</p>')+'</div>';
+  o.addEventListener('click',e=>{if(e.target===o||e.target.closest('[data-lmx],[data-mvd]'))o.remove();});document.body.appendChild(o);}catch(e){}}
+document.addEventListener('click',e=>{const c=e.target.closest('#rec');if(c)lmList();});
 function homeView(t,ms){const o=nextOpp(t),lm=lastMatch(t);let prev;
   if(lm){const m=lm.m,me=m.h===t.id,gf=me?m.hg:m.ag,ga=me?m.ag:m.hg,c=gf>ga?'w':gf<ga?'l':'d';
     prev='<div class="hmc '+c+'" data-mvd="'+lm.d+'" data-mvi="'+lm.i+'" role="button" tabindex="0" aria-label="Ver el último partido" style="cursor:pointer"><small>ÚLTIMO PARTIDO · VER ▸</small><div class="hms"><span>'+crestFor(m.h,20)+'</span><b class="num">'+m.hg+' – '+m.ag+'</b><span>'+crestFor(m.a,20)+'</span></div><span class="hmn">'+esc(me?m.an:m.hn)+' · '+(gf>ga?'Victoria':gf<ga?'Derrota':'Empate')+'</span></div>';}
