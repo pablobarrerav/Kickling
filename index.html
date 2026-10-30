@@ -1342,7 +1342,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 527">Kickling · v527</div>
+  <div class="verl" aria-label="Kickling versión 528">Kickling · v528</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2645,10 +2645,10 @@ function stadiumSvg(t){const c=stLv(t,'campo'),p=stLv(t,'porteria'),g=stLv(t,'gr
   o+=hot('campo','Campo',hit('campo')+pitch+sel('campo'));
   const nl=2+Math.ceil(p/2),pw=1.6+p*.14;let gl='';
   R.porteria.forEach((r,j)=>{const x0=r[0],y0=r[1],h=r[3],L=j===0,xb=L?x0:x0+16,xf=L?x0+16:x0;
-    gl+='<rect x="'+x0+'" y="'+y0+'" width="16" height="'+h+'" fill="#fff" fill-opacity=".22"/>';
-    for(let i=1;i<nl;i++)gl+='<path d="M'+x0+' '+(y0+i*h/nl).toFixed(1)+'h16" stroke="#fff" stroke-opacity=".65" stroke-width=".9"/>';
-    for(let i=1;i<4;i++)gl+='<path d="M'+(x0+i*4)+' '+y0+'v'+h+'" stroke="#fff" stroke-opacity=".5" stroke-width=".9"/>';
-    gl+='<path d="M'+xf+' '+y0+'H'+xb+'V'+(y0+h)+'H'+xf+'" fill="none" stroke="#fff" stroke-width="'+pw.toFixed(1)+'" stroke-linejoin="round" stroke-linecap="round"/><circle cx="'+xf+'" cy="'+y0+'" r="'+(pw/2+.6).toFixed(1)+'" fill="#fff"/><circle cx="'+xf+'" cy="'+(y0+h)+'" r="'+(pw/2+.6).toFixed(1)+'" fill="#fff"/>';});
+    gl+='<rect x="'+x0+'" y="'+y0+'" width="16" height="'+h+'" fill="#E4EEFA" stroke="#10244a" stroke-opacity=".5" stroke-width=".8"/>';
+    for(let i=1;i<nl;i++)gl+='<path d="M'+x0+' '+(y0+i*h/nl).toFixed(1)+'h16" stroke="#7A9CC8" stroke-width=".8"/>';
+    for(let i=1;i<4;i++)gl+='<path d="M'+(x0+i*4)+' '+y0+'v'+h+'" stroke="#7A9CC8" stroke-width=".8"/>';
+    gl+='<path d="M'+xf+' '+y0+'H'+xb+'V'+(y0+h)+'H'+xf+'" fill="none" stroke="#10244a" stroke-opacity=".55" stroke-width="'+(pw+1.6).toFixed(1)+'" stroke-linejoin="round" stroke-linecap="round"/><path d="M'+xf+' '+y0+'H'+xb+'V'+(y0+h)+'H'+xf+'" fill="none" stroke="#fff" stroke-width="'+pw.toFixed(1)+'" stroke-linejoin="round" stroke-linecap="round"/><circle cx="'+xf+'" cy="'+y0+'" r="'+(pw/2+.6).toFixed(1)+'" fill="#fff"/><circle cx="'+xf+'" cy="'+(y0+h)+'" r="'+(pw/2+.6).toFixed(1)+'" fill="#fff"/>';});
   o+=hot('porteria','Porterías',hit('porteria')+gl+sel('porteria'));
   const bh=21+b*.3;let bn='';
   R.banquillo.forEach((r,q)=>{const x=r[0],yb=r[1]+24,top=yb-bh,sk=['#F1C9A5','#C98E63','#8D5A3B'];
