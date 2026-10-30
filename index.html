@@ -1342,7 +1342,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 531">Kickling · v531</div>
+  <div class="verl" aria-label="Kickling versión 532">Kickling · v532</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2724,7 +2724,7 @@ function lmList(){try{const t=myTeam();if(!t||!TM||!TM.ok||!TM.me)return;const n
     return '<li data-mvd="'+z.d+'" data-mvi="'+z.i+'" role="button" tabindex="0" style="display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:12px;background:#fff;border:2px solid rgba(150,175,225,.55);border-left:6px solid '+c+';cursor:pointer;font-size:14px"><span style="flex:1;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(m.hn)+'</span>'+crestFor(m.h,20)+'<b class="num" style="min-width:48px;text-align:center">'+m.hg+' – '+m.ag+'</b>'+crestFor(m.a,20)+'<span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(m.an)+'</span></li>';}).join('');
   let o=document.getElementById('lmo');if(o)o.remove();o=document.createElement('div');o.id='lmo';o.style.cssText='position:fixed;inset:0;z-index:9000;background:rgba(10,20,50,.55);display:flex;align-items:center;justify-content:center;padding:16px;touch-action:none;overscroll-behavior:none';
   o.innerHTML='<div style="background:#eaf1ff;border-radius:18px;padding:14px;width:100%;max-width:420px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.4)"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><b style="font-family:var(--display);font-size:20px">Últimos partidos</b></div>'+(rows?'<ul style="display:grid;gap:6px;list-style:none;margin:0;padding:0">'+rows+'</ul>':'<p class="note" style="text-align:center">Aún no has jugado partidos con tu equipo.</p>')+'</div>';
-  o.addEventListener('click',e=>{if(e.target===o||e.target.closest('[data-lmx],[data-mvd]'))o.remove();});document.body.appendChild(o);}catch(e){}}
+  const ps=document.body.style.overflow,pe=document.documentElement.style.overflow,cl=()=>{o.remove();document.body.style.overflow=ps;document.documentElement.style.overflow=pe;};document.body.style.overflow='hidden';document.documentElement.style.overflow='hidden';const nb=e=>e.preventDefault();o.addEventListener('touchmove',nb,{passive:false});o.addEventListener('wheel',nb,{passive:false});o.addEventListener('click',e=>{if(e.target===o||e.target.closest('[data-lmx],[data-mvd]'))cl();});document.body.appendChild(o);}catch(e){}}
 document.addEventListener('click',e=>{const c=e.target.closest('#rec');if(c)lmList();});
 function homeView(t,ms){const o=nextOpp(t),lm=lastMatch(t);let prev;
   if(lm){const m=lm.m,me=m.h===t.id,gf=me?m.hg:m.ag,ga=me?m.ag:m.hg,c=gf>ga?'w':gf<ga?'l':'d';
