@@ -1317,7 +1317,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 523">Kickling · v523</div>
+  <div class="verl" aria-label="Kickling versión 524">Kickling · v524</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2526,7 +2526,7 @@ function pComp(){const t=myTeam();if(!canKit(t)){toast('Solo el capitán puede e
 async function pSend(){const t=myTeam();if(!canKit(t)||!DB)return;const raw=$('#cptxt').value.replace(/\s+\n/g,'\n').trim().slice(0,200);if(!raw){toast('Escribe un mensaje.');return;}
   if(Date.now()-cpBusy<4000)return;cpBusy=Date.now();const ts=Date.now(),msg={id:'m'+ts.toString(36),ts:ts,uid:UID,name:String(S.name||'Capitán').slice(0,16),text:maskBad(raw)};
   const arr=[msg].concat(mailList()).slice(0,20);
-  try{await DB.doc('teams/'+t.id).update({mail:arr});t.mail=arr;$('#pcomp').hidden=true;toast('Mensaje enviado al equipo.');}catch(e){toast('No se pudo enviar el mensaje.');}}
+  try{await DB.doc('teams/'+t.id).update({mail:arr});t.mail=arr;$('#pcomp').hidden=true;toast('Mensaje enviado al equipo.');try{await DB.doc('chat/c'+ts.toString(36)+Math.random().toString(36).slice(2,6)).set({team:t.id,uid:UID,name:msg.name,text:'',kind:'mail',ts:ts});}catch(e2){}}catch(e){toast('No se pudo enviar el mensaje.');}}
 document.addEventListener('click',e=>{const T=e.target;
   if(T.closest&&T.closest('#hface')){pMenu();return;}
   const c=T.closest&&T.closest('[data-close]');if(c){const id=c.dataset.close;if(id)$('#'+id).hidden=true;}
@@ -2639,7 +2639,7 @@ const csGet=()=>{try{return +localStorage.getItem(csKey())||0;}catch(e){return 0
 const csSet=v=>{try{localStorage.setItem(csKey(),String(v));}catch(e){}};
 function dotPaint(){const b=document.querySelector('.chedge');if(b)b.classList.toggle('new',chatUnread&&!tmChat);}
 async function chatPeek(){const t=myTeam();if(!DB||!t||tmChat)return;try{
-  const r=await DB.collection('chat').where('team','==',t.id).orderBy('ts','desc').limit(1).get();const m=r.docs[0]&&r.docs[0].data();
+  const r=await DB.collection('chat').where('team','==',t.id).orderBy('ts','desc').limit(6).get();const m=r.docs.map(d=>d.data()).find(x=>x&&x.kind!=='mail');
   if(!m){return;}const seen=csGet();
   if(!seen){csSet(+m.ts||0);return;}
   const u=m.uid!==UID&&(+m.ts||0)>seen;if(u!==chatUnread){chatUnread=u;dotPaint();}}catch(e){}}
@@ -2654,11 +2654,11 @@ function chatHtml(){return chatMsgs.length?chatMsgs.map(m=>{if(m.sys)return '<di
 function chatPaint(){const el=document.getElementById('chmsgs');if(!el)return;const near=el.scrollHeight-el.scrollTop-el.clientHeight<60;el.innerHTML=chatHtml();if(near||!el.dataset.init){el.scrollTop=el.scrollHeight;el.dataset.init='1';}}
 async function chatLoad(){const t=myTeam();if(!DB||!t)return;try{
   const r=await DB.collection('chat').where('team','==',t.id).orderBy('ts','desc').limit(60).get();
-  const list=r.docs.map(d=>Object.assign({},d.data(),{_id:d.id})).filter(m=>m&&typeof m.text==='string').sort((a,b)=>(+a.ts||0)-(+b.ts||0));
+  const list=r.docs.map(d=>Object.assign({},d.data(),{_id:d.id})).filter(m=>m&&typeof m.text==='string'&&m.kind!=='mail').sort((a,b)=>(+a.ts||0)-(+b.ts||0));
   const sig=list.length+':'+(list.length?list[list.length-1].ts:0);if(sig===chatSig)return;chatSig=sig;chatMsgs=list;chatPaint();}catch(e){}
   finally{if(tmChat&&chatMsgs.length){csSet(Math.max(csGet(),+chatMsgs[chatMsgs.length-1].ts||0));chatUnread=false;}}}
 function chatStart(){chatUnread=false;clearInterval(chatT);chatSig='';chatMsgs=[];chatLoad();chatT=setInterval(()=>{if(!tmChat||document.hidden||$('#p-team').hidden){if(!tmChat)clearInterval(chatT);return;}chatLoad();},5000);}
-function chatView(t){const n=membersOf(t.id).length;return '<div class="chat"><div class="chh"><b>Chat del equipo</b><span class="note">'+n+' jugador'+(n===1?'':'es')+'</span></div><div class="chmsgs" id="chmsgs">'+chatHtml()+'</div>'+(CANW?'<form class="chin" id="chform"><input id="chtxt" maxlength="200" placeholder="Escribe un mensaje" autocomplete="off" aria-label="Mensaje"><button class="btn gold" type="submit">Enviar</button></form>':'<p class="note" style="text-align:center">Solo puedes leer el chat.</p>')+'</div>';}
+function chatView(t){const n=membersOf(t.id).length;return '<div class="chat"><div class="chh"><b>Chat del equipo</b><span class="note">'+n+' jugador'+(n===1?'':'es')+'</span></div><div class="chmsgs" id="chmsgs">'+chatHtml()+'</div>'+(CANW?'<form class="chin" id="chform"><input id="chtxt" maxlength="200" placeholder="Escribe un mensaje (@nombre para avisar)" autocomplete="off" aria-label="Mensaje"><button class="btn gold" type="submit">Enviar</button></form>':'<p class="note" style="text-align:center">Solo puedes leer el chat.</p>')+'</div>';}
 function kitMini(t){const K=(t.kit&&/^#[0-9A-Fa-f]{6}$/.test(t.kit.c))?t.kit:DKIT;return '<svg viewBox="22 42 76 90" width="34" height="40" aria-hidden="true">'+shirtG(gear('c').d,K.c,detOf(K),'km1')+'<g transform="translate(0 4)">'+shortsG(matchShorts(gear('c').d),K.p,detOf(K),'km2')+'</g></svg>';}
 
 function lastMatch(t){const days=Object.keys(TM.sims).filter(d=>slotDay(d)>=LEAGUE_START).sort((a,b)=>nk(a)<nk(b)?1:-1);
@@ -3090,11 +3090,12 @@ async function pushSync(force,ask){const P=window.KickPush;if(!P||!DB||!UID||!P.
     await DB.doc('push/'+UID).set({uid:UID,team:t.id,sub:sub,ts:Date.now()});try{localStorage.setItem('kickling-pushteam',t.id);}catch(e){}}catch(e){}}
 setInterval(()=>pushSync(),30000);setTimeout(()=>pushSync(),6000);
 nfPaint();
-let nfFull=S.energy>=EMAX(),nfTim=(S.timed&&tLeft()===0)?S.timed.t:null,nfLM;
+let nfFull=S.energy>=EMAX(),nfTim=(S.timed&&tLeft()===0)?S.timed.t:null,nfLM,nfMail;
 setInterval(()=>{try{
   const f=S.energy>=EMAX();if(f&&!nfFull)nfire('en','¡Tu barra de energía está llena!');nfFull=f;
   if(S.timed&&tLeft()===0&&nfTim!==S.timed.t){nfTim=S.timed.t;nfire('tr','Tu entrenamiento por tiempo ha terminado. ¡Recoge la recompensa!');}
-  const t=myTeam();if(t&&TM.sims){const lm=lastMatch(t),k=lm?lm.d+':'+lm.i:'';if(nfLM===undefined)nfLM=k;else if(k!==nfLM){nfLM=k;if(lm){const m=lm.m;nfire('tm','Tu equipo ha jugado: '+tmNameOf(m.h)+' '+m.hg+' – '+m.ag+' '+tmNameOf(m.a));}}}
+  {const t0=myTeam();if(t0){const ml=mailList().filter(m=>m.uid!==UID).reduce((a,m)=>Math.max(a,m.ts),0);if(nfMail===undefined)nfMail=ml;else if(ml>nfMail){nfMail=ml;nfire('ml','Tienes un mensaje nuevo en el buzón.');}}}
+  const t=myTeam();if(t&&TM.sims){const lm=lastMatch(t),k=lm?lm.d+':'+lm.i:'';if(nfLM===undefined)nfLM=k;else if(k!==nfLM){nfLM=k;if(lm){const m=lm.m;nfire('tm','Tu equipo ha jugado su partido de liga.');}}}
 }catch(e){}},2000);
 
 
