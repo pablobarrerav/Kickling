@@ -1343,7 +1343,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 540">Kickling · v540</div>
+  <div class="verl" aria-label="Kickling versión 541">Kickling · v541</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1520,7 +1520,7 @@ function clean(o){const d=DEF();o=(o&&typeof o==='object')?o:{};if(o.lvl)d.pid=/
     if(tm&&typeof tm==='object'&&['ritmo','regate','disparo','pase'].includes(tm.k)){const t=Number(tm.t),du=Number(tm.d);
       if(isFinite(t)&&t>1e12&&isFinite(du)&&du>=6e4&&du<=432e5)d.timed={k:tm.k,t:Math.min(t,nw),d:Math.round(du),m:[5,15,45,90].includes(tm.m)?tm.m:undefined};}}
   {const k=o.kit,H=/^#[0-9A-Fa-f]{6}$/;d.kit=(k&&typeof k==='object'&&H.test(k.c)&&H.test(k.d)&&H.test(k.p))?(H.test(k.s)?{c:k.c,d:k.d,p:k.p,s:k.s}:{c:k.c,d:k.d,p:k.p}):null;}
-  {const c=o.cr,H=/^#[0-9A-Fa-f]{6}$/;d.cr=(c&&typeof c==='object'&&Number.isInteger(c.s)&&c.s>=0&&c.s<5&&Number.isInteger(c.p)&&c.p>=0&&c.p<4&&Number.isInteger(c.e)&&c.e>=0&&c.e<6&&H.test(c.a)&&H.test(c.b))?{s:c.s,p:c.p,e:c.e,a:c.a,b:c.b}:null;}
+  {const c=o.cr,H=/^#[0-9A-Fa-f]{6}$/;d.cr=(c&&typeof c==='object'&&Number.isInteger(c.s)&&c.s>=0&&c.s<5&&Number.isInteger(c.p)&&c.p>=0&&c.p<4&&Number.isInteger(c.e)&&c.e>=0&&c.e<6&&H.test(c.a)&&H.test(c.b))?(H.test(c.ec)?{s:c.s,p:c.p,e:c.e,a:c.a,b:c.b,ec:c.ec}:{s:c.s,p:c.p,e:c.e,a:c.a,b:c.b}):null;}
   d.ts=(Array.isArray(o.ts)&&o.ts.length===4&&[0,1,2,3].every(i=>o.ts.includes(i)))?o.ts.slice():null;
   d.pos=Array.isArray(o.pos)?POSK.filter(k=>o.pos.includes(k)).slice(0,1):[];
   d.num=(Number.isInteger(o.num)&&o.num>=1&&o.num<=99)?o.num:null;
@@ -2744,6 +2744,7 @@ function homeView(t,ms){const o=nextOpp(t),lm=lastMatch(t);let prev;
   return '<div class="hm"><div class="hmrow">'+prev+'<div class="hmc nx"><small>PRÓXIMO PARTIDO</small><b id="tmtime">'+nextSim()+'</b><span class="hmn">'+(o?'Rival: <em>'+esc(o)+'</em>':'')+'</span></div></div>'+
     '<div class="fund"><span class="fnl"><small>FONDOS DEL CLUB</small><b class="num">'+ico('coin',20)+fmt(fundOf(t))+'</b></span><span class="fd"><small>Donar</small>'+[10,50,100].map(n=>'<button class="btn gold sm" data-don="'+n+'"'+(S.coins<n?' disabled':'')+' aria-label="Donar '+n+' monedas al club">'+n+'</button>').join('')+'</span></div>'+
     '<div class="hmpitch">'+pitchSvg(t,ms)+'</div>'+pickView(t)+swapView(t,ms)+'</div>';}
+(function(){try{const el=document.getElementById('tmbody'),d=Object.getOwnPropertyDescriptor(Element.prototype,'innerHTML');if(el&&d&&d.set)Object.defineProperty(el,'innerHTML',{configurable:true,get(){return d.get.call(this);},set(v){if(this._lh===v&&this.firstChild)return;this._lh=v;d.set.call(this,v);}});}catch(e){}})();
 function teamRender(){teamRender0();lineupFill();}
 function teamRender0(){const el=$('#tmbody');if(!el)return;const _d=document.getElementById('chtxt'),_dv=_d?_d.value:'',_df=!!_d&&document.activeElement===_d;document.body.classList.remove('stfull');document.body.classList.remove('fitv');document.body.classList.remove('tmmi');
   if(!DB){el.innerHTML='<div class="card tmmsg"><div class="label">Equipo</div><p class="note">La liga de equipos necesita conexión a internet. Ahora mismo no está disponible, pero puedes seguir entrenando y jugando.</p></div>';return;}
