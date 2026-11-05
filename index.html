@@ -1352,7 +1352,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 566">Kickling · v566</div>
+  <div class="verl" aria-label="Kickling versión 567">Kickling · v567</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2547,7 +2547,7 @@ async function pRank(){rkPage=0;pOpen('prank');const b=$('#rkbody');
     const mp=new Map();q.forEach(d=>{const v=d.data()||{};mp.set(d.id,{id:d.id,n:String(v.n||'Jugador').slice(0,16),lvl:Math.max(1,Math.round(+v.lvl)||1),xp:Math.max(0,Math.round(+v.xp)||0),ovr:Math.max(0,Math.round(+v.ovr)||0),pos:String(v.pos||'')});});
     Object.keys(mem).forEach(id=>{const m=mem[id];if(!mp.has(id)&&!(m.team==null&&m.lvl==null)){mp.set(id,{id:id,n:String(m.name||'Jugador').slice(0,16),lvl:Math.max(1,Math.round(+m.lvl)||1),xp:0,ovr:Math.max(0,Math.round(+m.ovr)||0),pos:String(m.pos||'')});}});
     const tl=[];if(qt)qt.forEach(d=>tl.push(Object.assign({id:d.id},d.data()||{})));const old=TM.teams;TM.teams=old.concat(tl.filter(x=>!old.some(o=>o.id===x.id)));
-    rkRows=[...mp.values()];try{rkRows.forEach(r=>{const m=mem[r.id]||{};r.team=m.team&&tn[m.team]?tn[m.team]:'';r.cr=r.team?crestFor(m.team,15):'';if(!r.pos&&m.pos)r.pos=String(m.pos);});}finally{TM.teams=old;}rkPaint();}
+    rkRows=[...mp.values()];try{rkRows.forEach(r=>{const m=mem[r.id]||{};r.team=m.team&&tn[m.team]?tn[m.team]:'';r.cr=r.team?crestFor(m.team,15):'';if(!r.pos&&m.pos)r.pos=String(m.pos);});}finally{TM.teams=old;}{const bn=new Map(),out=[];rkRows.forEach(r=>{const k=r.n.trim().toLowerCase();if(!k||k==='jugador'){out.push(r);return;}const o=bn.get(k);if(!o){bn.set(k,r);out.push(r);}else if(r.lvl>o.lvl||(r.lvl===o.lvl&&r.xp>o.xp)){out[out.indexOf(o)]=r;bn.set(k,r);}});rkRows=out;}rkPaint();}
   catch(e){b.innerHTML='<p class="note" style="text-align:center">No se pudo cargar el ranking.</p>';}}
 function rkPaint(){const b=$('#rkbody');if(!rkRows)return;const A=rkSort==='ovr'?(x,y)=>y.ovr-x.ovr||y.lvl-x.lvl||y.xp-x.xp:(x,y)=>y.lvl-x.lvl||y.xp-x.xp||y.ovr-x.ovr,PER=10;
   const L=rkRows.slice().sort(A),me=L.findIndex(r=>r.id===ACC),np=Math.max(1,Math.ceil(L.length/PER));rkPage=Math.max(0,Math.min(np-1,rkPage));
