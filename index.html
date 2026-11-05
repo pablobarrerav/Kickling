@@ -1345,7 +1345,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 549">Kickling · v549</div>
+  <div class="verl" aria-label="Kickling versión 550">Kickling · v550</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2038,9 +2038,10 @@ function stadiumBg(){const K=kit(),SL=stadiumLv(),BL=benchLv(),CL=campoLv(),GL=g
   _sbg={k:key,v:'url("data:image/svg+xml,'+encodeURIComponent(o)+'") center/100% 100% no-repeat,#8FD6FF'};return _sbg.v;}
 
 setInterval(()=>{try{if(document.body.classList.contains('onhome'))$('#avatar').style.setProperty('background',stadiumBg(),'important');}catch(e){}},300000);
+const TIERC=['#3C9CFF','#9B5CFF','#FF4FA3','#FF8A1F','#E63946','#12B5A6','#C9A400'];
 function home(){const s=stats();{const g=document.querySelector('.hero .gearb.gh'),n=document.querySelector('.hero .hnm');if(g&&n&&g.parentNode!==n)n.appendChild(g);{const hp=document.querySelector('#hpos');if(hp&&n&&hp.parentNode!==n)n.insertBefore(hp,n.querySelector('.gearb.pe'));}}{const h=$('#hpos');h.hidden=!S.pos.length;h.textContent=S.pos.length?POSN[S.pos[0]]:'';}$('#hname').textContent=S.name;{const h=$('#hnum');h.hidden=!S.num;h.textContent=S.num?String(S.num):'';}$('#avatar').innerHTML=avatar().replace(/<circle cx="104" cy="150"[^>]*\/><path d="M104 143\.5[^>]*\/>/,'');$('#avatar').style.setProperty('background',stadiumBg(),'important');$('#ovr').textContent=ovr();
-  const sref=Math.max(100,s.ritmo,s.regate,s.disparo,s.pase),rows=['ritmo','regate','disparo','pase'].map(k=>[statName(k),Math.round(s[k]/sref*1000)/10,fmtD(s[k])]);
-  $('#stats').innerHTML=rows.map(r=>'<div class="stat"><span>'+r[0]+'</span><div class="bar"><i style="width:'+r[1]+'%"></i></div><b class="num">'+r[2]+'</b></div>').join('');
+  const rows=['ritmo','regate','disparo','pase'].map(k=>{const v=s[k],t=Math.floor(v/100);return [statName(k),Math.round((v-t*100)*10)/10,fmtD(v),t];});
+  $('#stats').innerHTML=rows.map(r=>'<div class="stat"><span>'+r[0]+'</span><div class="bar"'+(r[3]>0?' style="background:'+TIERC[(r[3]-1)%TIERC.length]+'"':'')+'><i style="width:'+r[1]+'%'+(r[3]>0?';background:linear-gradient(rgba(255,255,255,.45),rgba(255,255,255,0) 55%),'+TIERC[r[3]%TIERC.length]:'')+'"></i></div><b class="num">'+r[2]+'</b></div>').join('');
   tcUpdate();const cells=r=>r.map(x=>'<div><span class="label">'+x[0]+'</span><b>'+x[1]+'</b></div>').join('');
   {const q=S.tc;$('#rec').innerHTML=cells((()=>{const p=S.pos[0],vd=['V-E-D',q.w+'-'+q.d+'-'+q.l];return ((a)=>{a.splice(3,0,['Valoración',q.rn?rt1(q.rs/q.rn):'–']);return a;})(p==='por'?[['Partidos',q.pj],['Encaj.',q.ga],['Imbatido',q.cs],vd]:p==='def'?[['Partidos',q.pj],['Interv.',q.iv||0],['Goles',q.g],vd]:[['Partidos',q.pj],['Goles',q.g],['Asist.',q.a],vd]);})());$('#rec').classList.add('r5');}
   {const k=S.career,vd=['V-E-D',k.w+'-'+k.d+'-'+k.l];$('#rec2').innerHTML=cells(S.pos[0]==='def'?[['Partidos',k.pj],['Interv.',k.iv||0],['Goles',k.g],vd]:[['Partidos',k.pj],['Goles',k.g],['Asist.',k.a],vd]);}
