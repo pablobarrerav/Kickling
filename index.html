@@ -1351,7 +1351,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 562">Kickling · v562</div>
+  <div class="verl" aria-label="Kickling versión 563">Kickling · v563</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2540,10 +2540,15 @@ let rkRows=null,rkSort='lvl';
 async function pRank(){pOpen('prank');const b=$('#rkbody');
   if(!DB){b.innerHTML='<p class="note" style="text-align:center">El ranking solo está disponible en la versión online del juego.</p>';return;}
   b.innerHTML='<p class="note" style="text-align:center">Cargando…</p>';
-  try{const q=await DB.collection('ranking').get();rkRows=[];q.forEach(d=>{const v=d.data()||{};rkRows.push({id:d.id,n:String(v.n||'Jugador').slice(0,16),lvl:Math.max(1,Math.round(+v.lvl)||1),xp:Math.max(0,Math.round(+v.xp)||0),ovr:Math.max(0,Math.round(+v.ovr)||0)});});rkPaint();}
+  try{const [q,qm,qt]=await Promise.all([DB.collection('ranking').get(),DB.collection('members').get().catch(()=>null),DB.collection('teams').get().catch(()=>null)]);
+    const tn={};if(qt)qt.forEach(d=>{tn[d.id]=String((d.data()||{}).name||'').slice(0,24);});
+    const mem={};if(qm)qm.forEach(d=>{mem[d.id]=d.data()||{};});
+    const mp=new Map();q.forEach(d=>{const v=d.data()||{};mp.set(d.id,{id:d.id,n:String(v.n||'Jugador').slice(0,16),lvl:Math.max(1,Math.round(+v.lvl)||1),xp:Math.max(0,Math.round(+v.xp)||0),ovr:Math.max(0,Math.round(+v.ovr)||0),pos:String(v.pos||'')});});
+    Object.keys(mem).forEach(id=>{const m=mem[id];if(!mp.has(id)&&!(m.team==null&&m.lvl==null)){mp.set(id,{id:id,n:String(m.name||'Jugador').slice(0,16),lvl:Math.max(1,Math.round(+m.lvl)||1),xp:0,ovr:Math.max(0,Math.round(+m.ovr)||0),pos:String(m.pos||'')});}});
+    rkRows=[...mp.values()];rkRows.forEach(r=>{const m=mem[r.id]||{};r.team=m.team&&tn[m.team]?tn[m.team]:'';if(!r.pos&&m.pos)r.pos=String(m.pos);});rkPaint();}
   catch(e){b.innerHTML='<p class="note" style="text-align:center">No se pudo cargar el ranking.</p>';}}
 function rkPaint(){const b=$('#rkbody');if(!rkRows)return;const A=rkSort==='ovr'?(x,y)=>y.ovr-x.ovr||y.lvl-x.lvl||y.xp-x.xp:(x,y)=>y.lvl-x.lvl||y.xp-x.xp||y.ovr-x.ovr;
-  const L=rkRows.slice().sort(A),me=L.findIndex(r=>r.id===ACC),row=(r,i)=>'<li style="display:flex;align-items:center;gap:8px;padding:5px 10px;border-radius:12px;background:'+(r.id===ACC?'#fff3c4':'#fff')+';border:2px solid '+(r.id===ACC?'#f5a800':'rgba(150,175,225,.55)')+';font-size:14px"><b class="num" style="min-width:30px;text-align:center">'+(i+1)+'</b><span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(r.n)+'</span><span class="num" style="font-size:13px;opacity:.85;white-space:nowrap">Nv '+r.lvl+' · Media '+r.ovr+'</span></li>';
+  const L=rkRows.slice().sort(A),me=L.findIndex(r=>r.id===ACC),row=(r,i)=>'<li style="display:flex;align-items:center;gap:8px;padding:4px 10px;border-radius:12px;background:'+(r.id===ACC?'#fff3c4':'#fff')+';border:2px solid '+(r.id===ACC?'#f5a800':'rgba(150,175,225,.55)')+';font-size:14px"><b class="num" style="min-width:30px;text-align:center">'+(i+1)+'</b><span style="flex:1;min-width:0"><span style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(r.n)+'</span><small style="display:block;font-size:11.5px;opacity:.75;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc((r.pos&&POSN[String(r.pos).split(',')[0]]?POSN[String(r.pos).split(',')[0]]:'Sin demarcación')+(r.team?' · '+r.team:' · Sin equipo'))+'</small></span><span class="num" style="font-size:13px;opacity:.85;white-space:nowrap">Nv '+r.lvl+' · Media '+r.ovr+'</span></li>';
   const tabs='<div style="display:flex;gap:6px;margin-bottom:8px;justify-content:center"><button class="chip'+(rkSort==='lvl'?' on':'')+'" data-rk="lvl" aria-pressed="'+(rkSort==='lvl')+'">Por nivel</button><button class="chip'+(rkSort==='ovr'?' on':'')+'" data-rk="ovr" aria-pressed="'+(rkSort==='ovr')+'">Por media</button></div>';
   b.innerHTML=tabs+(L.length?'<ul style="display:grid;gap:5px;list-style:none;margin:0;padding:0;max-height:56dvh;overflow-y:auto">'+L.slice(0,50).map(row).join('')+'</ul>'+(me>=50?'<ul style="list-style:none;margin:6px 0 0;padding:0">'+row(L[me],me)+'</ul>':'')+'<p class="note" style="text-align:center;margin:8px 0 0">'+L.length+' jugadores</p>':'<p class="note" style="text-align:center">Todavía no hay jugadores en el ranking. Aparecerás en cuanto juegues un poco.</p>');}
 function pMenu(){const t=myTeam();$('#pmh').innerHTML='<span class="pav">'+avatar(true)+'</span><div><b>'+esc(S.name)+'</b><small>Nivel '+S.lvl+(t?' · '+esc(t.name):'')+'<br>'+(S.pos[0]?POSN[S.pos[0]]+' · ':'')+'Media '+ovr()+'</small></div>';mailBadge();pOpen('pmenu');}
