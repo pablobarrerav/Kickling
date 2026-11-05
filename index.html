@@ -1345,7 +1345,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 556">Kickling · v556</div>
+  <div class="verl" aria-label="Kickling versión 557">Kickling · v557</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1390,7 +1390,7 @@ const rnd=(a,b)=>a+Math.random()*(b-a);
 const pick=a=>a[Math.floor(Math.random()*a.length)];
 const KEY='cantera-v1', MAXLVL=1000;
 const ICO={
- coin:'<circle cx="12" cy="12" r="10" fill="#FFC21A" stroke="#7D3F04" stroke-width="2"/><circle cx="12" cy="12" r="7.6" fill="#FFE27A" stroke="#C47A08" stroke-width="1.2"/><path d="M14.3 9.7A3.2 3.2 0 1 0 14.3 14.3" fill="none" stroke="#C47A08" stroke-width="1.8" stroke-linecap="round"/><path d="M6.2 9.2A6.6 6.6 0 0 1 11 5.5" fill="none" stroke="#fff" stroke-opacity=".75" stroke-width="1.5" stroke-linecap="round"/>',
+ coin:'<circle cx="12" cy="12" r="10" fill="#B9C1CD" stroke="#475163" stroke-width="2"/><circle cx="12" cy="12" r="7.6" fill="#E8ECF2" stroke="#7B8697" stroke-width="1.2"/><path d="M14.3 9.7A3.2 3.2 0 1 0 14.3 14.3" fill="none" stroke="#7B8697" stroke-width="1.8" stroke-linecap="round"/><path d="M6.2 9.2A6.6 6.6 0 0 1 11 5.5" fill="none" stroke="#fff" stroke-opacity=".75" stroke-width="1.5" stroke-linecap="round"/>',
  drop:'<path d="M12 2.5C12 2.5 5.2 10 5.2 14.8a6.8 6.8 0 0013.6 0C18.8 10 12 2.5 12 2.5z" fill="#3FA9FF" stroke="#0C3F80" stroke-width="2" stroke-linejoin="round"/><ellipse cx="9.4" cy="14" rx="1.5" ry="2.6" fill="#fff" fill-opacity=".6"/>',
  star:'<path d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 16.8 5.9 20.4l1.5-6.8L2.2 9l6.9-.7z" fill="#FFC21A" stroke="#7D3F04" stroke-width="2" stroke-linejoin="round"/>',
  starb:'<path d="M12.00 0.60 L14.76 5.35 L20.06 3.94 L18.65 9.24 L23.40 12.00 L18.65 14.76 L20.06 20.06 L14.76 18.65 L12.00 23.40 L9.24 18.65 L3.94 20.06 L5.35 14.76 L0.60 12.00 L5.35 9.24 L3.94 3.94 L9.24 5.35z" fill="#2F8CFF" stroke="#0B3F9E" stroke-width="1.2" stroke-linejoin="round"/><circle cx="12" cy="12" r="6.6" fill="#5FB0FF" opacity=".55"/>',
@@ -2062,7 +2062,7 @@ function comps(){$('#comps').innerHTML=Object.keys(COMP).map(k=>{const c=COMP[k]
   return '<button class="opt" data-comp="'+k+'" data-cost="'+c.cost+'"><i class="oi">'+ico(COMP_ICO[k],34)+'</i><strong>'+c.n+'</strong><span>'+c.d+' · +'+c.xp+' XP base</span><em>'+ico('drop',22)+c.cost+'</em></button>';}).join('')+'<button class="opt" data-comp="torneo"><i class="oi">'+ico('flag',34)+'</i><strong>Torneo</strong><span>Aventura por niveles contra rivales cada vez más fuertes · superados '+(S.tour||0)+'</span><em>'+ico('trophy',22)+'Nivel '+Math.min((S.tour||0)+1,TOUR_N)+'</em></button>';}
 let shopSlot='c';
 const SLOTICO={c:'shirt',p:'shorts',s:'sock',z:'boot'};
-const COINPK=[['Puñado de monedas','100 monedas','0,99 €','#FFE27A'],['Bolsa de monedas','550 monedas','4,99 €','#FFD24D'],['Cofre de monedas','1.200 monedas','9,99 €','#FFC21A'],['Tesoro del club','3.000 monedas','19,99 €','#FFB000']];
+const COINPK=[['Puñado de monedas','100 monedas','0,99 €','#E8ECF2'],['Bolsa de monedas','550 monedas','4,99 €','#D5DAE3'],['Cofre de monedas','1.200 monedas','9,99 €','#B9C1CD'],['Tesoro del club','3.000 monedas','19,99 €','#9AA4B4']];
 const DRINKS=[
  {id:'agua',n:'Agua fresca',d:'+25% de energía durante 24 h',p:60,c:'#7FD1FF',k:'r',m:1.25,h:24},
  {id:'iso',n:'Isotónica',d:'+50% de energía durante 24 h',p:130,c:'#FFB02E',k:'r',m:1.5,h:24},
