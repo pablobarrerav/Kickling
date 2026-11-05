@@ -1345,7 +1345,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 550">Kickling · v550</div>
+  <div class="verl" aria-label="Kickling versión 551">Kickling · v551</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2180,7 +2180,7 @@ $('#drills').addEventListener('click',e=>{const b=e.target.closest('[data-drill]
 
 /* ---------- partido ---------- */
 const TOUR_N=40,TOUR_COST=60,TOUR_TEAMS=['Peña La Esquina','CD Barrio Alto','Juvenil Las Pistas','Atlético Callejón','Real Pradera','Unión Estación','Deportivo Faro','Racing Muralla','Sporting Dársena','CF Los Olivos','Ciudad Roja','Real Cumbre','Athletic Ribera','Internacional Azul','Dinamo Costa','Rayo Meseta','Olympique Bahía','Gran Estrella FC','Campeones del Norte','Titanes Kickling','Ciudad Vieja FC','Estrella del Sur','Real Montaña','Atlético Marina','Racing Cumbres','Juventud Alba','CD Horizonte','Real Estrella','Dragones del Este','Halcones FC','Leones de Hierro','Gigantes del Valle','Real Eclipse','Atlético Tormenta','Imperio Dorado','Deportivo Cóndor','Unión Meridiana','Sporting Aurora','Titanes del Mundo','Leyendas Kickling'];
-const TOUR=TOUR_TEAMS.map((n,i)=>({n,ovr:Math.round(i<20?20+2.4*i:66+1.6*(i-19)),xp:40+8*i,coins:Math.round((30+6*i)*.6)}));
+const TOUR=TOUR_TEAMS.map((n,i)=>({n,ovr:20+5*i,xp:40+8*i,coins:Math.round((30+6*i)*.6)}));
 const tCost=lv=>60+5*Math.floor((lv-1)/5);
 function tourCost(){return TOUR_COST;}
 function openTour(){tSel=0;tPage=0;$('#mmenu').hidden=true;$('#mres').hidden=true;$('#mview').hidden=true;$('#tview').hidden=false;tourRender();}
@@ -2188,9 +2188,9 @@ let tSel=0,tPage=0;
 const TCK='<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5 10-11"/></svg>';
 function tourCrest(i,sz){const n=KITCOL.length;return crestSvg({s:i%5,p:(i*3+Math.floor(i/5))%4,e:(i*7)%6,a:KITCOL[(i*3)%n],b:KITCOL[(i*3+5+Math.floor(i/4))%n]},sz);}
 function tourRender(){const done=Math.min(S.tour||0,TOUR_N),me=ovr();$('#tprog').textContent=done+'/'+TOUR_N;
-  if(!tSel||tSel<1||tSel>TOUR_N){tSel=Math.min(done+1,TOUR_N);tPage=Math.floor((tSel-1)/20);}
+  tPage=Math.floor((Math.min(done+1,TOUR_N)-1)/20);if(!tSel||tSel<1||tSel>TOUR_N||Math.floor((tSel-1)/20)!==tPage)tSel=Math.min(done+1,TOUR_N);
   const T=TOUR[tSel-1],cl=tSel<=done,lk=tSel>done+1;
-  const pgn='<div class="tpg" role="group" aria-label="Páginas de rivales">'+[0,1].map(g=>'<button class="chip'+(g===tPage?' on':'')+'" data-tpg="'+g+'" aria-pressed="'+(g===tPage)+'">Rivales '+(g*20+1)+'–'+(g*20+20)+'</button>').join('')+'</div>';
+  const pgn='';
   $('#tlist').innerHTML=pgn+'<div class="tgrid">'+TOUR.map((t,i)=>({t:t,i:i})).slice(tPage*20,tPage*20+20).map(({t,i})=>{const lv=i+1,c=lv<=done,cur=lv===done+1;return '<button class="tn2 '+(c?'ok':cur?'cur':'lk')+(lv===tSel?' sel':'')+'" data-tn="'+lv+'" aria-label="Nivel '+lv+', '+esc(t.n)+'">'+tourCrest(i,30)+'<b class="num">'+(c?TCK:lv)+'</b></button>';}).join('')+'</div>'+
     '<div class="card tdet"><div class="tdh"><span class="tcr">'+tourCrest(tSel-1,46)+'</span><div class="tlt"><span class="num" style="font-size:12px">Nivel '+tSel+'</span><strong>'+esc(T.n)+'</strong><span>Media '+T.ovr+(T.ovr>me?' · +'+(T.ovr-me)+' sobre ti':' · a tu nivel')+'</span></div></div>'+
     (cl?'':'<div class="trw"><span>'+ico('starb',18)+'+'+T.xp+' XP</span><span>'+ico('coin',18)+'+'+T.coins+'</span>')+(tSel%5===0&&!cl?'<span class="x2">+60 monedas</span>':'')+(cl?'':'</div>')+''+
