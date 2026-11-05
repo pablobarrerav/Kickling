@@ -1353,7 +1353,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 570">Kickling · v570</div>
+  <div class="verl" aria-label="Kickling versión 571">Kickling · v571</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2545,9 +2545,9 @@ function rkProfile(id){const i=rkSorted.findIndex(r=>r.id===id),r=rkSorted[i];if
 async function pRank(){rkPage=0;pOpen('prank');const b=$('#rkbody');
   if(!DB){b.innerHTML='<p class="note" style="text-align:center">El ranking solo está disponible en la versión online del juego.</p>';return;}
   b.innerHTML='<p class="note" style="text-align:center">Cargando…</p>';
-  try{const [q,qm,qt]=await Promise.all([DB.collection('ranking').get(),DB.collection('members').get().catch(()=>null),DB.collection('teams').get().catch(()=>null)]);
-    const tn={};if(qt)qt.forEach(d=>{tn[d.id]=String((d.data()||{}).name||'').slice(0,24);});
-    const mem={};if(qm)qm.forEach(d=>{mem[d.id]=d.data()||{};});
+  try{const [q,qm,qt]=await Promise.all([DB.collection('ranking').get(),DB.collection('members').get().catch(()=>DB.collection('members').get().catch(()=>null)),DB.collection('teams').get().catch(()=>DB.collection('teams').get().catch(()=>null))]);
+    const tn={};(TM.teams||[]).forEach(t=>{tn[t.id]=String(t.name||'').slice(0,24);});if(qt)qt.forEach(d=>{tn[d.id]=String((d.data()||{}).name||'').slice(0,24);});
+    const mem={};(TM.members||[]).forEach(m=>{mem[m.id]=m;});if(qm)qm.forEach(d=>{mem[d.id]=d.data()||{};});
     const mp=new Map();q.forEach(d=>{const v=d.data()||{};mp.set(d.id,{id:d.id,n:String(v.n||'Jugador').slice(0,16),lvl:Math.max(1,Math.round(+v.lvl)||1),xp:Math.max(0,Math.round(+v.xp)||0),ovr:Math.max(0,Math.round(+v.ovr)||0),pos:String(v.pos||'')});});
     Object.keys(mem).forEach(id=>{const m=mem[id];if(!mp.has(id)&&!(m.team==null&&m.lvl==null)){mp.set(id,{id:id,n:String(m.name||'Jugador').slice(0,16),lvl:Math.max(1,Math.round(+m.lvl)||1),xp:0,ovr:Math.max(0,Math.round(+m.ovr)||0),pos:String(m.pos||'')});}});
     const tl=[];if(qt)qt.forEach(d=>tl.push(Object.assign({id:d.id},d.data()||{})));const old=TM.teams;TM.teams=old.concat(tl.filter(x=>!old.some(o=>o.id===x.id)));
