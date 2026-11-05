@@ -1307,12 +1307,16 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
 <div class="ovl" id="pmenu" hidden role="dialog" aria-modal="true" aria-label="Menú del jugador"><div class="lvcard setc pmc">
   <div class="pmh" id="pmh"></div>
   <button class="btn alt pmb" data-pro="1" type="button">Logros<i class="pbd2" id="pbadge" hidden></i></button>
+  <button class="btn alt pmb" data-rank="1" type="button">Ranking</button>
   <button class="btn alt pmb" data-mail="1" type="button">Buzón<i class="pbd2" id="mbadge" hidden></i></button>
   <button class="btn alt pmb" data-editp="1" data-close="pmenu" type="button">Personalizar personaje</button>
   <button class="btn alt pmb" data-set="1" data-close="pmenu" type="button">Ajustes</button>
 </div></div>
 <div class="ovl" id="pprof" hidden role="dialog" aria-modal="true" aria-label="Logros"><div class="lvcard setc pmc pfc pfa">
   <div id="pfbody"></div>
+</div></div>
+<div class="ovl" id="prank" hidden role="dialog" aria-modal="true" aria-label="Ranking"><div class="lvcard setc pmc pfc">
+  <div class="label">Ranking de jugadores</div><div id="rkbody"></div>
 </div></div>
 <div class="ovl" id="pmail" hidden role="dialog" aria-modal="true" aria-label="Buzón"><div class="lvcard setc pmc pfc">
   <div class="label">Buzón</div><div id="mlbody"></div>
@@ -1346,7 +1350,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 559">Kickling · v559</div>
+  <div class="verl" aria-label="Kickling versión 560">Kickling · v560</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1611,7 +1615,7 @@ async function srvPump(){
   if(SRV.busy)return;SRV.busy=true;
   try{while(SRV.on&&SRV.q.length){
     const it=SRV.q[0];let r=null;
-    try{r=await window.KICKLING_GAME.call(it.a,it.p,it.id);}catch(e){r=null;}
+    try{r=await window.KICKLING_GAME.call(it.a,it.p,it.id,S.name);}catch(e){r=null;}
     if(r&&r.err==='nofn'){SRV.on=false;break;}
     if(!r||r.err==='red'||r.err==='auth'||r.err==='db'||r.err==='ocupado'||r.err==='interno'){
       if(!SRV.inited){SRV.on=false;break;}
@@ -2530,7 +2534,17 @@ function mailList(){const t=myTeam();return t&&Array.isArray(t.mail)?t.mail.filt
 function mailUnread(){return mailList().filter(m=>m.ts>(S.mailSeen||0)&&m.uid!==UID).length;}
 function mailBadge(){try{const n=mailUnread(),c=achClaimable().length+dqReady(),h=$('#hface');if(h)h.classList.toggle('unread',n>0||c>0);const b=$('#mbadge');if(b){b.hidden=!n;b.textContent=n;}const q=$('#pbadge');if(q){q.hidden=!c;q.textContent=c;}}catch(e){}}
 setInterval(mailBadge,2000);
-const pOpen=id=>{['pmenu','pprof','pmail','pcomp'].forEach(x=>{if(x!==id)$('#'+x).hidden=true;});$('#'+id).hidden=false;};
+const pOpen=id=>{['pmenu','pprof','pmail','pcomp','prank'].forEach(x=>{if(x!==id)$('#'+x).hidden=true;});$('#'+id).hidden=false;};
+let rkRows=null,rkSort='lvl';
+async function pRank(){pOpen('prank');const b=$('#rkbody');
+  if(!DB){b.innerHTML='<p class="note" style="text-align:center">El ranking solo está disponible en la versión online del juego.</p>';return;}
+  b.innerHTML='<p class="note" style="text-align:center">Cargando…</p>';
+  try{const q=await DB.collection('ranking').get();rkRows=[];q.forEach(d=>{const v=d.data()||{};rkRows.push({id:d.id,n:String(v.n||'Jugador').slice(0,16),lvl:Math.max(1,Math.round(+v.lvl)||1),xp:Math.max(0,Math.round(+v.xp)||0),ovr:Math.max(0,Math.round(+v.ovr)||0)});});rkPaint();}
+  catch(e){b.innerHTML='<p class="note" style="text-align:center">No se pudo cargar el ranking.</p>';}}
+function rkPaint(){const b=$('#rkbody');if(!rkRows)return;const A=rkSort==='ovr'?(x,y)=>y.ovr-x.ovr||y.lvl-x.lvl||y.xp-x.xp:(x,y)=>y.lvl-x.lvl||y.xp-x.xp||y.ovr-x.ovr;
+  const L=rkRows.slice().sort(A),me=L.findIndex(r=>r.id===ACC),row=(r,i)=>'<li style="display:flex;align-items:center;gap:8px;padding:5px 10px;border-radius:12px;background:'+(r.id===ACC?'#fff3c4':'#fff')+';border:2px solid '+(r.id===ACC?'#f5a800':'rgba(150,175,225,.55)')+';font-size:14px"><b class="num" style="min-width:30px;text-align:center">'+(i+1)+'</b><span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(r.n)+'</span><span class="num" style="font-size:13px;opacity:.85;white-space:nowrap">Nv '+r.lvl+' · Media '+r.ovr+'</span></li>';
+  const tabs='<div style="display:flex;gap:6px;margin-bottom:8px;justify-content:center"><button class="chip'+(rkSort==='lvl'?' on':'')+'" data-rk="lvl" aria-pressed="'+(rkSort==='lvl')+'">Por nivel</button><button class="chip'+(rkSort==='ovr'?' on':'')+'" data-rk="ovr" aria-pressed="'+(rkSort==='ovr')+'">Por media</button></div>';
+  b.innerHTML=tabs+(L.length?'<ul style="display:grid;gap:5px;list-style:none;margin:0;padding:0;max-height:56dvh;overflow-y:auto">'+L.slice(0,50).map(row).join('')+'</ul>'+(me>=50?'<ul style="list-style:none;margin:6px 0 0;padding:0">'+row(L[me],me)+'</ul>':'')+'<p class="note" style="text-align:center;margin:8px 0 0">'+L.length+' jugadores</p>':'<p class="note" style="text-align:center">Todavía no hay jugadores en el ranking. Aparecerás en cuanto juegues un poco.</p>');}
 function pMenu(){const t=myTeam();$('#pmh').innerHTML='<span class="pav">'+avatar(true)+'</span><div><b>'+esc(S.name)+'</b><small>Nivel '+S.lvl+(t?' · '+esc(t.name):'')+'<br>'+(S.pos[0]?POSN[S.pos[0]]+' · ':'')+'Media '+ovr()+'</small></div>';mailBadge();pOpen('pmenu');}
 function dqHtml(){const q=dqEnsure(),sn=dqStreak(),rd=dqReady(),all=q.got.length>=q.goals.length;
   let dots='';for(let i=1;i<=7;i++){const m=sn%7===0&&sn>0?7:sn%7;dots+='<i class="'+(i<=m?'on':'')+(i===7?' bg':'')+'"></i>';}
@@ -2569,9 +2583,9 @@ async function pSend(){const t=myTeam();if(!canKit(t)||!DB)return;const raw=$('#
 document.addEventListener('click',e=>{const T=e.target;
   if(T.closest&&T.closest('#hface')){pMenu();return;}
   const c=T.closest&&T.closest('[data-close]');if(c){const id=c.dataset.close;if(id)$('#'+id).hidden=true;}
-  if(T.classList&&T.classList.contains('ovl')&&['pmenu','pprof','pmail','pcomp'].includes(T.id)){T.hidden=true;return;}
-  if(T.closest('[data-pro]')){achPage=0;pProfile();}else if(T.closest('[data-apg]')){achPage+=+T.closest('[data-apg]').dataset.apg;pProfile();}else if(T.closest('[data-mail]'))pMail();else if(T.closest('[data-sendmail]'))pComp();else if(T.closest('#cpsend'))pSend();else if(T.closest('[data-dqall]')){const q=dqEnsure();dqClaim(q.goals.map(g=>g[0]));}else if(T.closest('[data-dq]'))dqClaim([T.closest('[data-dq]').dataset.dq]);else if(T.closest('[data-asel]')){achSel=T.closest('[data-asel]').dataset.asel;pProfile();}else if(T.closest('[data-achall]'))achClaim(achClaimable().map(a=>a[0]));else{const b=T.closest('[data-ach]');if(b)achClaim([b.dataset.ach]);}});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')['pmenu','pprof','pmail','pcomp'].forEach(x=>{$('#'+x).hidden=true;});if((e.key==='Enter'||e.key===' ')&&document.activeElement&&document.activeElement.id==='hface'){e.preventDefault();pMenu();}});
+  if(T.classList&&T.classList.contains('ovl')&&['pmenu','pprof','pmail','pcomp','prank'].includes(T.id)){T.hidden=true;return;}
+  if(T.closest('[data-pro]')){achPage=0;pProfile();}else if(T.closest('[data-apg]')){achPage+=+T.closest('[data-apg]').dataset.apg;pProfile();}else if(T.closest('[data-rank]'))pRank();else if(T.closest('[data-rk]')){rkSort=T.closest('[data-rk]').dataset.rk;rkPaint();}else if(T.closest('[data-mail]'))pMail();else if(T.closest('[data-sendmail]'))pComp();else if(T.closest('#cpsend'))pSend();else if(T.closest('[data-dqall]')){const q=dqEnsure();dqClaim(q.goals.map(g=>g[0]));}else if(T.closest('[data-dq]'))dqClaim([T.closest('[data-dq]').dataset.dq]);else if(T.closest('[data-asel]')){achSel=T.closest('[data-asel]').dataset.asel;pProfile();}else if(T.closest('[data-achall]'))achClaim(achClaimable().map(a=>a[0]));else{const b=T.closest('[data-ach]');if(b)achClaim([b.dataset.ach]);}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')['pmenu','pprof','pmail','pcomp','prank'].forEach(x=>{$('#'+x).hidden=true;});if((e.key==='Enter'||e.key===' ')&&document.activeElement&&document.activeElement.id==='hface'){e.preventDefault();pMenu();}});
 $('#cptxt').addEventListener('input',()=>{$('#cpcnt').textContent=$('#cptxt').value.length+'/200';});
 function curNum(){try{const t=myTeam(),v=t&&t.nums?t.nums[UID]:null;if(Number.isInteger(v)&&v>=1&&v<=99)return v;}catch(e){}return S.num||0;}
 function applyNum(){if(!TM.ok&&!kitSync.f)return;const t=myTeam(),n=t&&t.nums&&Number.isInteger(t.nums[UID])&&t.nums[UID]>=1&&t.nums[UID]<=99?t.nums[UID]:null;

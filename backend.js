@@ -133,12 +133,12 @@
   // Servidor del juego (función "game" de Supabase): valida monedas, nivel, media y compras.
   // Si la función no está instalada devuelve {err:'nofn'} y el juego sigue en modo local.
   window.KICKLING_GAME = {
-    call: async function (a, p, id) {
+    call: async function (a, p, id, nm) {
       try {
         var s = await session();
         var r = await fetch(URL + '/functions/v1/game', { method: 'POST', cache: 'no-store',
           headers: { apikey: KEY, Authorization: 'Bearer ' + s.access_token, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ a: a, p: p || {}, id: id || '' }) });
+          body: JSON.stringify({ a: a, p: p || {}, id: id || '', nm: nm ? String(nm).slice(0, 16) : '' }) });
         if (r.status === 404) return { ok: false, err: 'nofn' };
         var j = null; try { j = await r.json(); } catch (e) {}
         if (!j || typeof j !== 'object') return { ok: false, err: r.status >= 500 ? 'db' : 'red' };
