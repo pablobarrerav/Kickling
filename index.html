@@ -1357,12 +1357,17 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 574">Kickling · v574</div>
+  <div class="verl" aria-label="Kickling versión 575">Kickling · v575</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
   <div id="plbody"></div>
   <div class="row" style="gap:10px;justify-content:center;margin-top:14px"><button class="btn alt" id="plmute" hidden>Silenciar en el chat</button><button class="btn danger" id="plkick" hidden>Echar del equipo</button></div>
+</div></div>
+<div class="ovl" id="frcf" hidden role="alertdialog" aria-modal="true" aria-label="Quitar amigo"><div class="lvcard setc">
+  <h3 class="out" id="frcft" style="text-align:center;margin:0 0 8px;font-size:22px">¿Quitar amigo?</h3>
+  <p class="note" id="frcfp" style="text-align:center;margin:0 0 14px"></p>
+  <div class="row" style="gap:10px;justify-content:center"><button class="btn alt" id="frcfn" type="button">Cancelar</button><button class="btn danger" id="frcfy" type="button">Aceptar</button></div>
 </div></div>
 <div class="ovl" id="tvm" hidden role="dialog" aria-modal="true" aria-label="Plantilla del equipo"><div class="lvcard setc" id="tvmc"></div></div>
 <div class="ovl" id="kickm" hidden role="alertdialog" aria-modal="true" aria-label="Echar jugador del equipo"><div class="lvcard setc">
@@ -2573,6 +2578,11 @@ async function frAct(kind,id){if(!DB||!ACC||!/^[A-Za-z0-9_.~:@+-]{1,80}$/.test(i
     await frLoad();toast(kind==='s'?'Invitación enviada.':kind==='a'?'¡Ya sois amigos!':'Hecho.');
   }catch(e){toast('No se pudo completar. Inténtalo de nuevo.');try{await frLoad();}catch(e2){}}
   if(!$('#plm').hidden&&rkRows&&rkRows.some(r=>r.id===id))rkProfile(id);if(!$('#pfri').hidden)frList();}
+let frCf=null;
+function frAsk(id){const r=(rkRows||[]).find(x=>x.id===id);frCf=id;$('#frcfp').textContent='¿Seguro que quieres quitar a '+(r?r.n:'este jugador')+' de tus amigos? Tendrás que enviar otra invitación para volver a ser amigos.';$('#frcf').hidden=false;}
+$('#frcfn').addEventListener('click',()=>{frCf=null;$('#frcf').hidden=true;});
+$('#frcf').addEventListener('click',e=>{if(e.target.id==='frcf'){frCf=null;e.target.hidden=true;}});
+$('#frcfy').addEventListener('click',()=>{const id=frCf;frCf=null;$('#frcf').hidden=true;if(id)frAct('d',id);});
 function frBtn(id){const f=FR[id];if(!f)return '<button class="btn gold sm" type="button" data-frs="'+esc(id)+'">Enviar invitación de amistad</button>';
   if(f.st==='f')return '<span class="note" style="display:block;margin-bottom:6px">Sois amigos</span><button class="btn alt sm" type="button" data-frd="'+esc(id)+'">Quitar de amigos</button>';
   if(f.from===ACC)return '<span class="note" style="display:block;margin-bottom:6px">Invitación enviada, pendiente de respuesta</span><button class="btn alt sm" type="button" data-frd="'+esc(id)+'">Cancelar invitación</button>';
@@ -2638,7 +2648,7 @@ document.addEventListener('click',e=>{const T=e.target;
   if(T.closest&&T.closest('#hface')){pMenu();return;}
   const c=T.closest&&T.closest('[data-close]');if(c){const id=c.dataset.close;if(id)$('#'+id).hidden=true;}
   if(T.classList&&T.classList.contains('ovl')&&['pmenu','pprof','pmail','pcomp','prank','pfri'].includes(T.id)){T.hidden=true;return;}
-  if(T.closest('[data-pro]')){achPage=0;pProfile();}else if(T.closest('[data-apg]')){achPage+=+T.closest('[data-apg]').dataset.apg;pProfile();}else if(T.closest('[data-rank]'))pRank();else if(T.closest('[data-friends]'))pFriends();else if(T.closest('[data-frs]'))frAct('s',T.closest('[data-frs]').dataset.frs);else if(T.closest('[data-fra]'))frAct('a',T.closest('[data-fra]').dataset.fra);else if(T.closest('[data-frd]'))frAct('d',T.closest('[data-frd]').dataset.frd);else if(T.closest('[data-rkid]'))rkProfile(T.closest('[data-rkid]').dataset.rkid);else if(T.closest('[data-rkp]')){rkPage+=+T.closest('[data-rkp]').dataset.rkp;rkPaint();}else if(T.closest('[data-rk]')){rkPage=0;rkSort=T.closest('[data-rk]').dataset.rk;rkPaint();}else if(T.closest('[data-mail]'))pMail();else if(T.closest('[data-sendmail]'))pComp();else if(T.closest('#cpsend'))pSend();else if(T.closest('[data-dqall]')){const q=dqEnsure();dqClaim(q.goals.map(g=>g[0]));}else if(T.closest('[data-dq]'))dqClaim([T.closest('[data-dq]').dataset.dq]);else if(T.closest('[data-asel]')){achSel=T.closest('[data-asel]').dataset.asel;pProfile();}else if(T.closest('[data-achall]'))achClaim(achClaimable().map(a=>a[0]));else{const b=T.closest('[data-ach]');if(b)achClaim([b.dataset.ach]);}});
+  if(T.closest('[data-pro]')){achPage=0;pProfile();}else if(T.closest('[data-apg]')){achPage+=+T.closest('[data-apg]').dataset.apg;pProfile();}else if(T.closest('[data-rank]'))pRank();else if(T.closest('[data-friends]'))pFriends();else if(T.closest('[data-frs]'))frAct('s',T.closest('[data-frs]').dataset.frs);else if(T.closest('[data-fra]'))frAct('a',T.closest('[data-fra]').dataset.fra);else if(T.closest('[data-frd]')){const id=T.closest('[data-frd]').dataset.frd;if(FR[id]&&FR[id].st==='f')frAsk(id);else frAct('d',id);}else if(T.closest('[data-rkid]'))rkProfile(T.closest('[data-rkid]').dataset.rkid);else if(T.closest('[data-rkp]')){rkPage+=+T.closest('[data-rkp]').dataset.rkp;rkPaint();}else if(T.closest('[data-rk]')){rkPage=0;rkSort=T.closest('[data-rk]').dataset.rk;rkPaint();}else if(T.closest('[data-mail]'))pMail();else if(T.closest('[data-sendmail]'))pComp();else if(T.closest('#cpsend'))pSend();else if(T.closest('[data-dqall]')){const q=dqEnsure();dqClaim(q.goals.map(g=>g[0]));}else if(T.closest('[data-dq]'))dqClaim([T.closest('[data-dq]').dataset.dq]);else if(T.closest('[data-asel]')){achSel=T.closest('[data-asel]').dataset.asel;pProfile();}else if(T.closest('[data-achall]'))achClaim(achClaimable().map(a=>a[0]));else{const b=T.closest('[data-ach]');if(b)achClaim([b.dataset.ach]);}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')['pmenu','pprof','pmail','pcomp','prank','pfri'].forEach(x=>{$('#'+x).hidden=true;});if((e.key==='Enter'||e.key===' ')&&document.activeElement&&document.activeElement.id==='hface'){e.preventDefault();pMenu();}});
 $('#cptxt').addEventListener('input',()=>{$('#cpcnt').textContent=$('#cptxt').value.length+'/200';});
 function curNum(){try{const t=myTeam(),v=t&&t.nums?t.nums[UID]:null;if(Number.isInteger(v)&&v>=1&&v<=99)return v;}catch(e){}return S.num||0;}
