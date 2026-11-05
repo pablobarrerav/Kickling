@@ -1164,7 +1164,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
 .clvb{display:flex;align-items:center;gap:8px;margin:0 2px 2px}.clvb small{font-size:10.5px;opacity:.75;white-space:nowrap}.clvb u{flex:1;height:8px;border-radius:5px;background:rgba(16,36,74,.18);overflow:hidden;text-decoration:none}.clvb i{display:block;height:100%;background:linear-gradient(#ffd34d,#f5a800)}
 #coins{color:#A4ADBB!important}.card.item.cpk{border-color:#98A2B3!important;box-shadow:0 3px 0 #7D8798!important}
 [data-gocoins].plusb{background:linear-gradient(#A9B2C0,#6E7889)!important;border-color:#fff!important;box-shadow:0 2px 6px rgba(60,70,90,.55)!important}[data-gocoins].plusb path{stroke:#fff!important}
-.hva{display:inline-flex;vertical-align:middle;margin-left:6px;opacity:.85}
+.hva{display:inline-flex;vertical-align:middle;margin-right:5px}
 /* logros: mismo estilo que el resto de tarjetas, todo en una pantalla */
 .pfa{max-height:96dvh}
 .pfa .ax{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px}
@@ -1353,7 +1353,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 569">Kickling · v569</div>
+  <div class="verl" aria-label="Kickling versión 570">Kickling · v570</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2067,7 +2067,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-trpos]');i
 function drills(){trposView();$('#drills').innerHTML=Object.keys(DRILLS).map(k=>{const d=PD(k),t=S.trained[k],full=qRem(capT()-t)<=0;
   return '<button class="opt" data-drill="'+k+'" data-cost="'+DRILL_COST+'"><i class="oi">'+ico(DRILL_ICO[k],34)+'</i><strong>'+d.n+'</strong><span>'+d.st+' · hasta +'+Math.round((12+S.lvl*.8)*1.5*xpMult())+' XP'+(full?' · tope':' · +'+fmtD(2/3*TRF))+'</span><em>'+ico('drop',22)+DRILL_COST+'</em></button>';}).join('');}
 function comps(){$('#comps').innerHTML=Object.keys(COMP).map(k=>{const c=COMP[k];
-  return '<button class="opt" data-comp="'+k+'" data-cost="'+c.cost+'"><i class="oi">'+ico(COMP_ICO[k],34)+'</i><strong>'+c.n+'</strong><span>'+c.d+' · +'+c.xp+' XP base</span><em>'+ico('drop',22)+c.cost+'</em></button>';}).join('')+'<button class="opt" data-comp="torneo"><i class="oi">'+ico('flag',34)+'</i><strong>Torneo</strong><span>Aventura por niveles contra rivales cada vez más fuertes</span><em>'+ico('trophy',22)+'Nivel '+Math.min((S.tour||0)+1,TOUR_N)+'</em></button>';}
+  return '<button class="opt" data-comp="'+k+'" data-cost="'+c.cost+'"><i class="oi">'+ico(COMP_ICO[k],34)+'</i><strong>'+c.n+'</strong><span>'+c.d+' · +'+c.xp+' XP base</span><em>'+ico('drop',22)+c.cost+'</em></button>';}).join('')+'<button class="opt" data-comp="torneo"><i class="oi">'+ico('flag',34)+'</i><strong>Torneo</strong><span>Aventura por niveles contra rivales cada vez más fuertes.</span><em>'+ico('trophy',22)+'Nivel '+Math.min((S.tour||0)+1,TOUR_N)+'</em></button>';}
 let shopSlot='c';
 const SLOTICO={c:'shirt',p:'shorts',s:'sock',z:'boot'};
 const COINPK=[['Puñado de monedas','100 monedas','0,99 €','#E8ECF2'],['Bolsa de monedas','550 monedas','4,99 €','#D5DAE3'],['Cofre de monedas','1.200 monedas','9,99 €','#B9C1CD'],['Tesoro del club','3.000 monedas','19,99 €','#9AA4B4']];
@@ -2784,7 +2784,7 @@ function homeView(t,ms){const o=nextOpp(t),lm=lastMatch(t);let prev;
   if(lm){const m=lm.m,me=m.h===t.id,gf=me?m.hg:m.ag,ga=me?m.ag:m.hg,c=gf>ga?'w':gf<ga?'l':'d';
     prev='<div class="hmc '+c+'" data-mvd="'+lm.d+'" data-mvi="'+lm.i+'" role="button" tabindex="0" aria-label="Ver el último partido" style="cursor:pointer"><small>ÚLTIMO PARTIDO · VER ▸</small><div class="hms"><span>'+crestFor(m.h,20)+'</span><b class="num">'+m.hg+' – '+m.ag+'</b><span>'+crestFor(m.a,20)+'</span></div><span class="hmn">'+esc(me?m.an:m.hn)+' · '+(gf>ga?'Victoria':gf<ga?'Derrota':'Empate')+'</span></div>';}
   else prev='<div class="hmc"><small>ÚLTIMO PARTIDO</small><span class="hmn">Aún sin partidos</span></div>';
-  return '<div class="hm">'+clubBar(t)+'<div class="hmrow">'+prev+'<div class="hmc nx"><small>PRÓXIMO PARTIDO'+(nxHome===null?'':'<span class="hva" title="'+(nxHome?'Juegas en casa':'Juegas fuera')+'" aria-label="'+(nxHome?'Juegas en casa':'Juegas fuera')+'">'+(nxHome?'<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>':'<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h15"/><path d="M12 5l7 7-7 7"/></svg>')+'</span>')+'</small><b id="tmtime">'+nextSim()+'</b><span class="hmn">'+(o?'Rival: <em>'+esc(o)+'</em>':'')+'</span></div></div>'+
+  return '<div class="hm">'+clubBar(t)+'<div class="hmrow">'+prev+'<div class="hmc nx"><small>PRÓXIMO PARTIDO'+'</small><b id="tmtime">'+nextSim()+'</b><span class="hmn">'+(o?(nxHome===null?'':'<span class="hva" title="'+(nxHome?'Juegas en casa':'Juegas fuera')+'" role="img" aria-label="'+(nxHome?'Juegas en casa':'Juegas fuera')+'">'+(nxHome?'<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="M12 3L2 11.5h3V21h5.5v-6h3v6H19v-9.5h3z" fill="#2E86DE" stroke="#10244a" stroke-width="1.6" stroke-linejoin="round"/></svg>':'<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="M21 3L3 10.5l6.5 2.5L12 20l2.5-6.5z" fill="#E8A317" stroke="#10244a" stroke-width="1.6" stroke-linejoin="round"/><path d="M9.5 13L21 3" stroke="#10244a" stroke-width="1.6" stroke-linecap="round"/></svg>')+'</span>')+'Rival: <em>'+esc(o)+'</em>':'')+'</span></div></div>'+
     '<div class="fund"><span class="fnl"><small>FONDOS DEL CLUB</small><b class="num">'+ico('coin',20)+fmt(fundOf(t))+'</b></span><span class="fd"><small>Donar</small>'+[10,50,100].map(n=>'<button class="btn gold sm" data-don="'+n+'"'+(S.coins<n?' disabled':'')+' aria-label="Donar '+n+' monedas al club">'+n+'</button>').join('')+'</span></div>'+
     '</div>';}
 (function(){try{const el=document.getElementById('tmbody'),d=Object.getOwnPropertyDescriptor(Element.prototype,'innerHTML');if(el&&d&&d.set)Object.defineProperty(el,'innerHTML',{configurable:true,get(){return d.get.call(this);},set(v){if(this._lh===v&&this.firstChild)return;this._lh=v;d.set.call(this,v);}});}catch(e){}})();
