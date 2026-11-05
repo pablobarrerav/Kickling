@@ -1353,7 +1353,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 568">Kickling · v568</div>
+  <div class="verl" aria-label="Kickling versión 569">Kickling · v569</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2610,7 +2610,7 @@ function applyNum(){if(!TM.ok&&!kitSync.f)return;const t=myTeam(),n=t&&t.nums&&N
   if(n!==S.num){S.num=n;save(true);render();}}
 function applyKit(){if(!TM.ok&&!kitSync.f)return;applyNum();const t=myTeam(),H=/^#[0-9A-Fa-f]{6}$/,k=t&&t.kit&&H.test(t.kit.c)&&H.test(t.kit.d)&&H.test(t.kit.p)?(/^#[0-9A-Fa-f]{6}$/.test(t.kit.s)?{c:t.kit.c,d:t.kit.d,p:t.kit.p,s:t.kit.s}:{c:t.kit.c,d:t.kit.d,p:t.kit.p}):(t?{c:DKIT.c,d:DKIT.d,p:DKIT.p}:null);
   const cr=t?crestOf(t.id):null;
-  if(JSON.stringify(k)!==JSON.stringify(S.kit)||JSON.stringify(cr)!==JSON.stringify(S.cr||null)){S.kit=k;S.cr=cr;save(true);render();}}
+  if(JSON.stringify(k)!==JSON.stringify(S.kit)||JSON.stringify(cr)!==JSON.stringify(S.cr||null)){S.kit=k;S.cr=cr;save(true);render();}else{try{if(document.body.classList.contains('onhome'))$('#avatar').style.setProperty('background',stadiumBg(),'important');}catch(e){}}}
 const canKit=t=>!!t&&!!TM.me&&TM.me.team===t.id&&(t.owner===UID||!membersOf(t.id).some(m=>m.id===t.owner));
 const ONL=90000,isOn=m=>!!m&&(m.id===UID||Date.now()-(+m.seen||0)<ONL),isIdle=m=>{if(!m||m.id===UID)return false;const t=Math.max(+m.seen||0,+m.upd||0);return t>0&&Date.now()-t>7*864e5;};
 async function beat(){if(!DB||!CANW||!TM.me||document.hidden)return;try{const n=Date.now();await DB.doc('members/'+UID).update({seen:n});TM.me.seen=n;}catch(e){}}
