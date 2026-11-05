@@ -1345,7 +1345,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 547">Kickling · v547</div>
+  <div class="verl" aria-label="Kickling versión 548">Kickling · v548</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2797,11 +2797,11 @@ function teamRender0(){const el=$('#tmbody');if(!el)return;const _d=document.get
     else info='<p class="note" style="text-align:center;margin:8px 0 0">Toca el campo, las porterías, las gradas o los banquillos para mejorarlos con los fondos.</p>';
     body='<div class="stfull"><div class="stpic">'+stadiumSvg(t)+'</div><p class="note" style="text-align:center;margin:4px 0 6px">Nivel del estadio '+sum+'/40 · +'+(stBonus(t)*100).toFixed(1).replace('.',',')+' % de fuerza · Fondos '+fmt(fundOf(t))+'</p>'+info+'</div>';}
   else{
-    const days=Object.keys(TM.sims).filter(d=>slotDay(d)>=LEAGUE_START&&(TM.sims[d].matches||[]).length).sort((a,b)=>nk(a)<nk(b)?1:-1).slice(0,28).reverse();
+    const curS=seasonStart(madridDay(Date.now())),days=Object.keys(TM.sims).filter(d=>slotDay(d)>=LEAGUE_START&&seasonStart(slotDay(d))===curS&&(TM.sims[d].matches||[]).length).sort((a,b)=>nk(a)<nk(b)?1:-1).slice(0,28).reverse();
     if(!resDay||!days.includes(resDay))resDay=days[days.length-1]||null;
     const jn=d=>(((dayDiff(d,LEAGUE_START)%SEASON_DAYS)+SEASON_DAYS)%SEASON_DAYS)*2+(slotH(d)===9?1:2);
     const pr=[];days.forEach(d=>(TM.sims[d].promo||[]).forEach(p=>{if(p.id===t.id)pr.push({d:d,p:p});}));
-    if(!days.length)body='<ul class="lst"><li class="note">Todavía no se ha jugado ninguna jornada. La liga empieza el lunes '+fdate(LEAGUE_START)+' a las 9:00.</li></ul>';
+    if(!days.length)body='<ul class="lst"><li class="note">Todavía no se ha jugado ninguna jornada de esta temporada. Empieza el lunes '+fdate(curS)+' a las 9:00.</li></ul>';
     else{
       const allm=TM.sims[resDay].matches||[],kk=m=>gk(m.d,m.g||0),myk=gk(t.div,grpOf(t));
       resKeys=[...new Set(allm.map(kk))].sort((a,b)=>{const p=gkSplit(a),q=gkSplit(b);return p.d-q.d||p.g-q.g;});
