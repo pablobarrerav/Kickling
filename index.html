@@ -1262,7 +1262,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div class="card recc" style="margin-top:12px"><div class="rec num" id="rec2"></div></div>
   </div>
   <div id="tview" hidden>
-    <div class="tvh"><button class="btn alt" id="tback">Volver</button><h3 class="ttl" aria-label="Torneo"></h3><span class="tvp num" id="tprog"></span></div>
+    <div class="tvh"><span style="min-width:46px" aria-hidden="true"></span><h3 class="ttl" aria-label="Torneo"></h3><span class="tvp num" id="tprog"></span></div>
     <p class="sub">Supera a cada rival en orden. Cada nivel es más duro: sus equipos tienen más media que el anterior.  Cada nivel solo se juega una vez.</p>
     <div class="stack" id="tlist"></div>
   </div>
@@ -1345,7 +1345,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 551">Kickling · v551</div>
+  <div class="verl" aria-label="Kickling versión 552">Kickling · v552</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2089,7 +2089,7 @@ function shop(){$('#items').classList.toggle('g2',shopSlot!=='bebidas'&&shopSlot
 function render(){timedView();posView();head();energy();home();look();paintSave();drills();comps();shop();energy();}
 
 /* ---------- pestañas ---------- */
-function tab(n){document.body.classList.toggle('fitl',n==='look');if(n==='home')kitSync();document.body.classList.toggle('onhome',n==='home');$('#hface').innerHTML=avatar(true);if(n==='home'){try{$('#avatar').style.setProperty('background',stadiumBg(),'important');}catch(e){}}if(n!=='team'){document.body.classList.remove('stfull');document.body.classList.remove('fitv');document.body.classList.remove('tmmi');}if(n==='team'&&!$('#p-team').hidden){}else if(n==='team'){const tb=$('#tmbody'),old=Date.now()-(teamRefresh.at||0)>45000;if(old){tb.classList.add('enter');setTimeout(()=>tb.classList.remove('enter'),1100);}setTimeout(()=>teamOpen(old),0);}document.querySelectorAll('.panel').forEach(p=>p.hidden=p.id!=='p-'+n);
+function tab(n){if(n==='match'&&!$('#tview').hidden){$('#tview').hidden=true;$('#mmenu').hidden=false;comps();energy();}document.body.classList.toggle('fitl',n==='look');if(n==='home')kitSync();document.body.classList.toggle('onhome',n==='home');$('#hface').innerHTML=avatar(true);if(n==='home'){try{$('#avatar').style.setProperty('background',stadiumBg(),'important');}catch(e){}}if(n!=='team'){document.body.classList.remove('stfull');document.body.classList.remove('fitv');document.body.classList.remove('tmmi');}if(n==='team'&&!$('#p-team').hidden){}else if(n==='team'){const tb=$('#tmbody'),old=Date.now()-(teamRefresh.at||0)>45000;if(old){tb.classList.add('enter');setTimeout(()=>tb.classList.remove('enter'),1100);}setTimeout(()=>teamOpen(old),0);}document.querySelectorAll('.panel').forEach(p=>p.hidden=p.id!=='p-'+n);
   document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===(n==='look'?'home':n)));window.scrollTo(0,0);}
 $('#tabs').addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(b)tab(b.dataset.tab);});
 document.body.classList.add('onhome');
@@ -2197,7 +2197,7 @@ function tourRender(){const done=Math.min(S.tour||0,TOUR_N),me=ovr();$('#tprog')
     (lk?'<button class="btn alt" disabled>Bloqueado: supera el nivel '+(done+1)+'</button>':(cl?'<button class="btn alt" disabled>Nivel superado ✓</button>':'<button class="btn gold" data-tlv="'+tSel+'" data-cost="'+tCost(tSel)+'">Jugar '+ico('drop',18)+tCost(tSel)+'</button>'))+'</div>';
   energy();}
 $('#tlist').addEventListener('click',e=>{const pg=e.target.closest('[data-tpg]');if(pg){tPage=+pg.dataset.tpg;const dn=Math.min(S.tour||0,TOUR_N);tSel=Math.min(tPage*20+20,Math.max(tPage*20+1,dn+1));tourRender();return;}const n=e.target.closest('[data-tn]');if(n){tSel=+n.dataset.tn;tourRender();return;}const b=e.target.closest('[data-tlv]');if(!b)return;const lv=+b.dataset.tlv;if(lv!==(S.tour||0)+1||lv<1||lv>TOUR_N)return;$('#tview').hidden=true;startMatch('torneo',lv);});
-$('#tback').addEventListener('click',()=>{$('#tview').hidden=true;$('#mmenu').hidden=false;comps();energy();});
+
 let M=null;
 function logAdd(min,txt,tag){const h=hold()>0?clipUntil:0;M.log.push({min,txt,tag,h});if(h)setTimeout(()=>{try{if(M&&$('#log'))paintMatch();}catch(e){}},hold()+40);}
 function paintMatch(){const cs=clipSnap&&hold()>0?clipSnap:null,sc=(cs?cs.me:M.me)+' – '+(cs?cs.rt:M.rt);if($('#sc').textContent!==sc&&M.min>0)popEl('#sc');$('#sc').textContent=sc;
