@@ -1311,7 +1311,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
   <div class="pmh" id="pmh"></div>
   <button class="btn alt pmb" data-pro="1" type="button">Logros<i class="pbd2" id="pbadge" hidden></i></button>
   <button class="btn alt pmb" data-rank="1" type="button">Ranking</button>
-  <button class="btn alt pmb" data-friends="1" type="button">Amigos</button>
+  <button class="btn alt pmb" data-friends="1" type="button">Amigos<i class="pbd2" id="fbadge" hidden></i></button>
   <button class="btn alt pmb" data-mail="1" type="button">Buzón<i class="pbd2" id="mbadge" hidden></i></button>
   <button class="btn alt pmb" data-editp="1" data-close="pmenu" type="button">Personalizar personaje</button>
   <button class="btn alt pmb" data-set="1" data-close="pmenu" type="button">Ajustes</button>
@@ -1357,7 +1357,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 573">Kickling · v573</div>
+  <div class="verl" aria-label="Kickling versión 574">Kickling · v574</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2540,24 +2540,43 @@ const achOk=a=>{try{return !!a[5]();}catch(e){return false;}};
 const achClaimable=()=>ACH.filter(a=>achOk(a)&&!(S.ach||[]).includes(a[0]));
 function mailList(){const t=myTeam();return t&&Array.isArray(t.mail)?t.mail.filter(m=>m&&typeof m.text==='string'&&Number.isFinite(m.ts)&&m.ts>Date.now()-2592e6).sort((a,b)=>b.ts-a.ts).slice(0,20):[];}
 function mailUnread(){return mailList().filter(m=>m.ts>(S.mailSeen||0)&&m.uid!==UID).length;}
-function mailBadge(){try{const n=mailUnread(),c=achClaimable().length+dqReady(),h=$('#hface');if(h)h.classList.toggle('unread',n>0||c>0);const b=$('#mbadge');if(b){b.hidden=!n;b.textContent=n;}const q=$('#pbadge');if(q){q.hidden=!c;q.textContent=c;}}catch(e){}}
+function mailBadge(){try{const n=mailUnread(),c=achClaimable().length+dqReady(),h=$('#hface');if(h)h.classList.toggle('unread',n>0||c>0||FRN>0);{const fb=$('#fbadge');if(fb){fb.hidden=!FRN;fb.textContent=FRN;}}const b=$('#mbadge');if(b){b.hidden=!n;b.textContent=n;}const q=$('#pbadge');if(q){q.hidden=!c;q.textContent=c;}}catch(e){}}
 setInterval(mailBadge,2000);
 const pOpen=id=>{['pmenu','pprof','pmail','pcomp','prank','pfri'].forEach(x=>{if(x!==id)$('#'+x).hidden=true;});$('#'+id).hidden=false;};
 let rkRows=null,rkSort='lvl',rkPage=0,rkSorted=[];
 const rkOrder=()=>rkRows.slice().sort((x,y)=>y.lvl-x.lvl||y.xp-x.xp||y.ovr-x.ovr);
-function rkProfile(id){const O=rkOrder(),i=O.findIndex(r=>r.id===id),r=O[i];if(!r)return;const p=String(r.pos||'').split(',')[0],fr=(S.fr||[]).includes(id);plId=null;$('#plname').textContent=r.n;
-  $('#plbody').innerHTML=[['Posición',POSN[p]||'Sin posición'],['Media',r.ovr],['Nivel',r.lvl],['Equipo',r.team||'Sin equipo'],['Puesto en el ranking','#'+(i+1)+' de '+O.length]].map(x=>'<div class="plr"><span>'+x[0]+'</span><b>'+esc(String(x[1]))+'</b></div>').join('')+(id===ACC?'':'<div style="text-align:center;margin-top:10px"><button class="btn '+(fr?'alt':'gold')+' sm" type="button" data-frt="'+esc(id)+'">'+(fr?'Quitar de amigos':'Añadir a amigos')+'</button></div>');
+function rkProfile(id){const O=rkOrder(),i=O.findIndex(r=>r.id===id),r=O[i];if(!r)return;const p=String(r.pos||'').split(',')[0];plId=null;$('#plname').textContent=r.n;
+  $('#plbody').innerHTML=[['Posición',POSN[p]||'Sin posición'],['Media',r.ovr],['Nivel',r.lvl],['Equipo',r.team||'Sin equipo'],['Puesto en el ranking','#'+(i+1)+' de '+O.length]].map(x=>'<div class="plr"><span>'+x[0]+'</span><b>'+esc(String(x[1]))+'</b></div>').join('')+(id===ACC?'':'<div style="text-align:center;margin-top:10px">'+frBtn(id)+'</div>');
   $('#plkick').hidden=true;$('#plmute').hidden=true;$('#plm').hidden=false;}
-async function pFriends(){pOpen('pfri');return rkLoad($('#frbody'),frShell);}
-function frShell(){$('#frbody').innerHTML='<input id="frq" type="text" maxlength="16" autocomplete="off" placeholder="Buscar jugador por nombre" aria-label="Buscar jugador por nombre" style="width:100%;box-sizing:border-box;padding:8px 10px;border-radius:11px;border:2px solid rgba(150,175,225,.8);font:inherit;font-size:14px;margin-bottom:8px"><div id="frres"></div><div id="frlist"></div>';frList();}
-function frList(){const q=($('#frq')||{}).value||'',qq=q.trim().toLowerCase(),O=rkOrder(),pos=r=>O.findIndex(x=>x.id===r.id),fr=S.fr||[];
-  const ul=a=>'<ul class="rkl" style="display:grid;gap:3px;list-style:none;margin:0 0 8px;padding:0">'+a.map(r=>rkRowH(r,pos(r))).join('')+'</ul>';
+var FR={},FRN=0;
+const frKey=(x,y)=>x<y?x+'~'+y:y+'~'+x;
+async function frLoad(){if(!DB||!ACC)return;const n={};const rs=await Promise.all([DB.collection('friends').where('a','==',ACC).get(),DB.collection('friends').where('b','==',ACC).get()]);rs.forEach(q=>q.forEach(d=>{const v=d.data()||{},o=v.a===ACC?v.b:v.a;if(typeof o==='string'&&o!==ACC&&(v.st==='p'||v.st==='f'))n[o]={st:v.st,from:v.from};}));FR=n;FRN=Object.keys(n).filter(k=>n[k].st==='p'&&n[k].from!==ACC).length;mailBadge();}
+async function frPoll(){try{if(DB&&ACC&&!document.hidden)await frLoad();}catch(e){}}
+setInterval(frPoll,90000);setTimeout(frPoll,4000);
+async function pFriends(){pOpen('pfri');return rkLoad($('#frbody'),async()=>{try{await frLoad();}catch(e){}frShell();});}
+function frShell(){$('#frbody').innerHTML='<input id="frq" type="text" maxlength="16" autocomplete="off" placeholder="Buscar jugador por nombre" aria-label="Buscar jugador por nombre" style="width:100%;box-sizing:border-box;padding:8px 10px;border-radius:11px;border:2px solid rgba(150,175,225,.8);font:inherit;font-size:14px;margin-bottom:8px"><div id="frres"></div><div id="frlist" style="max-height:52dvh;overflow-y:auto"></div>';frList();}
+function frList(){const q=($('#frq')||{}).value||'',qq=q.trim().toLowerCase(),O=rkOrder(),pos=r=>O.findIndex(x=>x.id===r.id);
+  const ul=(a,x)=>a.map(r=>'<ul class="rkl" style="display:grid;gap:3px;list-style:none;margin:0 0 '+(x?'3':'8')+'px;padding:0">'+rkRowH(r,pos(r))+'</ul>'+(x?x(r):'')).join('');
+  const by=st=>Object.keys(FR).filter(k=>st(FR[k])).map(id=>O.find(r=>r.id===id)).filter(Boolean);
   const res=qq?O.filter(r=>r.id!==ACC&&r.n.toLowerCase().includes(qq)).slice(0,5):[];
-  const mine=fr.map(id=>O.find(r=>r.id===id)).filter(Boolean);
-  const r1=$('#frres'),r2=$('#frlist');if(!r1||!r2)return;
-  r1.innerHTML=qq?'<div class="label" style="margin:2px 0 4px">Resultados</div>'+(res.length?ul(res):'<p class="note" style="text-align:center">No hay jugadores con ese nombre.</p>'):'';
-  r2.innerHTML='<div class="label" style="margin:2px 0 4px">Mis amigos ('+mine.length+')</div>'+(mine.length?'<div style="max-height:46dvh;overflow-y:auto">'+ul(mine)+'</div>':'<p class="note" style="text-align:center">Todavía no tienes amigos. Búscalos por nombre o añádelos desde el ranking.</p>');}
-function frToggle(id){if(!/^[A-Za-z0-9_.~:@+-]{1,80}$/.test(id)||id===ACC)return;const a=S.fr||[];S.fr=a.includes(id)?a.filter(x=>x!==id):a.concat(id).slice(0,100);save(true);rkProfile(id);if(!$('#pfri').hidden)frList();}
+  const got=by(f=>f.st==='p'&&f.from!==ACC),mine=by(f=>f.st==='f'),sent=by(f=>f.st==='p'&&f.from===ACC);
+  const r1=$('#frres'),r2=$('#frlist');if(!r1||!r2)return;const L=t=>'<div class="label" style="margin:2px 0 4px">'+t+'</div>';
+  r1.innerHTML=qq?L('Resultados')+(res.length?ul(res):'<p class="note" style="text-align:center">No hay jugadores con ese nombre.</p>'):'';
+  r2.innerHTML=(got.length?L('Invitaciones recibidas ('+got.length+')')+ul(got,r=>'<div style="display:flex;gap:6px;margin:0 0 8px"><button class="btn gold sm" type="button" data-fra="'+esc(r.id)+'" style="flex:1">Aceptar</button><button class="btn alt sm" type="button" data-frd="'+esc(r.id)+'" style="flex:1">Rechazar</button></div>'):'')
+   +L('Mis amigos ('+mine.length+')')+(mine.length?ul(mine):'<p class="note" style="text-align:center">Todavía no tienes amigos. Búscalos por nombre y envíales una invitación.</p>')
+   +(sent.length?L('Invitaciones enviadas ('+sent.length+')')+ul(sent):'');}
+async function frAct(kind,id){if(!DB||!ACC||!/^[A-Za-z0-9_.~:@+-]{1,80}$/.test(id)||id===ACC)return;const k='friends/'+frKey(ACC,id),f=FR[id];
+  try{
+    if(kind==='s'){if(f&&f.st==='p'&&f.from!==ACC)await DB.doc(k).update({st:'f'});else if(!f)await DB.doc(k).set({a:ACC<id?ACC:id,b:ACC<id?id:ACC,from:ACC,st:'p',ts:Date.now()});}
+    else if(kind==='a'){if(f&&f.st==='p'&&f.from!==ACC)await DB.doc(k).update({st:'f'});}
+    else if(kind==='d'){await DB.doc(k).delete();}
+    await frLoad();toast(kind==='s'?'Invitación enviada.':kind==='a'?'¡Ya sois amigos!':'Hecho.');
+  }catch(e){toast('No se pudo completar. Inténtalo de nuevo.');try{await frLoad();}catch(e2){}}
+  if(!$('#plm').hidden&&rkRows&&rkRows.some(r=>r.id===id))rkProfile(id);if(!$('#pfri').hidden)frList();}
+function frBtn(id){const f=FR[id];if(!f)return '<button class="btn gold sm" type="button" data-frs="'+esc(id)+'">Enviar invitación de amistad</button>';
+  if(f.st==='f')return '<span class="note" style="display:block;margin-bottom:6px">Sois amigos</span><button class="btn alt sm" type="button" data-frd="'+esc(id)+'">Quitar de amigos</button>';
+  if(f.from===ACC)return '<span class="note" style="display:block;margin-bottom:6px">Invitación enviada, pendiente de respuesta</span><button class="btn alt sm" type="button" data-frd="'+esc(id)+'">Cancelar invitación</button>';
+  return '<span class="note" style="display:block;margin-bottom:6px">Te ha enviado una invitación</span><div style="display:flex;gap:6px;justify-content:center"><button class="btn gold sm" type="button" data-fra="'+esc(id)+'">Aceptar</button><button class="btn alt sm" type="button" data-frd="'+esc(id)+'">Rechazar</button></div>';}
 document.addEventListener('input',e=>{if(e.target&&e.target.id==='frq')frList();});
 async function pRank(){rkPage=0;pOpen('prank');return rkLoad($('#rkbody'),rkPaint);}
 async function rkLoad(b,done){
@@ -2619,7 +2638,7 @@ document.addEventListener('click',e=>{const T=e.target;
   if(T.closest&&T.closest('#hface')){pMenu();return;}
   const c=T.closest&&T.closest('[data-close]');if(c){const id=c.dataset.close;if(id)$('#'+id).hidden=true;}
   if(T.classList&&T.classList.contains('ovl')&&['pmenu','pprof','pmail','pcomp','prank','pfri'].includes(T.id)){T.hidden=true;return;}
-  if(T.closest('[data-pro]')){achPage=0;pProfile();}else if(T.closest('[data-apg]')){achPage+=+T.closest('[data-apg]').dataset.apg;pProfile();}else if(T.closest('[data-rank]'))pRank();else if(T.closest('[data-friends]'))pFriends();else if(T.closest('[data-frt]'))frToggle(T.closest('[data-frt]').dataset.frt);else if(T.closest('[data-rkid]'))rkProfile(T.closest('[data-rkid]').dataset.rkid);else if(T.closest('[data-rkp]')){rkPage+=+T.closest('[data-rkp]').dataset.rkp;rkPaint();}else if(T.closest('[data-rk]')){rkPage=0;rkSort=T.closest('[data-rk]').dataset.rk;rkPaint();}else if(T.closest('[data-mail]'))pMail();else if(T.closest('[data-sendmail]'))pComp();else if(T.closest('#cpsend'))pSend();else if(T.closest('[data-dqall]')){const q=dqEnsure();dqClaim(q.goals.map(g=>g[0]));}else if(T.closest('[data-dq]'))dqClaim([T.closest('[data-dq]').dataset.dq]);else if(T.closest('[data-asel]')){achSel=T.closest('[data-asel]').dataset.asel;pProfile();}else if(T.closest('[data-achall]'))achClaim(achClaimable().map(a=>a[0]));else{const b=T.closest('[data-ach]');if(b)achClaim([b.dataset.ach]);}});
+  if(T.closest('[data-pro]')){achPage=0;pProfile();}else if(T.closest('[data-apg]')){achPage+=+T.closest('[data-apg]').dataset.apg;pProfile();}else if(T.closest('[data-rank]'))pRank();else if(T.closest('[data-friends]'))pFriends();else if(T.closest('[data-frs]'))frAct('s',T.closest('[data-frs]').dataset.frs);else if(T.closest('[data-fra]'))frAct('a',T.closest('[data-fra]').dataset.fra);else if(T.closest('[data-frd]'))frAct('d',T.closest('[data-frd]').dataset.frd);else if(T.closest('[data-rkid]'))rkProfile(T.closest('[data-rkid]').dataset.rkid);else if(T.closest('[data-rkp]')){rkPage+=+T.closest('[data-rkp]').dataset.rkp;rkPaint();}else if(T.closest('[data-rk]')){rkPage=0;rkSort=T.closest('[data-rk]').dataset.rk;rkPaint();}else if(T.closest('[data-mail]'))pMail();else if(T.closest('[data-sendmail]'))pComp();else if(T.closest('#cpsend'))pSend();else if(T.closest('[data-dqall]')){const q=dqEnsure();dqClaim(q.goals.map(g=>g[0]));}else if(T.closest('[data-dq]'))dqClaim([T.closest('[data-dq]').dataset.dq]);else if(T.closest('[data-asel]')){achSel=T.closest('[data-asel]').dataset.asel;pProfile();}else if(T.closest('[data-achall]'))achClaim(achClaimable().map(a=>a[0]));else{const b=T.closest('[data-ach]');if(b)achClaim([b.dataset.ach]);}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')['pmenu','pprof','pmail','pcomp','prank','pfri'].forEach(x=>{$('#'+x).hidden=true;});if((e.key==='Enter'||e.key===' ')&&document.activeElement&&document.activeElement.id==='hface'){e.preventDefault();pMenu();}});
 $('#cptxt').addEventListener('input',()=>{$('#cpcnt').textContent=$('#cptxt').value.length+'/200';});
 function curNum(){try{const t=myTeam(),v=t&&t.nums?t.nums[UID]:null;if(Number.isInteger(v)&&v>=1&&v<=99)return v;}catch(e){}return S.num||0;}
