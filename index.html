@@ -1345,7 +1345,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 546">Kickling · v546</div>
+  <div class="verl" aria-label="Kickling versión 547">Kickling · v547</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2752,7 +2752,7 @@ function homeView(t,ms){const o=nextOpp(t),lm=lastMatch(t);let prev;
   else prev='<div class="hmc"><small>ÚLTIMO PARTIDO</small><span class="hmn">Aún sin partidos</span></div>';
   return '<div class="hm"><div class="hmrow">'+prev+'<div class="hmc nx"><small>PRÓXIMO PARTIDO</small><b id="tmtime">'+nextSim()+'</b><span class="hmn">'+(o?'Rival: <em>'+esc(o)+'</em>':'')+'</span></div></div>'+
     '<div class="fund"><span class="fnl"><small>FONDOS DEL CLUB</small><b class="num">'+ico('coin',20)+fmt(fundOf(t))+'</b></span><span class="fd"><small>Donar</small>'+[10,50,100].map(n=>'<button class="btn gold sm" data-don="'+n+'"'+(S.coins<n?' disabled':'')+' aria-label="Donar '+n+' monedas al club">'+n+'</button>').join('')+'</span></div>'+
-    '<div class="hmpitch">'+pitchSvg(t,ms)+'</div>'+pickView(t)+swapView(t,ms)+'</div>';}
+    '</div>';}
 (function(){try{const el=document.getElementById('tmbody'),d=Object.getOwnPropertyDescriptor(Element.prototype,'innerHTML');if(el&&d&&d.set)Object.defineProperty(el,'innerHTML',{configurable:true,get(){return d.get.call(this);},set(v){if(this._lh===v&&this.firstChild)return;this._lh=v;d.set.call(this,v);}});}catch(e){}})();
 function teamRender(){teamRender0();lineupFill();}
 function teamRender0(){const el=$('#tmbody');if(!el)return;const _d=document.getElementById('chtxt'),_dv=_d?_d.value:'',_df=!!_d&&document.activeElement===_d;document.body.classList.remove('stfull');document.body.classList.remove('fitv');document.body.classList.remove('tmmi');
