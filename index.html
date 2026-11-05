@@ -1351,7 +1351,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 564">Kickling · v564</div>
+  <div class="verl" aria-label="Kickling versión 565">Kickling · v565</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2065,7 +2065,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-trpos]');i
 function drills(){trposView();$('#drills').innerHTML=Object.keys(DRILLS).map(k=>{const d=PD(k),t=S.trained[k],full=qRem(capT()-t)<=0;
   return '<button class="opt" data-drill="'+k+'" data-cost="'+DRILL_COST+'"><i class="oi">'+ico(DRILL_ICO[k],34)+'</i><strong>'+d.n+'</strong><span>'+d.st+' · hasta +'+Math.round((12+S.lvl*.8)*1.5*xpMult())+' XP'+(full?' · tope':' · +'+fmtD(2/3*TRF))+'</span><em>'+ico('drop',22)+DRILL_COST+'</em></button>';}).join('');}
 function comps(){$('#comps').innerHTML=Object.keys(COMP).map(k=>{const c=COMP[k];
-  return '<button class="opt" data-comp="'+k+'" data-cost="'+c.cost+'"><i class="oi">'+ico(COMP_ICO[k],34)+'</i><strong>'+c.n+'</strong><span>'+c.d+' · +'+c.xp+' XP base</span><em>'+ico('drop',22)+c.cost+'</em></button>';}).join('')+'<button class="opt" data-comp="torneo"><i class="oi">'+ico('flag',34)+'</i><strong>Torneo</strong><span>Aventura por niveles contra rivales cada vez más fuertes · superados '+(S.tour||0)+'</span><em>'+ico('trophy',22)+'Nivel '+Math.min((S.tour||0)+1,TOUR_N)+'</em></button>';}
+  return '<button class="opt" data-comp="'+k+'" data-cost="'+c.cost+'"><i class="oi">'+ico(COMP_ICO[k],34)+'</i><strong>'+c.n+'</strong><span>'+c.d+' · +'+c.xp+' XP base</span><em>'+ico('drop',22)+c.cost+'</em></button>';}).join('')+'<button class="opt" data-comp="torneo"><i class="oi">'+ico('flag',34)+'</i><strong>Torneo</strong><span>Aventura por niveles contra rivales cada vez más fuertes</span><em>'+ico('trophy',22)+'Nivel '+Math.min((S.tour||0)+1,TOUR_N)+'</em></button>';}
 let shopSlot='c';
 const SLOTICO={c:'shirt',p:'shorts',s:'sock',z:'boot'};
 const COINPK=[['Puñado de monedas','100 monedas','0,99 €','#E8ECF2'],['Bolsa de monedas','550 monedas','4,99 €','#D5DAE3'],['Cofre de monedas','1.200 monedas','9,99 €','#B9C1CD'],['Tesoro del club','3.000 monedas','19,99 €','#9AA4B4']];
