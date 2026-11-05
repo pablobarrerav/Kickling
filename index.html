@@ -1161,6 +1161,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
 #lno .swp{position:absolute;left:0;right:0;top:calc(100% + 8px);bottom:auto;margin:0;max-height:none}#lno .swp .lst{max-height:22vh}
 .clv{display:inline-block;margin-left:6px;padding:0 7px;border-radius:999px;background:linear-gradient(#ffd34d,#f5a800);color:#5a3500;font-size:12px;line-height:18px;vertical-align:middle}
 .clvb{display:flex;align-items:center;gap:8px;margin:0 2px 8px}.clvb small{font-size:10.5px;opacity:.75;white-space:nowrap}.clvb u{flex:1;height:8px;border-radius:5px;background:rgba(16,36,74,.18);overflow:hidden;text-decoration:none}.clvb i{display:block;height:100%;background:linear-gradient(#ffd34d,#f5a800)}
+#coins{color:#C5CCD8!important}.card.item.cpk{border-color:#98A2B3!important;box-shadow:0 3px 0 #7D8798!important}
 /* logros: mismo estilo que el resto de tarjetas, todo en una pantalla */
 .pfa{max-height:96dvh}
 .pfa .ax{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px}
@@ -1345,7 +1346,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 557">Kickling · v557</div>
+  <div class="verl" aria-label="Kickling versión 558">Kickling · v558</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2079,7 +2080,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-drink]');i
 function bevStatus(){const now=Date.now(),a=[];if(S.boost.r&&S.boost.r.u>now)a.push('Energía +'+Math.round((S.boost.r.m-1)*100)+'% · '+hrs(S.boost.r.u-now));if(S.boost.x&&S.boost.x.u>now)a.push('XP +'+Math.round((S.boost.x.m-1)*100)+'% · '+hrs(S.boost.x.u-now));if(S.boost.m&&S.boost.m.u>now)a.push('Media +'+Math.round((S.boost.m.m-1)*100)+'% · '+hrs(S.boost.m.u-now));if(S.boost.t&&S.boost.t.u>now)a.push('Tiempo −'+Math.round((1-1/S.boost.t.m)*100)+'% · '+hrs(S.boost.t.u-now));return a.length?'<p class="note drnote" style="font-weight:800">Activo: '+a.join(' · ')+'</p>':'';}
 function shop(){$('#items').classList.toggle('g2',shopSlot!=='bebidas'&&shopSlot!=='monedas');$('#items').classList.toggle('dr',shopSlot==='bebidas'||shopSlot==='monedas');const SL={bebidas:['Bebidas','bottle'],monedas:['Monedas (dinero real)','moneybag']};$('#seg').className='seg s6';$('#seg').innerHTML=Object.keys(SLOT).concat(['bebidas','monedas']).map(k=>{const lb=SL[k]?SL[k][0]:SLOT[k].label;return '<button data-slot="'+k+'" aria-pressed="'+(k===shopSlot)+'" aria-label="'+lb+'" title="'+lb+'">'+ico(SL[k]?SL[k][1]:SLOTICO[k],30)+'</button>';}).join('');
   if(shopSlot==='bebidas'){$('#items').innerHTML='<div class="label">Bebidas</div>'+bevStatus()+DRINKS.map(d=>'<div class="card item"><div class="sw drk" style="background:'+d.c+'">'+ico('bottle',28)+'</div><div><strong>'+d.n+'</strong><span>'+d.d+'</span></div><button class="btn gold" data-drink="'+d.id+'"'+(S.coins<d.p?' disabled':'')+'>'+ico('coin',22)+fmt(d.p)+'</button></div>').join('')+'';return;}
-  if(shopSlot==='monedas'){$('#items').innerHTML='<p class="note drnote">Las compras con dinero real todavía no están activas. Estarán disponibles en la versión de la tienda de aplicaciones.</p>'+'<div class="label">Monedas</div>'+COINPK.map(d=>'<div class="card item"><div class="sw drk" style="background:'+d[3]+'">'+ico('coin',30)+'</div><div><strong>'+d[0]+'</strong><span>'+d[1]+'</span></div><button class="btn" disabled>'+d[2]+'</button></div>').join('')+'';return;}
+  if(shopSlot==='monedas'){$('#items').innerHTML='<p class="note drnote">Las compras con dinero real todavía no están activas. Estarán disponibles en la versión de la tienda de aplicaciones.</p>'+'<div class="label">Monedas</div>'+COINPK.map(d=>'<div class="card item cpk"><div class="sw drk" style="background:'+d[3]+'">'+ico('coin',30)+'</div><div><strong>'+d[0]+'</strong><span>'+d[1]+'</span></div><button class="btn" disabled>'+d[2]+'</button></div>').join('')+'';return;}
   $('#items').innerHTML=ITEMS[shopSlot].map(it=>{const owned=S.owned.includes(it.id),on=S.eq[shopSlot]===it.id,locked=S.lvl<it.lvl;
     let btn;if(on)btn='<span class="eqd">Puesto</span>';
     else if(owned)btn='<button class="btn" data-equip="'+it.id+'">Poner</button>';
