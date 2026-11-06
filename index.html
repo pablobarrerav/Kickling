@@ -1381,7 +1381,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 597">Kickling · v597</div>
+  <div class="verl" aria-label="Kickling versión 598">Kickling · v598</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2452,6 +2452,7 @@ function xiAuto(ms){const L=[];ms.slice().sort((a,b)=>(+b.ovr||0)-(+a.ovr||0)||(
   if(L.length<Math.min(11,ms.length))ms.slice().sort((a,b)=>(+b.ovr||0)-(+a.ovr||0)).forEach(m=>{if(L.length<11&&!L.includes(m))L.push(m);});return L;}
 function xiOf(tid,cut){const t=TM.teams.find(x=>x.id===tid),ms=membersOf(tid,cut);if(!ms.length)return [];
   const L=t&&Array.isArray(t.lineup)?ms.filter(m=>t.lineup.includes(m.id)).slice(0,11):[];
+  if(L.length&&L.length<11&&ms.length>L.length){const ids=new Set(L.map(m=>m.id));return L.concat(ms.filter(m=>!ids.has(m.id)).sort((a,b)=>(+b.ovr||0)-(+a.ovr||0)).slice(0,11-L.length));}
   return L.length?L:xiAuto(ms);}
 const teamStr=(tid,cut)=>{const ms=xiOf(tid,cut);return ms.length?ms.reduce((a,m)=>a+(+m.ovr||0),0)/ms.length:0;};
 const STAD=[['campo','Campo','Césped y marcas: más fuerza en cada partido.',100,1.5],['porteria','Porterías','Las dos porterías mejoran a la vez: tu equipo encaja menos.',100,1.5],['gradas','Gradas','Más afición animando al equipo.',150,1],['banquillo','Banquillos','Los dos banquillos mejoran a la vez: mejores cambios.',120,1]];
