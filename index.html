@@ -1381,7 +1381,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 592">Kickling · v592</div>
+  <div class="verl" aria-label="Kickling versión 593">Kickling · v593</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2914,7 +2914,9 @@ async function fmResolve(){const t=myTeam();if(!t||!DB||!t.fm||!(+t.fm.at>0)||Da
   const upd={fm:null,fr:{lv:+fm.lv||1,at:+fm.at,h:res.h,a:res.a,w:res.w,opp:res.o.n,c:rew}};if(res.w){upd.fl=Math.max(+t.fl||0,+fm.lv||1);}
   try{await DB.doc('teams/'+t.id).update(upd);Object.assign(t,upd);toast(res.w?'¡Victoria en el amistoso! '+res.h+'–'+res.a+' · Nivel '+(+fm.lv||1)+' superado':'Derrota en el amistoso '+res.h+'–'+res.a+'. Puedes volver a intentarlo.',6000);}catch(e){}}
 (function(){try{const el=document.getElementById('tmbody'),d=Object.getOwnPropertyDescriptor(Element.prototype,'innerHTML');if(el&&d&&d.set)Object.defineProperty(el,'innerHTML',{configurable:true,get(){return d.get.call(this);},set(v){if(this._lh===v&&this.firstChild)return;this._lh=v;d.set.call(this,v);}});}catch(e){}})();
-function teamRender(){teamRender0();lineupFill();}
+function teamRender(){teamRender0();lineupFill();hmFit();}
+function hmFit(){try{const h=document.querySelector('#tmbody .hm');if(!h)return;h.style.zoom='';if(!document.body.classList.contains('fitv'))return;const c=h.clientHeight,n=h.scrollHeight;if(c>0&&n>c+1)h.style.zoom=String(Math.max(.5,Math.floor(c/n*100)/100));}catch(e){}}
+window.addEventListener('resize',()=>{try{hmFit();}catch(e){}});
 function teamRender0(){const el=$('#tmbody');if(!el)return;const _d=document.getElementById('chtxt'),_dv=_d?_d.value:'',_df=!!_d&&document.activeElement===_d;document.body.classList.remove('stfull');document.body.classList.remove('fitv');document.body.classList.remove('tmmi');
   if(!DB){el.innerHTML='<div class="card tmmsg"><div class="label">Equipo</div><p class="note">La liga de equipos necesita conexión a internet. Ahora mismo no está disponible, pero puedes seguir entrenando y jugando.</p></div>';return;}
   if(!CANW){el.innerHTML='<div class="card tmmsg"><div class="label">Equipo</div><p class="note">Tienes acceso solo de lectura a este juego, así que no puedes crear ni unirte a equipos. Pide al dueño que te comparta el juego con permiso de Colaborador (Contributor).</p></div>';return;}
