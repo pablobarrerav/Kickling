@@ -1381,7 +1381,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 598">Kickling · v598</div>
+  <div class="verl" aria-label="Kickling versión 599">Kickling · v599</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2569,7 +2569,7 @@ const ACH=[
 const ACHI={debut:'⚽',win1:'🏆',win10:'🏆',win50:'🏆',win25:'🏆',win100:'👑',gol1:'🥅',gol5:'🥅',gol25:'🥅',gol100:'🔥',ast1:'🎯',ast10:'🎯',ast50:'🧠',tab5:'🤝',lvl5:'⭐',lvl10:'⭐',lvl20:'🌟',lvl30:'🌟',mecena:'💰',tour5:'🛡️',tour10:'🛡️',tour20:'📖',tour30:'🛡️',tour40:'👑',club:'🏟️',pj10:'👟',pj50:'👟',pj100:'🎖️',teamp5:'👥',teamw5:'👥',rach3:'🔥',rach7:'🔥',rach30:'🔥'};
 const achOk=a=>{try{return !!a[5]();}catch(e){return false;}};
 const achClaimable=()=>ACH.filter(a=>achOk(a)&&!(S.ach||[]).includes(a[0]));
-function mailList(){const t=myTeam();return t&&Array.isArray(t.mail)?t.mail.filter(m=>m&&typeof m.text==='string'&&Number.isFinite(m.ts)&&m.ts>Date.now()-2592e6).sort((a,b)=>b.ts-a.ts).slice(0,20):[];}
+function mailList(){const t=myTeam(),jn=(TM&&TM.me&&+TM.me.joined)||0;return t&&Array.isArray(t.mail)?t.mail.filter(m=>m&&typeof m.text==='string'&&Number.isFinite(m.ts)&&m.ts>Date.now()-2592e6&&m.ts>=jn).sort((a,b)=>b.ts-a.ts).slice(0,20):[];}
 function mailUnread(){return mailList().filter(m=>m.ts>(S.mailSeen||0)&&m.uid!==UID).length;}
 function mailBadge(){try{const n=mailUnread(),c=achClaimable().length+dqReady(),h=$('#hface');if(h)h.classList.toggle('unread',n>0||c>0||FRN>0);{const fb=$('#fbadge');if(fb){fb.hidden=!FRN;fb.textContent=FRN;}}const b=$('#mbadge');if(b){b.hidden=!n;b.textContent=n;}const q=$('#pbadge');if(q){q.hidden=!c;q.textContent=c;}}catch(e){}}
 setInterval(mailBadge,2000);
