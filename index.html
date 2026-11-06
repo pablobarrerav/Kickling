@@ -1381,7 +1381,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 595">Kickling · v595</div>
+  <div class="verl" aria-label="Kickling versión 596">Kickling · v596</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2934,7 +2934,7 @@ function teamRender0(){const el=$('#tmbody');if(!el)return;const _d=document.get
     const open=TM.teams.map(x=>({t:x,n:membersOf(x.id).length})).filter(x=>x.n>0&&x.n<MAXM&&!x.t.priv).sort((a,b)=>a.t.div-b.t.div||b.n-a.n).slice(0,20);
     el.innerHTML='<div class="card"><div class="label">Crea tu equipo</div><div class="tmcreate"><input id="tmname" class="pin" maxlength="16" placeholder="Nombre del equipo" autocomplete="off"><button class="btn gold" id="tmcreate">Crear</button></div>'+
       '<p class="note">Los equipos nuevos entran en la liga más alta con hueco (14 equipos por grupo) y luego suben o bajan según su clasificación. Cada día se juegan dos partidos simulados: a las 9:00 y a las 21:00 (hora de España).</p></div>'+
-      '<div class="card"><div class="label">Equipos con sitio</div><ul class="lst">'+(open.length?open.map(x=>'<li class="tl"><span class="tn">'+esc(x.t.name)+'<small>'+lgLabel(x.t.div,grpOf(x.t))+' · '+x.n+'/'+MAXM+' · media '+Math.round(teamStr(x.t.id))+(+x.t.minOvr>0?' · mín. '+x.t.minOvr:'')+'</small></span><button class="btn alt sm" data-join="'+x.t.id+'"'+(+x.t.minOvr>ovr()?' disabled title="Necesitas media '+x.t.minOvr+'"':'')+'>Unirme</button></li>').join(''):'<li class="note">Aún no hay equipos. ¡Crea el primero!</li>')+'</ul></div>'+
+      '<div class="card"><div class="label">Equipos con sitio</div><ul class="lst rkl">'+(open.length?open.map(x=>'<li class="tl"><span class="tvcr" style="display:inline-flex;flex:none">'+crestFor(x.t.id,32)+'</span><span class="tn">'+esc(x.t.name)+'<small>'+lgLabel(x.t.div,grpOf(x.t))+' · '+x.n+'/'+MAXM+(+x.t.minOvr>0?' · mín. '+x.t.minOvr:'')+'</small></span><b class="num ov" title="Media del equipo" aria-label="Media del equipo">'+Math.round(teamStr(x.t.id))+'</b><span class="lvm" title="Nivel del club" aria-label="Nivel del club '+clubLv(x.t)+'"><span class="st">'+ico('starb',30)+'</span><b>'+clubLv(x.t)+'</b></span><button class="btn alt sm" data-join="'+x.t.id+'"'+(+x.t.minOvr>ovr()?' disabled title="Necesitas media '+x.t.minOvr+'"':'')+'>Unirme</button></li>').join(''):'<li class="note">Aún no hay equipos. ¡Crea el primero!</li>')+'</ul></div>'+
       '<div class="card"><div class="label">¿Tienes un código?</div><div class="tmcreate"><input id="tmcodein" class="pin" maxlength="14" placeholder="Código del club" autocomplete="off" autocapitalize="off" spellcheck="false"><button class="btn alt" id="tmcode">Entrar</button></div></div>';
     return;}
   const ms=membersOf(t.id),ws=seasonStart(madridDay(Date.now())),cl=claimable();
