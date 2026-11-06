@@ -1381,7 +1381,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 594">Kickling · v594</div>
+  <div class="verl" aria-label="Kickling versión 595">Kickling · v595</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -1553,7 +1553,7 @@ const ACTS={chutar:{n:'Chutar',d:'Riesgo alto. Gol directo.'},regatear:{n:'Regat
 const POSK=['por','def','med','del'],POSN={por:'Portero',def:'Defensa',med:'Mediocampista',del:'Delantero'};
 const DEF=()=>({pid:Math.random().toString(36).slice(2,10).padEnd(8,'0'),name:'Tu jugador',rev:0,boff:-16,lvl:1,xp:0,coins:30,boost:{},energy:100,t:Date.now(),
   trained:{ritmo:0,regate:0,disparo:0,pase:0},owned:['c0','p0','s0','z0'],eq:{c:'c0',p:'p0',s:'s0',z:'z0'},
-  career:{pj:0,g:0,a:0,w:0,d:0,l:0,iv:0},tc:{v:2,pj:0,ga:0,cs:0,g:0,a:0,w:0,d:0,l:0,iv:0,upto:0},claim:'',timed:null,ts:null,kit:null,cr:null,num:null,mailSeen:0,fr:[],ach:[],dq:null,sk:{n:0,d:''},pos:[],
+  career:{pj:0,g:0,a:0,w:0,d:0,l:0,iv:0},tc:{v:2,pj:0,ga:0,cs:0,g:0,a:0,w:0,d:0,l:0,iv:0,upto:0},claim:'',timed:null,ts:null,kit:null,cr:null,num:null,mailSeen:0,fr:[],fmc:0,ach:[],dq:null,sk:{n:0,d:''},pos:[],
   look:{skin:'#E8B88F',hairS:'corto',hairC:'#4A2F1B',face:'redonda',eyes:'normal',eyeC:'#5B3A1E',mouth:'sonriente',beard:'ninguno',build:'atletico',num:10}});
 function clean(o){const d=DEF();o=(o&&typeof o==='object')?o:{};if(o.lvl)d.pid=/^[a-z0-9]{6,12}$/.test(o.pid)?o.pid:'';
   for(const k of Object.keys(d)){if(k in o)d[k]=o[k];}
@@ -1568,6 +1568,7 @@ function clean(o){const d=DEF();o=(o&&typeof o==='object')?o:{};if(o.lvl)d.pid=/
   d.pos=Array.isArray(o.pos)?POSK.filter(k=>o.pos.includes(k)).slice(0,1):[];
   d.num=(Number.isInteger(o.num)&&o.num>=1&&o.num<=99)?o.num:null;
   d.mailSeen=Math.round(num(o.mailSeen,0,8.64e15,0));
+  d.fmc=Math.max(0,Math.round(+o.fmc)||0);
   d.fr=Array.isArray(o.fr)?[...new Set(o.fr.filter(x=>typeof x==='string'&&/^[A-Za-z0-9_.~:@+-]{1,80}$/.test(x)))].slice(0,100):[];
   d.ach=Array.isArray(o.ach)?[...new Set(o.ach.filter(x=>typeof x==='string'&&/^[a-z0-9]{2,12}$/.test(x)))].slice(0,60):[];
   {const D8=/^\d{4}-\d\d-\d\d$/,ids=['pj','g','w','a','tr'],q=o.dq,nn=v=>Math.round(num(v,0,1e6,0));d.dq=null;
@@ -2714,7 +2715,7 @@ async function beat(){if(!DB||!CANW||!TM.me||document.hidden)return;try{const n=
 setTimeout(beat,2500);setInterval(beat,40000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)beat();});
 const tmSig=()=>JSON.stringify([TM.ok,TM.err,TM.teams,TM.members.map(m=>{const r=Object.assign({},m);delete r.seen;r.on=isOn(m);r.idle=isIdle(m);return r;}),Object.assign({},TM.me,{seen:0}),Object.keys(TM.sims).sort().map(k=>k+':'+((TM.sims[k].matches||[]).length))]);
 async function teamRefresh(force){if(tmWorking)return;tmWorking=true;teamRefresh.at=Date.now();const before=tmSig();
-  try{await tmLoad();if(TM.ok){if(await runSims())await tmLoad();await fmResolve();await syncMe();await fixOwner();applyKit();}}finally{tmWorking=false;}
+  try{await tmLoad();if(TM.ok){if(await runSims())await tmLoad();await fmResolve();await fmCredit();await syncMe();await fixOwner();applyKit();}}finally{tmWorking=false;}
   if(force===true||(tmSig()!==before&&!tmChat)){const tb=$('#tmbody');if(tb)tb.classList.remove('enter');teamRender();}}
 async function kitSync(){if(!DB||tmWorking||document.hidden||(kitSync.b&&Date.now()-kitSync.b<15000))return;kitSync.b=Date.now();try{
   const m=await DB.doc('members/'+UID).get();if(!m.exists)return;const me=Object.assign({id:UID},m.data());if(!me.team)return;
@@ -2899,6 +2900,13 @@ function hmBoxes(t){let pos='—',sub='Sin partidos aún',pts='';
 function statsOpen(){const t=myTeam();if(!t)return;const L=tmStats(t),A={por:'PT',def:'DF',med:'MC',del:'DC'};
   $('#tvmc').innerHTML='<div class="tvt"><span class="tvcr">'+crestFor(t.id,34)+'</span><span class="tn">Estadísticas<small>'+esc(t.name||'')+' · temporada actual</small></span></div><ul class="lst tbl stl"><li class="th"><span>Jugador</span><i>Goles</i><i>Asist.</i><i>MVP</i></li>'+L.map(x=>'<li><span class="tnm">'+(A[x.pos]?'<span class="pbd pb-'+x.pos+'">'+A[x.pos]+'</span> ':'')+esc(x.name)+'</span><i class="num">'+x.g+'</i><i class="num">'+x.a+'</i><i class="num">'+x.mvp+'</i></li>').join('')+'</ul>';
   tvCur=null;$('#tvm').hidden=false;}
+async function fmCredit(){const t=myTeam();if(!t||!t.fr||!TM.me||TM.me.team!==t.id)return;const at=+t.fr.at;if(!(at>0)||(S.fmc||0)>=at||Date.now()-at>5*864e5)return;
+  if((+TM.me.joined||0)>at){S.fmc=at;save(true);return;}
+  const pool=xiOf(t.id);if(!pool.some(m=>m.id===UID)){S.fmc=at;save(true);return;}
+  const h=Math.max(0,Math.min(20,+t.fr.h||0)),ga=Math.max(0,+t.fr.a||0);let g=0,a=0;
+  for(let i=0;i<h;i++){const r=rng('fmg|'+t.id+'|'+at+'|'+i),sc=wpick(pool,r,GW),as=pool.length>1&&r()<.75?wpick(pool.filter(x=>x!==sc),r,AW):null;if(sc&&sc.id===UID)g++;if(as&&as.id===UID)a++;}
+  if(SRV.on){const r=await srv('fmCredit',{at:at,g:g,a:a});if(r&&r.ok){S.fmc=at;save(true);toast('El amistoso del equipo suma a tus estadísticas');}}
+  else{const c=S.career;c.pj++;if(h>ga)c.w++;else if(h===ga)c.d++;else c.l++;c.g+=g;c.a+=a;S.fmc=at;save(true);try{render();}catch(e){}toast('El amistoso del equipo suma a tus estadísticas');}}
 function at15(day){const a=ymd(day);for(const off of [1,2]){const t=Date.UTC(a[0],a[1]-1,a[2],15-off);const q=mp(t);if(q.hour==='15'&&q.minute==='00'&&madridDay(t)===day)return t;}return Date.UTC(a[0],a[1]-1,a[2],13);}
 const FM_COST=100;
 function fmResult(t,fm){const o=tourAt(fm.lv),r=rng('fm|'+t.id+'|'+fm.at+'|'+fm.lv),g=simMatch(Math.max(1,+fm.str||1),o.ovr,r);return {h:g[0],a:g[1],w:g[0]>g[1],o:o};}
