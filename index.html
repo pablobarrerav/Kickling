@@ -1363,7 +1363,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 585">Kickling · v585</div>
+  <div class="verl" aria-label="Kickling versión 586">Kickling · v586</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2873,7 +2873,7 @@ function fmWhen(at){const d=madridDay(at),td=madridDay(Date.now());return (d===t
 function fmCard(t){const lv=(+t.fl||0)+1,fm=t.fm&&+t.fm.at>0?t.fm:null,fr=t.fr&&t.fr.opp?t.fr:null,cap=canKit(t);
   const last=fr?'<small class="fmr" style="display:block;margin-top:2px;font-weight:700;color:'+(fr.w?'#0f8a3d':'#b3362d')+'">Último: Nivel '+(+fr.lv||0)+' · '+(fr.w?'Victoria':'Derrota')+' '+(+fr.h||0)+'–'+(+fr.a||0)+' vs '+esc(String(fr.opp).slice(0,24))+'</small>':'';
   if(fm){const o=tourAt(+fm.lv||1);return '<div class="fund fm"><span class="fnl"><small>AMISTOSO · NIVEL '+(+fm.lv||1)+' · vs '+esc(o.n)+'</small><b class="num" style="font-size:16px">'+fmWhen(+fm.at)+'</b>'+last+'</span></div>';}
-  const o=tourAt(lv);return '<div class="fund fm"><span class="fnl"><small>PARTIDO AMISTOSO · NIVEL '+lv+' · rival media '+o.ovr+'</small><b class="num" style="font-size:15px">'+(cap?'Se juega mañana a las 15:00':'Lo programa el capitán')+'</b>'+(cap&&fundOf(t)<FM_COST?'<small style="display:block;margin-top:2px;color:#b3362d;font-weight:700">Faltan fondos del club (hay '+fmt(fundOf(t))+')</small>':'')+last+'</span>'+(cap?'<span class="fd"><button class="btn gold sm" data-fm="1"'+(fundOf(t)<FM_COST?' style="opacity:.55"':'')+' aria-label="Programar amistoso por '+FM_COST+' monedas del club">'+ico('coin',16)+FM_COST+'</button></span>':'')+'</div>';}
+  const o=tourAt(lv);return '<div class="fund fm"><span class="fnl"><small>PARTIDO AMISTOSO · NIVEL '+lv+' · rival media '+o.ovr+'</small><b class="num" style="font-size:15px">'+(cap?'Se juega mañana a las 15:00':'Pídele al capitán que lo organice')+'</b>'+(cap&&fundOf(t)<FM_COST?'<small style="display:block;margin-top:2px;color:#b3362d;font-weight:700">Faltan fondos del club (hay '+fmt(fundOf(t))+')</small>':'')+last+'</span>'+(cap?'<span class="fd"><button class="btn gold sm" data-fm="1"'+(fundOf(t)<FM_COST?' style="opacity:.55"':'')+' aria-label="Programar amistoso por '+FM_COST+' monedas del club">'+ico('coin',16)+FM_COST+'</button></span>':'')+'</div>';}
 async function fmResolve(){const t=myTeam();if(!t||!DB||!t.fm||!(+t.fm.at>0)||Date.now()<+t.fm.at+60000)return;const fm=t.fm,res=fmResult(t,fm),rew=0;
   const upd={fm:null,fr:{lv:+fm.lv||1,at:+fm.at,h:res.h,a:res.a,w:res.w,opp:res.o.n,c:rew}};if(res.w){upd.fl=Math.max(+t.fl||0,+fm.lv||1);}
   try{await DB.doc('teams/'+t.id).update(upd);Object.assign(t,upd);toast(res.w?'¡Victoria en el amistoso! '+res.h+'–'+res.a+' · Nivel '+(+fm.lv||1)+' superado':'Derrota en el amistoso '+res.h+'–'+res.a+'. Puedes volver a intentarlo.',6000);}catch(e){}}
