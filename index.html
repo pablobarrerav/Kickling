@@ -1182,6 +1182,13 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
 .fmf{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-top:5px;border-top:2px dashed #cfe3fb}
 .fmw{display:flex;align-items:center;gap:6px;min-width:0;flex-wrap:wrap;color:#10244a;font-size:14px}.fmw b{font-family:var(--display)}.fmw .bad{flex-basis:100%;color:#b3362d;font-weight:700;font-size:11px}
 .fmr{margin-top:4px;padding:2px 8px;border-radius:9px;font-size:11.5px;font-weight:700;text-align:center}.fmr.w{background:#dff6e6;color:#0f8a3d}.fmr.l{background:#fde3e0;color:#b3362d}
+.hmb2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0 0}
+.hbx{display:flex;flex-direction:column;align-items:flex-start;gap:1px;min-width:0;padding:6px 10px;border-radius:14px;background:rgba(255,255,255,.8);border:2px solid #9fd0ff;box-shadow:0 2px 0 rgba(60,120,200,.25);text-align:left;font:inherit;color:#10244a;cursor:pointer}
+.hbx small{font-size:10.5px;font-weight:800;letter-spacing:.03em;color:#4a6290;white-space:nowrap}
+.hbx b{font-family:var(--display);font-size:22px;line-height:1.1;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hbx span{font-size:11.5px;font-weight:700;color:#4a6290;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hbx em{font-style:normal;font-size:11px;font-weight:800;color:#2E86DE}
+.stl li{grid-template-columns:1fr 46px 46px 40px!important}.stl .th i,.stl li i{text-align:center}
 /* logros: mismo estilo que el resto de tarjetas, todo en una pantalla */
 .pfa{max-height:96dvh}
 .pfa .ax{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px}
@@ -1374,7 +1381,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 588">Kickling · v588</div>
+  <div class="verl" aria-label="Kickling versión 589">Kickling · v589</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2875,9 +2882,23 @@ function homeView(t,ms){const o=nextOpp(t),lm=lastMatch(t);let prev;
     prev='<div class="hmc '+c+'" data-mvd="'+lm.d+'" data-mvi="'+lm.i+'" role="button" tabindex="0" aria-label="Ver el último partido" style="cursor:pointer"><small>ÚLTIMO PARTIDO · VER ▸</small><div class="hms"><span>'+crestFor(m.h,20)+'</span><b class="num">'+m.hg+' – '+m.ag+'</b><span>'+crestFor(m.a,20)+'</span></div><span class="hmn">'+esc(me?m.an:m.hn)+' · '+(gf>ga?'Victoria':gf<ga?'Derrota':'Empate')+'</span></div>';}
   else prev='<div class="hmc"><small>ÚLTIMO PARTIDO</small><span class="hmn">Aún sin partidos</span></div>';
   return '<div class="hm">'+clubBar(t)+'<div class="hmrow">'+prev+'<div class="hmc nx"><small>PRÓXIMO PARTIDO'+'</small><b id="tmtime">'+nextSim()+'</b><span class="hmn">'+(o?(nxHome===null?'':'<span class="hva" title="'+(nxHome?'Juegas en casa':'Juegas fuera')+'" role="img" aria-label="'+(nxHome?'Juegas en casa':'Juegas fuera')+'">'+(nxHome?'<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="M12 3L2 11.5h3V21h5.5v-6h3v6H19v-9.5h3z" fill="#2E86DE" stroke="#10244a" stroke-width="1.6" stroke-linejoin="round"/></svg>':'<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="M21 3L3 10.5l6.5 2.5L12 20l2.5-6.5z" fill="#E8A317" stroke="#10244a" stroke-width="1.6" stroke-linejoin="round"/><path d="M9.5 13L21 3" stroke="#10244a" stroke-width="1.6" stroke-linecap="round"/></svg>')+'</span>')+'Rival: <em>'+esc(o)+'</em>':'')+'</span></div></div>'+
-    fmCard(t)+
+    hmBoxes(t)+fmCard(t)+
     '<div class="fund"><span class="fnl"><small>FONDOS DEL CLUB</small><b class="num">'+ico('coin',20)+fmt(fundOf(t))+'</b></span><span class="fd"><small>Donar</small>'+[10,50,100].map(n=>'<button class="btn gold sm" data-don="'+n+'"'+(S.coins<n?' disabled':'')+' aria-label="Donar '+n+' monedas al club">'+n+'</button>').join('')+'</span></div>'+
     '</div>';}
+function tmStats(t){const ws=seasonStart(madridDay(Date.now())),R={},get=(id,nm,pos)=>R[id]||(R[id]={id:id,name:nm||'Jugador',pos:String(pos||'').split(',')[0],g:0,a:0,mvp:0,pj:0});
+  membersOf(t.id).forEach(m=>get(m.id,m.name,m.pos));
+  Object.keys(TM.sims).filter(d=>d>=ws).forEach(d=>(TM.sims[d].matches||[]).forEach(m=>{if(m.h!==t.id&&m.a!==t.id)return;
+    goalsOf(d,m).forEach(g=>{if(g.tid!==t.id)return;if(g.sc){get(g.sc.id,g.sc.name,g.sc.pos).g++;}if(g.as){get(g.as.id,g.as.name,g.as.pos).a++;}});
+    try{const mv=mvpOf(d,m,t.id);if(mv&&mv.pl)get(mv.pl.id,mv.pl.name,mv.pl.pos).mvp++;}catch(e){}}));
+  return Object.values(R).sort((x,y)=>y.g-x.g||y.a-x.a||y.mvp-x.mvp||(x.name<y.name?-1:1));}
+function hmBoxes(t){let pos='—',sub='Sin partidos aún',pts='';
+  try{const ws=seasonStart(madridDay(Date.now())),tb=table(activeTeams().filter(x=>sameGrp(x.t,t)),TM.sims,ws),i=tb.findIndex(x=>x.id===t.id);
+    if(i>=0){pos=(i+1)+'º';sub='de '+tb.length+' · '+lgLabel(t.div,grpOf(t));pts=tb[i].pj?tb[i].pts+' pts · '+tb[i].pj+' PJ':'';}}catch(e){}
+  let top='—',tsub='Sin goles aún';try{const L=tmStats(t),g=L.find(x=>x.g>0);if(g){top=esc(g.name);tsub=g.g+' gol'+(g.g===1?'':'es');const a=L.slice().sort((x,y)=>y.a-x.a).find(x=>x.a>0);if(a)tsub+=' · '+esc(a.name)+' '+a.a+' asist.';}}catch(e){}
+  return '<div class="hmb2"><button class="hbx" type="button" data-tt="tab" aria-label="Ver clasificación completa"><small>CLASIFICACIÓN · VER ▸</small><b class="num">'+pos+'</b><span>'+sub+'</span>'+(pts?'<em>'+pts+'</em>':'')+'</button><button class="hbx" type="button" data-pst="1" aria-label="Ver estadísticas de todos los jugadores"><small>ESTADÍSTICAS · VER ▸</small><b>'+top+'</b><span>'+tsub+'</span></button></div>';}
+function statsOpen(){const t=myTeam();if(!t)return;const L=tmStats(t),A={por:'PT',def:'DF',med:'MC',del:'DC'};
+  $('#tvmc').innerHTML='<div class="tvt"><span class="tvcr">'+crestFor(t.id,34)+'</span><span class="tn">Estadísticas<small>'+esc(t.name||'')+' · temporada actual</small></span></div><ul class="lst tbl stl"><li class="th"><span>Jugador</span><i>Goles</i><i>Asist.</i><i>MVP</i></li>'+L.map(x=>'<li><span class="tnm">'+(A[x.pos]?'<span class="pbd pb-'+x.pos+'">'+A[x.pos]+'</span> ':'')+esc(x.name)+'</span><i class="num">'+x.g+'</i><i class="num">'+x.a+'</i><i class="num">'+x.mvp+'</i></li>').join('')+'</ul>';
+  tvCur=null;$('#tvm').hidden=false;}
 function at15(day){const a=ymd(day);for(const off of [1,2]){const t=Date.UTC(a[0],a[1]-1,a[2],15-off);const q=mp(t);if(q.hour==='15'&&q.minute==='00'&&madridDay(t)===day)return t;}return Date.UTC(a[0],a[1]-1,a[2],13);}
 const FM_COST=100;
 function fmResult(t,fm){const o=tourAt(fm.lv),r=rng('fm|'+t.id+'|'+fm.at+'|'+fm.lv),g=simMatch(Math.max(1,+fm.str||1),o.ovr,r);return {h:g[0],a:g[1],w:g[0]>g[1],o:o};}
@@ -3093,8 +3114,9 @@ $('#p-team').addEventListener('click',async e=>{const hs=e.target.closest('[data
   if(b.dataset.pksw){tmSwap=b.dataset.pksw;tmPick=null;teamRender();return;}
   if(b.dataset.pkdn){const t=myTeam();if(!canKit(t))return;tmNumEdit=b.dataset.pkdn;tmPick=null;teamRender();const i=document.getElementById('dnin');if(i){i.focus();i.select();}return;}
   if(b.dataset.dnedit){const t=myTeam();if(!canKit(t))return;tmNumEdit=b.dataset.dnedit;teamRender();const i=document.getElementById('dnin');if(i){i.focus();i.select();}return;}
+  if(b.dataset.pst){statsOpen();return;}
   if(b.dataset.tbs){tbSub=b.dataset.tbs;teamRender();return;}
-  if(b.dataset.tt){tmTab=b.dataset.tt;teamRender();return;}
+  if(b.dataset.tt){tmTab=b.dataset.tt;if(tmTab==='tab')tbSub='tab';teamRender();return;}
   if(b.dataset.chat){tmChat=b.dataset.chat==='1';teamRender();if(tmChat){chatStart();setTimeout(()=>{const i=document.getElementById('chtxt');},0);}return;}
   if(b.dataset.rd){resDay=b.dataset.rd;teamRender();return;}
   if(b.dataset.rdv){const i=Math.max(0,Math.min(resKeys.length-1,resKeys.indexOf(resCur)+ +b.dataset.rdv));resKey=resKeys[i]||'';teamRender();return;}
