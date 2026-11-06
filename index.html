@@ -1171,6 +1171,17 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
 #coins{color:#A4ADBB!important}.card.item.cpk{border-color:#98A2B3!important;box-shadow:0 3px 0 #7D8798!important}
 [data-gocoins].plusb{background:linear-gradient(#A9B2C0,#6E7889)!important;border-color:#fff!important;box-shadow:0 2px 6px rgba(60,70,90,.55)!important}[data-gocoins].plusb path{stroke:#fff!important}
 .hva{display:inline-flex;vertical-align:middle;margin-right:5px}
+.fmc{margin:8px 0 0;padding:7px 10px 8px;border-radius:16px;background:linear-gradient(180deg,#fff 0%,#eaf4ff 100%);border:2px solid #9fd0ff;box-shadow:0 2px 0 rgba(60,120,200,.25)}
+.fmh{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:11px;font-weight:800;letter-spacing:.04em;color:#4a6290}
+.fmlv{font-family:var(--display);font-size:12px;color:#fff;background:#2E86DE;border:2px solid #10244a;border-radius:999px;padding:0 9px;line-height:1.5;text-shadow:0 1px 0 rgba(0,0,0,.35)}
+.fmv{display:flex;align-items:center;justify-content:center;gap:10px;margin:5px 0 4px}
+.fmt{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:1px;text-align:center}
+.fmt b{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;color:#10244a}
+.fmt em{font-style:normal;font-size:11px;color:#4a6290;font-weight:700}
+.fmvs{font-family:var(--display);font-size:19px;color:#d63031;text-shadow:0 1px 0 #fff;flex:none}
+.fmf{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-top:5px;border-top:2px dashed #cfe3fb}
+.fmw{display:flex;align-items:center;gap:6px;min-width:0;flex-wrap:wrap;color:#10244a;font-size:14px}.fmw b{font-family:var(--display)}.fmw .bad{flex-basis:100%;color:#b3362d;font-weight:700;font-size:11px}
+.fmr{margin-top:4px;padding:2px 8px;border-radius:9px;font-size:11.5px;font-weight:700;text-align:center}.fmr.w{background:#dff6e6;color:#0f8a3d}.fmr.l{background:#fde3e0;color:#b3362d}
 /* logros: mismo estilo que el resto de tarjetas, todo en una pantalla */
 .pfa{max-height:96dvh}
 .pfa .ax{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px}
@@ -1363,7 +1374,7 @@ body.onhome #p-home .hero #avatar{display:flex!important;align-items:center;just
     <div id="acin" hidden class="row" style="gap:8px"><button class="btn alt" id="aclogout" style="flex:1">Cerrar sesión</button></div>
     <div id="acask" hidden style="margin-top:8px"><p class="note" id="acaskt"></p><div class="row" style="gap:8px"><button class="btn" id="accloud" style="flex:1">Usar la de la nube</button><button class="btn alt" id="achere" style="flex:1">Mantener este</button></div></div>
   </div>
-  <div class="verl" aria-label="Kickling versión 586">Kickling · v586</div>
+  <div class="verl" aria-label="Kickling versión 587">Kickling · v587</div>
 </div></div>
 <div class="ovl" id="plm" hidden role="dialog" aria-modal="true" aria-label="Jugador"><div class="lvcard setc">
   <h3 class="out" id="plname" style="text-align:center;margin:0 0 10px;font-size:24px"></h3>
@@ -2870,10 +2881,13 @@ function at15(day){const a=ymd(day);for(const off of [1,2]){const t=Date.UTC(a[0
 const FM_COST=100;
 function fmResult(t,fm){const o=tourAt(fm.lv),r=rng('fm|'+t.id+'|'+fm.at+'|'+fm.lv),g=simMatch(Math.max(1,+fm.str||1),o.ovr,r);return {h:g[0],a:g[1],w:g[0]>g[1],o:o};}
 function fmWhen(at){const d=madridDay(at),td=madridDay(Date.now());return (d===td?'Hoy':d===addDays(td,1)?'Mañana':fdate(d))+' · 15:00';}
-function fmCard(t){const lv=(+t.fl||0)+1,fm=t.fm&&+t.fm.at>0?t.fm:null,fr=t.fr&&t.fr.opp?t.fr:null,cap=canKit(t);
-  const last=fr?'<small class="fmr" style="display:block;margin-top:2px;font-weight:700;color:'+(fr.w?'#0f8a3d':'#b3362d')+'">Último: Nivel '+(+fr.lv||0)+' · '+(fr.w?'Victoria':'Derrota')+' '+(+fr.h||0)+'–'+(+fr.a||0)+' vs '+esc(String(fr.opp).slice(0,24))+'</small>':'';
-  if(fm){const o=tourAt(+fm.lv||1);return '<div class="fund fm"><span class="fnl"><small>AMISTOSO · NIVEL '+(+fm.lv||1)+' · vs '+esc(o.n)+'</small><b class="num" style="font-size:16px">'+fmWhen(+fm.at)+'</b>'+last+'</span></div>';}
-  const o=tourAt(lv);return '<div class="fund fm"><span class="fnl"><small>PARTIDO AMISTOSO · NIVEL '+lv+' · rival media '+o.ovr+'</small><b class="num" style="font-size:15px">'+(cap?'Se juega mañana a las 15:00':'Pídele al capitán que lo organice')+'</b>'+(cap&&fundOf(t)<FM_COST?'<small style="display:block;margin-top:2px;color:#b3362d;font-weight:700">Faltan fondos del club (hay '+fmt(fundOf(t))+')</small>':'')+last+'</span>'+(cap?'<span class="fd"><button class="btn gold sm" data-fm="1"'+(fundOf(t)<FM_COST?' style="opacity:.55"':'')+' aria-label="Programar amistoso por '+FM_COST+' monedas del club">'+ico('coin',16)+FM_COST+'</button></span>':'')+'</div>';}
+function fmCard(t){const lv=(+t.fl||0)+1,fm=t.fm&&+t.fm.at>0?t.fm:null,fr=t.fr&&t.fr.opp?t.fr:null,cap=canKit(t),L=fm?(+fm.lv||1):lv,o=tourAt(L);
+  let mine=0;try{mine=Math.round(fm&&+fm.str>0?+fm.str:teamStr(t.id));}catch(e){}
+  const side=(cr,nm,md)=>'<div class="fmt">'+cr+'<b>'+esc(String(nm).slice(0,18))+'</b><em>Media <span class="num">'+md+'</span></em></div>';
+  const last=fr?'<div class="fmr '+(fr.w?'w':'l')+'">Último · Nivel '+(+fr.lv||0)+' · '+(fr.w?'Victoria':'Derrota')+' <b class="num">'+(+fr.h||0)+'–'+(+fr.a||0)+'</b> vs '+esc(String(fr.opp).slice(0,20))+'</div>':'';
+  const foot=fm?'<div class="fmf"><span class="fmw"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="#fff" stroke="#10244a" stroke-width="2"/><path d="M12 7v5l3.2 2" fill="none" stroke="#10244a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><b>'+fmWhen(+fm.at)+'</b></span></div>'
+    :'<div class="fmf"><span class="fmw"><b>'+(cap?'Se juega mañana · 15:00':'Pídele al capitán que lo organice')+'</b>'+(cap&&fundOf(t)<FM_COST?'<small class="bad">Faltan fondos del club (hay '+fmt(fundOf(t))+')</small>':'')+'</span>'+(cap?'<button class="btn gold sm" data-fm="1"'+(fundOf(t)<FM_COST?' style="opacity:.55"':'')+' aria-label="Programar amistoso por '+FM_COST+' monedas del club">'+ico('coin',16)+FM_COST+'</button>':'')+'</div>';
+  return '<div class="fmc"><div class="fmh"><span>PARTIDO AMISTOSO</span><b class="fmlv">NIVEL '+L+'</b></div><div class="fmv">'+side(crestFor(t.id,34),t.name||'Tu equipo',mine)+'<span class="fmvs">VS</span>'+side(crestSvg(defCrest('rv:'+o.n,null),34),o.n,o.ovr)+'</div>'+foot+last+'</div>';}
 async function fmResolve(){const t=myTeam();if(!t||!DB||!t.fm||!(+t.fm.at>0)||Date.now()<+t.fm.at+60000)return;const fm=t.fm,res=fmResult(t,fm),rew=0;
   const upd={fm:null,fr:{lv:+fm.lv||1,at:+fm.at,h:res.h,a:res.a,w:res.w,opp:res.o.n,c:rew}};if(res.w){upd.fl=Math.max(+t.fl||0,+fm.lv||1);}
   try{await DB.doc('teams/'+t.id).update(upd);Object.assign(t,upd);toast(res.w?'¡Victoria en el amistoso! '+res.h+'–'+res.a+' · Nivel '+(+fm.lv||1)+' superado':'Derrota en el amistoso '+res.h+'–'+res.a+'. Puedes volver a intentarlo.',6000);}catch(e){}}
